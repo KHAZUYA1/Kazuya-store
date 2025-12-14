@@ -4,7 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>KAZUYA STORE // Global Market</title>
+    
     <link href="./output.css" rel="stylesheet" />
+    
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
@@ -44,6 +46,10 @@
       .animate-float { animation: float 6s ease-in-out infinite; }
       .loader { width: 48px; height: 48px; border: 5px solid #FFF; border-bottom-color: #06b6d4; border-radius: 50%; display: inline-block; animation: rotation 1s linear infinite; }
       @keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+      
+      /* Animasi Fade In Manual (karena custom config) */
+      @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+      .animate-fade-in { animation: fadeIn 0.3s ease-out forwards; }
     </style>
   </head>
   
@@ -60,13 +66,13 @@
         <svg class="w-6 h-6 group-hover:animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
     </button>
 
-    <div id="adminPanel" class="hidden fixed bottom-28 right-8 z-[80] flex-col gap-4 items-end animate-fade-in-up">
-        <div class="bg-black/80 text-white text-[10px] font-bold px-3 py-1.5 rounded-lg backdrop-blur border border-white/10 mb-1 tracking-widest uppercase" data-key="lblAdminMode">Admin Mode</div>
+    <div id="adminPanel" class="hidden fixed bottom-28 right-8 z-[80] flex-col gap-4 items-end animate-fade-in">
+        <div class="bg-black/80 text-white text-[10px] font-bold px-3 py-1.5 rounded-lg backdrop-blur border border-white/10 mb-1 tracking-widest uppercase">Admin Mode</div>
         <button id="btnAdd" class="w-12 h-12 bg-emerald-500 rounded-xl flex items-center justify-center text-white shadow-lg hover:scale-110 transition border border-white/20"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg></button>
         <button id="btnLogout" class="w-12 h-12 bg-slate-700 rounded-xl flex items-center justify-center text-white shadow-lg hover:scale-110 transition border border-white/20"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg></button>
     </div>
 
-    <nav class="fixed top-0 inset-x-0 z-50 h-20 glass-nav transition-all duration-300">
+      <nav class="fixed top-0 inset-x-0 z-50 h-20 glass-nav transition-all duration-300">
         <div class="max-w-[1600px] mx-auto px-6 h-full flex items-center justify-between gap-6">
             <a href="#" class="flex items-center gap-3 group min-w-max" onclick="location.reload()">
                 <div class="relative w-10 h-10">
@@ -84,29 +90,33 @@
                     <svg class="w-5 h-5 text-cyan-600 dark:text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                     <span class="text-sm font-bold text-slate-700 dark:text-gray-200" data-key="navExplore">Jelajahi</span>
                 </button>
-                <div id="exploreMenu" class="absolute top-16 left-0 w-[320px] md:w-[800px] bg-white/95 dark:bg-[#0a0a0a]/95 backdrop-blur-2xl rounded-3xl shadow-2xl border border-gray-200 dark:border-white/10 p-6 hidden z-50 animate-fade-in origin-top-left transform transition-all">
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-2">
-                        <div class="col-span-1 md:col-span-4 mb-3 pb-3 border-b border-gray-100 dark:border-white/5">
-                            <button onclick="filter('all')" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/20 font-bold hover:scale-[1.01] transition" data-key="catAll"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg><span data-key="catAllText">Semua Produk</span></button>
-                        </div>
-                        <button onclick="filter('streaming')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">🎬</span> <span class="group-hover/item:text-cyan-500" data-key="catStreaming">Streaming</span></button>
-                        <button onclick="filter('gaming')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">🎮</span> <span class="group-hover/item:text-cyan-500" data-key="catGaming">Gaming</span></button>
-                        <button onclick="filter('code')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">💻</span> <span class="group-hover/item:text-cyan-500" data-key="catCode">Source Code</span></button>
-                        <button onclick="filter('automotive')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">🚗</span> <span class="group-hover/item:text-cyan-500" data-key="catAuto">Otomotif</span></button>
-                        <button onclick="filter('lifestyle')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">👟</span> <span class="group-hover/item:text-cyan-500" data-key="catLifestyle">Lifestyle</span></button>
-                        <button onclick="filter('business')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">💼</span> <span class="group-hover/item:text-cyan-500" data-key="catBusiness">Bisnis</span></button>
-                        <button onclick="filter('health')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">🥗</span> <span class="group-hover/item:text-cyan-500" data-key="catHealth">Kesehatan</span></button>
-                        <button onclick="filter('it-software')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">🖥️</span> <span class="group-hover/item:text-cyan-500" data-key="catIT">IT & Software</span></button>
-                        <button onclick="filter('teaching')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">📚</span> <span class="group-hover/item:text-cyan-500" data-key="catTeaching">Pendidikan</span></button>
-                        <button onclick="filter('marketing')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">📈</span> <span class="group-hover/item:text-cyan-500" data-key="catMarketing">Marketing</span></button>
-                        <button onclick="filter('design')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">🎨</span> <span class="group-hover/item:text-cyan-500" data-key="catDesign">Desain</span></button>
-                        <button onclick="filter('finance')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">💰</span> <span class="group-hover/item:text-cyan-500" data-key="catFinance">Keuangan</span></button>
-                        <button onclick="filter('photo-video')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">📸</span> <span class="group-hover/item:text-cyan-500" data-key="catPhoto">Foto & Video</span></button>
-                        <button onclick="filter('development')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">⚙️</span> <span class="group-hover/item:text-cyan-500" data-key="catDev">Development</span></button>
-                        <button onclick="filter('music')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">🎵</span> <span class="group-hover/item:text-cyan-500" data-key="catMusic">Musik</span></button>
-                        <button onclick="filter('other')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">📦</span> <span class="group-hover/item:text-cyan-500" data-key="catOther">Lainnya</span></button>
-                    </div>
-                </div>
+ <div id="exploreMenu" class="absolute top-16 left-0 w-[320px] md:w-[800px] bg-white/95 dark:bg-[#0a0a0a]/95 backdrop-blur-2xl rounded-3xl shadow-2xl border border-gray-200 dark:border-white/10 p-6 hidden z-50 animate-fade-in origin-top-left transform transition-all">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-2">
+        <div class="col-span-1 md:col-span-4 mb-3 pb-3 border-b border-gray-100 dark:border-white/5">
+            <button onclick="window.filter('all')" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/20 font-bold hover:scale-[1.01] transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+                <span data-key="catAllText">Semua Produk</span>
+            </button>
+        </div>
+        
+        <button onclick="window.filter('streaming')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">🎬</span> <span class="group-hover/item:text-cyan-500" data-key="catStreaming">Streaming</span></button>
+        <button onclick="window.filter('gaming')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">🎮</span> <span class="group-hover/item:text-cyan-500" data-key="catGaming">Gaming</span></button>
+        <button onclick="window.filter('code')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">💻</span> <span class="group-hover/item:text-cyan-500" data-key="catCode">Source Code</span></button>
+        <button onclick="window.filter('automotive')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">🚗</span> <span class="group-hover/item:text-cyan-500" data-key="catAuto">Otomotif</span></button>
+        <button onclick="window.filter('lifestyle')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">👟</span> <span class="group-hover/item:text-cyan-500" data-key="catLifestyle">Lifestyle</span></button>
+        <button onclick="window.filter('business')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">💼</span> <span class="group-hover/item:text-cyan-500" data-key="catBusiness">Bisnis</span></button>
+        <button onclick="window.filter('health')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">🥗</span> <span class="group-hover/item:text-cyan-500" data-key="catHealth">Kesehatan</span></button>
+        <button onclick="window.filter('it-software')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">🖥️</span> <span class="group-hover/item:text-cyan-500" data-key="catIT">IT & Software</span></button>
+        <button onclick="window.filter('teaching')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">📚</span> <span class="group-hover/item:text-cyan-500" data-key="catTeaching">Pendidikan</span></button>
+        <button onclick="window.filter('marketing')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">📈</span> <span class="group-hover/item:text-cyan-500" data-key="catMarketing">Marketing</span></button>
+        <button onclick="window.filter('design')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">🎨</span> <span class="group-hover/item:text-cyan-500" data-key="catDesign">Desain</span></button>
+        <button onclick="window.filter('finance')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">💰</span> <span class="group-hover/item:text-cyan-500" data-key="catFinance">Keuangan</span></button>
+        <button onclick="window.filter('photo-video')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">📸</span> <span class="group-hover/item:text-cyan-500" data-key="catPhoto">Foto & Video</span></button>
+        <button onclick="window.filter('development')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">⚙️</span> <span class="group-hover/item:text-cyan-500" data-key="catDev">Development</span></button>
+        <button onclick="window.filter('music')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">🎵</span> <span class="group-hover/item:text-cyan-500" data-key="catMusic">Musik</span></button>
+        <button onclick="window.filter('other')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">📦</span> <span class="group-hover/item:text-cyan-500" data-key="catOther">Lainnya</span></button>
+    </div>
+</div>
             </div>
             
             <div class="hidden md:block flex-1 max-w-xl">
@@ -137,20 +147,20 @@
 
     <section class="relative pt-36 pb-16 px-6 max-w-[1600px] mx-auto overflow-hidden">
         <div class="relative z-10 grid lg:grid-cols-2 gap-16 items-center">
-            <div class="space-y-8 animate-fade-in-up">
+            <div class="space-y-8 animate-fade-in">
                 <div class="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/50 dark:bg-white/5 border border-gray-200 dark:border-white/10 backdrop-blur-md">
                     <span class="relative flex h-3 w-3"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span><span class="relative inline-flex rounded-full h-3 w-3 bg-cyan-500"></span></span>
                     <span class="text-xs font-bold tracking-widest uppercase text-cyan-700 dark:text-cyan-300" data-key="heroBadge">Official Digital Store</span>
                 </div>
                 <h1 class="text-5xl lg:text-7xl font-black leading-[1.1] tracking-tight text-slate-900 dark:text-white"><span data-key="heroTitle1">Unleash</span> <br> <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-blue-600 dark:from-cyan-400 dark:to-blue-400 glow-text" data-key="heroTitle2">Digital Potential.</span></h1>
                 <p class="text-lg text-gray-600 dark:text-gray-400 max-w-xl leading-relaxed" data-key="heroDesc">Akses produk digital premium tanpa batas. Software, Games, E-Book, dan Layanan IT dalam satu ekosistem terpercaya.</p>
-                <div class="flex gap-4"><button onclick="document.getElementById('catalog').scrollIntoView()" class="px-8 py-4 bg-slate-900 dark:bg-white text-white dark:text-black font-bold rounded-2xl hover:scale-105 transition-transform flex items-center gap-2 shadow-xl shadow-cyan-500/20"><span data-key="btnShop">Belanja Sekarang</span><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg></button></div>
+                <div class="flex gap-4"><button onclick="document.getElementById('catalog').scrollIntoView()" class="px-8 py-4 bg-slate-900 dark:bg-white text-white dark:text-black font-bold rounded-2xl hover:scale-105 transition-transform flex items-center gap-2 shadow-xl shadow-cyan-500/20"><span data-key="btnShop">Belanja Sekarang</span> <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg></button></div>
             </div>
             <div class="hidden lg:flex justify-end perspective-1000">
                 <div class="relative w-96 h-[500px] animate-float">
                     <div class="absolute inset-0 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-[40px] rotate-6 opacity-30 blur-3xl"></div>
                     <div class="absolute inset-0 glass-panel rounded-[40px] flex flex-col justify-between shadow-2xl transform rotate-y-12 hover:rotate-0 transition duration-700 border border-white/20 overflow-hidden" id="heroCard">
-                        <div class="w-full h-full bg-slate-800 flex items-center justify-center text-white" data-key="txtLoading">Loading...</div>
+                        <div class="w-full h-full bg-slate-800 flex items-center justify-center text-white">Loading...</div>
                     </div>
                 </div>
             </div>
@@ -161,6 +171,7 @@
         <div class="max-w-[1600px] mx-auto px-6">
             <h2 class="text-4xl font-black text-slate-900 dark:text-white mb-3" data-key="catTitle">Katalog Produk</h2>
             <p class="text-gray-500 dark:text-gray-400 mb-12"><span data-key="txtTotal">Total</span> <span id="totalItems" class="font-bold text-cyan-500">0</span> <span data-key="txtItems">produk tersedia</span></p>
+            
             <div id="loading" class="flex justify-center py-32"><div class="loader"></div></div>
             <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-8 hidden"></div>
         </div>
@@ -169,156 +180,249 @@
     <footer class="bg-gray-100 dark:bg-black pt-20 pb-10 border-t border-gray-200 dark:border-white/5">
         <div class="max-w-7xl mx-auto px-6 text-center">
             <h3 class="brand-font font-black text-2xl text-slate-900 dark:text-white mb-2">KAZUYA<span class="text-cyan-500">STORE</span></h3>
-            <p class="text-xs text-gray-500 mb-8" data-key="footerCopyright">&copy; 2025 Hak Cipta oleh Yuda Pamungkas.</p>
+            <p class="text-xs text-gray-500 mb-8">&copy; 2025 Hak Cipta oleh Yuda Pamungkas.</p>
         </div>
     </footer>
 
+    <div id="productModal" class="fixed inset-0 z-[100] hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="fixed inset-0 bg-black/80 backdrop-blur-sm transition-opacity" onclick="window.closeModal()"></div>
+        <div class="fixed inset-0 z-10 overflow-y-auto">
+            <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+                <div class="relative transform overflow-hidden rounded-2xl bg-white dark:bg-gray-900 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-3xl border border-gray-200 dark:border-gray-700">
+                    <button onclick="window.closeModal()" class="absolute top-4 right-4 z-10 p-2 rounded-full bg-white/10 text-gray-500 hover:text-white hover:bg-red-500 transition">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                    <div class="flex flex-col md:flex-row">
+                        <div class="w-full md:w-1/2 h-64 md:h-auto relative bg-gray-200 dark:bg-black">
+                            <img id="modalImg" src="" class="absolute inset-0 w-full h-full object-cover">
+                        </div>
+                        <div class="w-full md:w-1/2 p-8 flex flex-col justify-between">
+                            <div>
+                                <div id="modalBestSellerBadge" class="hidden inline-block px-3 py-1 mb-3 text-xs font-bold tracking-wider text-black bg-yellow-400 rounded-full w-max">🔥 BEST SELLER</div>
+                                <h3 id="modalTitle" class="text-3xl font-black text-slate-900 dark:text-white mb-1 brand-font">Product</h3>
+                                <p id="modalSubtitle" class="text-sm font-semibold text-cyan-500 uppercase tracking-widest mb-6">Subtitle</p>
+                                <div class="prose prose-sm dark:prose-invert">
+                                    <h4 class="text-sm font-bold text-gray-400 uppercase mb-2">Deskripsi:</h4>
+                                    <p id="modalDesc" class="text-gray-600 dark:text-gray-300 leading-relaxed whitespace-pre-line">Deskripsi...</p>
+                                </div>
+                            </div>
+                            <div class="mt-8 pt-6 border-t border-gray-100 dark:border-white/10">
+                                <div class="flex items-center justify-between mb-4">
+                                    <span class="text-xs text-gray-500 uppercase" data-key="lblPrice">Harga</span>
+                                    <span id="modalPrice" class="text-2xl font-black text-cyan-500 font-mono">Rp 0</span>
+                                </div>
+                                <a id="modalWaLink" href="#" target="_blank" class="flex items-center justify-center w-full py-4 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 text-white font-bold rounded-xl transition transform hover:scale-[1.02] shadow-lg shadow-green-500/20">
+                                    Beli via WhatsApp
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, getDocs, addDoc, deleteDoc, updateDoc, doc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, addDoc, deleteDoc, updateDoc, doc, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
         import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-        // Your web app's Firebase configuration(SUDAH DIGANTI DENGAN MILIK SAYA)
-  const firebaseConfig = {
-    apiKey: "AIzaSyDzo9T_RflcmM6vqaz7jAlmJs1S09UeWjQ",
-    authDomain: "kazuya-store-db.firebaseapp.com",
-    projectId: "kazuya-store-db",
-    storageBucket: "kazuya-store-db.firebasestorage.app",
-    messagingSenderId: "403441636994",
-    appId: "1:403441636994:web:396be296ed5f515caac69b"
-  };
+        // CONFIG FIREBASE (TIDAK PERLU DIUBAH)
+        const firebaseConfig = {
+            apiKey: "AIzaSyDzo9T_RflcmM6vqaz7jAlmJs1S09UeWjQ",
+            authDomain: "kazuya-store-db.firebaseapp.com",
+            projectId: "kazuya-store-db",
+            storageBucket: "kazuya-store-db.firebasestorage.app",
+            messagingSenderId: "403441636994",
+            appId: "1:403441636994:web:396be296ed5f515caac69b"
+        };
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const auth = getAuth(app);
         const productsCollection = collection(db, "products");
+        
         let allProducts = [], currentCat = 'all', isAdmin = false, currentLang = localStorage.getItem('lang') || 'ID';
 
-        // --- 1. FULL TRANSLATION (8 LANGUAGES) ---
+       // DICTIONARY LENGKAP 8 BAHASA (UPDATE: KATEGORI LENGKAP)
         const translations = {
             ID: {
-                navExplore: "Jelajahi", lblAdminMode: "Mode Admin", searchPlaceholder: "Cari Netflix, Source Code...",
-                heroBadge: "Toko Digital Resmi", heroTitle1: "Bebaskan", heroTitle2: "Potensi Digital.", heroDesc: "Akses produk digital premium.", btnShop: "Belanja Sekarang",
-                cardNew: "TERBARU", cardStart: "Mulai dari", catTitle: "Katalog Produk", txtTotal: "Total", txtItems: "produk",
-                txtLoading: "Memuat...", txtEmpty: "Tidak ada produk.", lblPrice: "Harga",
+                navExplore: "Jelajahi", heroBadge: "Toko Digital Resmi", heroTitle1: "Bebaskan", heroTitle2: "Potensi Digital.", heroDesc: "Akses produk digital premium.", btnShop: "Belanja Sekarang",
+                catTitle: "Katalog Produk", txtTotal: "Total", txtItems: "produk", lblPrice: "Harga",
+                cardNew: "TERBARU", cardBest: "🔥 TERLARIS", cardStart: "Harga Mulai", btnBuy: "Beli Sekarang", searchPlaceholder: "Cari produk...",
+                
+                // KATEGORI
                 catAllText: "Semua Produk",
-                catStreaming: "Streaming", catGaming: "Gaming", catCode: "Source Code", catAuto: "Otomotif", catLifestyle: "Gaya Hidup",
-                catBusiness: "Bisnis", catHealth: "Kesehatan", catIT: "IT & Software", catTeaching: "Pendidikan", catMarketing: "Marketing",
-                catDesign: "Desain", catFinance: "Keuangan", catPhoto: "Foto & Video", catDev: "Development", catMusic: "Musik", catOther: "Lainnya",
-                admLoginTitle: "Login Admin", admEmail: "Email", admPass: "Password", admSuccess: "Berhasil", admFail: "Gagal", btnSave: "Simpan",
-                admAddTitle: "Tambah Produk", admEditTitle: "Edit Produk", admDelTitle: "Hapus Produk?", admDelMsg: "Data akan hilang permanen!", admYesDel: "Ya, Hapus!"
+                catStreaming: "Streaming", catGaming: "Gaming", catCode: "Source Code",
+                catAuto: "Otomotif", catLifestyle: "Gaya Hidup", catBusiness: "Bisnis",
+                catHealth: "Kesehatan", catIT: "IT & Software", catTeaching: "Pendidikan",
+                catMarketing: "Marketing", catDesign: "Desain", catFinance: "Keuangan",
+                catPhoto: "Foto & Video", catDev: "Development", catMusic: "Musik",
+                catOther: "Lainnya"
             },
             EN: {
-                navExplore: "Explore", lblAdminMode: "Admin Mode", searchPlaceholder: "Search products...",
-                heroBadge: "Official Digital Store", heroTitle1: "Unleash", heroTitle2: "Digital Potential.", heroDesc: "Access premium digital products.", btnShop: "Shop Now",
-                cardNew: "NEW ARRIVAL", cardStart: "Starting from", catTitle: "Product Catalog", txtTotal: "Total", txtItems: "items",
-                txtLoading: "Loading...", txtEmpty: "No products found.", lblPrice: "Price",
+                navExplore: "Explore", heroBadge: "Official Digital Store", heroTitle1: "Unleash", heroTitle2: "Digital Potential.", heroDesc: "Access premium digital products.", btnShop: "Shop Now",
+                catTitle: "Product Catalog", txtTotal: "Total", txtItems: "items", lblPrice: "Price",
+                cardNew: "NEW ARRIVAL", cardBest: "🔥 BEST SELLER", cardStart: "Starts from", btnBuy: "Buy Now", searchPlaceholder: "Search products...",
+                
+                // KATEGORI
                 catAllText: "All Products",
-                catStreaming: "Streaming", catGaming: "Gaming", catCode: "Source Code", catAuto: "Automotive", catLifestyle: "Lifestyle",
-                catBusiness: "Business", catHealth: "Health", catIT: "IT & Software", catTeaching: "Teaching", catMarketing: "Marketing",
-                catDesign: "Design", catFinance: "Finance", catPhoto: "Photo & Video", catDev: "Development", catMusic: "Music", catOther: "Other",
-                admLoginTitle: "Admin Login", admEmail: "Email", admPass: "Password", admSuccess: "Success", admFail: "Failed", btnSave: "Save",
-                admAddTitle: "Add Product", admEditTitle: "Edit Product", admDelTitle: "Delete Product?", admDelMsg: "Data will be lost permanently!", admYesDel: "Yes, Delete!"
+                catStreaming: "Streaming", catGaming: "Gaming", catCode: "Source Code",
+                catAuto: "Automotive", catLifestyle: "Lifestyle", catBusiness: "Business",
+                catHealth: "Health", catIT: "IT & Software", catTeaching: "Education",
+                catMarketing: "Marketing", catDesign: "Design", catFinance: "Finance",
+                catPhoto: "Photo & Video", catDev: "Development", catMusic: "Music",
+                catOther: "Others"
             },
             JP: {
-                navExplore: "探検する", lblAdminMode: "管理者モード", searchPlaceholder: "検索...",
-                heroBadge: "公式デジタルストア", heroTitle1: "解き放つ", heroTitle2: "デジタルの可能性。", heroDesc: "プレミアム製品へのアクセス。", btnShop: "今すぐ購入",
-                cardNew: "新着", cardStart: "価格", catTitle: "製品カタログ", txtTotal: "合計", txtItems: "アイテム",
-                txtLoading: "読み込み中...", txtEmpty: "製品なし。", lblPrice: "価格",
+                navExplore: "探検する", heroBadge: "公式デジタルストア", heroTitle1: "解き放つ", heroTitle2: "デジタルの可能性。", heroDesc: "プレミアム製品へのアクセス。", btnShop: "今すぐ購入",
+                catTitle: "製品カタログ", txtTotal: "合計", txtItems: "アイテム", lblPrice: "価格",
+                cardNew: "新着", cardBest: "🔥 ベストセラー", cardStart: "価格", btnBuy: "購入する", searchPlaceholder: "検索...",
+                
+                // KATEGORI
                 catAllText: "全商品",
-                catStreaming: "ストリーミング", catGaming: "ゲーム", catCode: "ソースコード", catAuto: "自動車", catLifestyle: "ライフスタイル",
-                catBusiness: "ビジネス", catHealth: "健康", catIT: "IT・ソフト", catTeaching: "教育", catMarketing: "マーケティング",
-                catDesign: "デザイン", catFinance: "金融", catPhoto: "写真・動画", catDev: "開発", catMusic: "音楽", catOther: "その他",
-                admLoginTitle: "管理者ログイン", admEmail: "メール", admPass: "パスワード", admSuccess: "成功", admFail: "失敗", btnSave: "保存",
-                admAddTitle: "製品を追加", admEditTitle: "製品を編集", admDelTitle: "削除しますか？", admDelMsg: "データは完全に削除されます！", admYesDel: "はい、削除"
+                catStreaming: "ストリーミング", catGaming: "ゲーム", catCode: "ソースコード",
+                catAuto: "自動車", catLifestyle: "ライフスタイル", catBusiness: "ビジネス",
+                catHealth: "健康", catIT: "IT・ソフト", catTeaching: "教育",
+                catMarketing: "マーケティング", catDesign: "デザイン", catFinance: "金融",
+                catPhoto: "写真・動画", catDev: "開発", catMusic: "音楽",
+                catOther: "その他"
             },
             KR: {
-                navExplore: "탐색", lblAdminMode: "관리자 모드", searchPlaceholder: "검색...",
-                heroBadge: "공식 디지털 스토어", heroTitle1: "해방하다", heroTitle2: "디지털 잠재력.", heroDesc: "프리미엄 제품 액세스.", btnShop: "쇼핑하기",
-                cardNew: "신상품", cardStart: "가격", catTitle: "제품 카탈로그", txtTotal: "합계", txtItems: "개",
-                txtLoading: "로딩 중...", txtEmpty: "제품 없음.", lblPrice: "가격",
+                navExplore: "탐색", heroBadge: "공식 디지털 스토어", heroTitle1: "해방하다", heroTitle2: "디지털 잠재력.", heroDesc: "프리미엄 제품 액세스.", btnShop: "쇼핑하기",
+                catTitle: "제품 카탈로그", txtTotal: "합계", txtItems: "개", lblPrice: "가격",
+                cardNew: "신상품", cardBest: "🔥 베스트 셀러", cardStart: "가격", btnBuy: "구매", searchPlaceholder: "검색...",
+                
+                // KATEGORI
                 catAllText: "모든 제품",
-                catStreaming: "스트리밍", catGaming: "게이밍", catCode: "소스 코드", catAuto: "자동차", catLifestyle: "라이프스타일",
-                catBusiness: "비즈니스", catHealth: "건강", catIT: "IT 및 소프트웨어", catTeaching: "교육", catMarketing: "마케팅",
-                catDesign: "디자인", catFinance: "금융", catPhoto: "사진 및 비디오", catDev: "개발", catMusic: "음악", catOther: "기타",
-                admLoginTitle: "관리자 로그인", admEmail: "이메일", admPass: "비밀번호", admSuccess: "성공", admFail: "실패", btnSave: "저장",
-                admAddTitle: "제품 추가", admEditTitle: "제품 편집", admDelTitle: "삭제하시겠습니까?", admDelMsg: "데이터가 영구적으로 삭제됩니다!", admYesDel: "예, 삭제"
+                catStreaming: "스트리밍", catGaming: "게이밍", catCode: "소스 코드",
+                catAuto: "자동차", catLifestyle: "라이프스타일", catBusiness: "비즈니스",
+                catHealth: "건강", catIT: "IT 및 S/W", catTeaching: "교육",
+                catMarketing: "마케팅", catDesign: "디자인", catFinance: "금융",
+                catPhoto: "사진 및 비디오", catDev: "개발", catMusic: "음악",
+                catOther: "기타"
             },
             CN: {
-                navExplore: "探索", lblAdminMode: "管理员模式", searchPlaceholder: "搜索...",
-                heroBadge: "官方数字商店", heroTitle1: "释放", heroTitle2: "数字潜力。", heroDesc: "访问优质产品。", btnShop: "立即购买",
-                cardNew: "新品", cardStart: "起价", catTitle: "产品目录", txtTotal: "总计", txtItems: "件",
-                txtLoading: "加载中...", txtEmpty: "无产品。", lblPrice: "价格",
+                navExplore: "探索", heroBadge: "官方数字商店", heroTitle1: "释放", heroTitle2: "数字潜力。", heroDesc: "访问优质产品。", btnShop: "立即购买",
+                catTitle: "产品目录", txtTotal: "总计", txtItems: "件", lblPrice: "价格",
+                cardNew: "新品", cardBest: "🔥 畅销", cardStart: "起价", btnBuy: "购买", searchPlaceholder: "搜索...",
+                
+                // KATEGORI
                 catAllText: "所有产品",
-                catStreaming: "流媒体", catGaming: "游戏", catCode: "源代码", catAuto: "汽车", catLifestyle: "生活方式",
-                catBusiness: "商业", catHealth: "健康", catIT: "IT与软件", catTeaching: "教学", catMarketing: "营销",
-                catDesign: "设计", catFinance: "金融", catPhoto: "摄影视频", catDev: "开发", catMusic: "音乐", catOther: "其他",
-                admLoginTitle: "登录", admEmail: "邮箱", admPass: "密码", admSuccess: "成功", admFail: "失败", btnSave: "保存",
-                admAddTitle: "添加产品", admEditTitle: "编辑产品", admDelTitle: "删除产品？", admDelMsg: "数据将被永久删除！", admYesDel: "是，删除"
+                catStreaming: "流媒体", catGaming: "游戏", catCode: "源代码",
+                catAuto: "汽车", catLifestyle: "生活方式", catBusiness: "商业",
+                catHealth: "健康", catIT: "IT与软件", catTeaching: "教育",
+                catMarketing: "营销", catDesign: "设计", catFinance: "金融",
+                catPhoto: "摄影视频", catDev: "开发", catMusic: "音乐",
+                catOther: "其他"
             },
             TH: {
-                navExplore: "สำรวจ", lblAdminMode: "โหมดแอดมิน", searchPlaceholder: "ค้นหา...",
-                heroBadge: "ร้านค้าดิจิทัล", heroTitle1: "ปลดปล่อย", heroTitle2: "ศักยภาพดิจิทัล", heroDesc: "เข้าถึงสินค้าพรีเมียม", btnShop: "ช้อปเลย",
-                cardNew: "มาใหม่", cardStart: "ราคาเริ่ม", catTitle: "แคตตาล็อก", txtTotal: "รวม", txtItems: "รายการ",
-                txtLoading: "กำลังโหลด...", txtEmpty: "ไม่พบสินค้า", lblPrice: "ราคา",
+                navExplore: "สำรวจ", heroBadge: "ร้านค้าดิจิทัล", heroTitle1: "ปลดปล่อย", heroTitle2: "ศักยภาพดิจิทัล", heroDesc: "เข้าถึงสินค้าพรีเมียม", btnShop: "ช้อปเลย",
+                catTitle: "แคตตาล็อก", txtTotal: "รวม", txtItems: "รายการ", lblPrice: "ราคา",
+                cardNew: "มาใหม่", cardBest: "🔥 ขายดี", cardStart: "ราคาเริ่ม", btnBuy: "ซื้อเลย", searchPlaceholder: "ค้นหา...",
+                
+                // KATEGORI
                 catAllText: "สินค้าทั้งหมด",
-                catStreaming: "สตรีมมิ่ง", catGaming: "เกม", catCode: "ซอร์สโค้ด", catAuto: "ยานยนต์", catLifestyle: "ไลฟ์สไตล์",
-                catBusiness: "ธุรกิจ", catHealth: "สุขภาพ", catIT: "ไอที", catTeaching: "การศึกษา", catMarketing: "การตลาด",
-                catDesign: "ดีไซน์", catFinance: "การเงิน", catPhoto: "ภาพและวิดีโอ", catDev: "การพัฒนา", catMusic: "ดนตรี", catOther: "อื่นๆ",
-                admLoginTitle: "เข้าสู่ระบบ", admEmail: "อีเมล", admPass: "รหัสผ่าน", admSuccess: "สำเร็จ", admFail: "ล้มเหลว", btnSave: "บันทึก",
-                admAddTitle: "เพิ่มสินค้า", admEditTitle: "แก้ไขสินค้า", admDelTitle: "ลบสินค้า?", admDelMsg: "ข้อมูลจะถูกลบถาวร!", admYesDel: "ใช่ ลบเลย"
+                catStreaming: "สตรีมมิ่ง", catGaming: "เกม", catCode: "ซอร์สโค้ด",
+                catAuto: "ยานยนต์", catLifestyle: "ไลฟ์สไตล์", catBusiness: "ธุรกิจ",
+                catHealth: "สุขภาพ", catIT: "ไอที", catTeaching: "การศึกษา",
+                catMarketing: "การตลาด", catDesign: "ดีไซน์", catFinance: "การเงิน",
+                catPhoto: "ภาพและวิดีโอ", catDev: "การพัฒนา", catMusic: "ดนตรี",
+                catOther: "อื่นๆ"
             },
             VN: {
-                navExplore: "Khám phá", lblAdminMode: "Admin", searchPlaceholder: "Tìm kiếm...",
-                heroBadge: "Cửa hàng số", heroTitle1: "Giải phóng", heroTitle2: "Tiềm năng số.", heroDesc: "Truy cập sản phẩm cao cấp.", btnShop: "Mua ngay",
-                cardNew: "MỚI", cardStart: "Giá từ", catTitle: "Danh mục", txtTotal: "Tổng", txtItems: "mục",
-                txtLoading: "Đang tải...", txtEmpty: "Không có sản phẩm.", lblPrice: "Giá",
+                navExplore: "Khám phá", heroBadge: "Cửa hàng số", heroTitle1: "Giải phóng", heroTitle2: "Tiềm năng số.", heroDesc: "Truy cập sản phẩm cao cấp.", btnShop: "Mua ngay",
+                catTitle: "Danh mục", txtTotal: "Tổng", txtItems: "mục", lblPrice: "Giá",
+                cardNew: "MỚI", cardBest: "🔥 BÁN CHẠY", cardStart: "Giá từ", btnBuy: "Mua ngay", searchPlaceholder: "Tìm kiếm...",
+                
+                // KATEGORI
                 catAllText: "Tất cả",
-                catStreaming: "Streaming", catGaming: "Game", catCode: "Mã nguồn", catAuto: "Ô tô", catLifestyle: "Lối sống",
-                catBusiness: "Kinh doanh", catHealth: "Sức khỏe", catIT: "CNTT", catTeaching: "Giáo dục", catMarketing: "Tiếp thị",
-                catDesign: "Thiết kế", catFinance: "Tài chính", catPhoto: "Ảnh & Video", catDev: "Phát triển", catMusic: "Âm nhạc", catOther: "Khác",
-                admLoginTitle: "Đăng nhập", admEmail: "Email", admPass: "Mật khẩu", admSuccess: "Thành công", admFail: "Thất bại", btnSave: "Lưu",
-                admAddTitle: "Thêm sản phẩm", admEditTitle: "Sửa sản phẩm", admDelTitle: "Xóa sản phẩm?", admDelMsg: "Dữ liệu sẽ mất vĩnh viễn!", admYesDel: "Có, Xóa"
+                catStreaming: "Streaming", catGaming: "Gaming", catCode: "Mã nguồn",
+                catAuto: "Ô tô", catLifestyle: "Lối sống", catBusiness: "Kinh doanh",
+                catHealth: "Sức khỏe", catIT: "CNTT", catTeaching: "Giáo dục",
+                catMarketing: "Tiếp thị", catDesign: "Thiết kế", catFinance: "Tài chính",
+                catPhoto: "Ảnh & Video", catDev: "Phát triển", catMusic: "Âm nhạc",
+                catOther: "Khác"
             },
             MY: {
-                navExplore: "Jelajah", lblAdminMode: "Mod Admin", searchPlaceholder: "Cari produk...",
-                heroBadge: "Kedai Digital", heroTitle1: "Serlahkan", heroTitle2: "Potensi Digital.", heroDesc: "Akses produk digital premium.", btnShop: "Beli Sekarang",
-                cardNew: "TERBARU", cardStart: "Bermula dari", catTitle: "Katalog Produk", txtTotal: "Jumlah", txtItems: "item",
-                txtLoading: "Memuatkan...", txtEmpty: "Tiada produk.", lblPrice: "Harga",
+                navExplore: "Jelajah", heroBadge: "Kedai Digital", heroTitle1: "Serlahkan", heroTitle2: "Potensi Digital.", heroDesc: "Akses produk digital premium.", btnShop: "Beli Sekarang",
+                catTitle: "Katalog Produk", txtTotal: "Jumlah", txtItems: "item", lblPrice: "Harga",
+                cardNew: "TERBARU", cardBest: "🔥 TERLARIS", cardStart: "Bermula dari", btnBuy: "Beli Sekarang", searchPlaceholder: "Cari produk...",
+                
+                // KATEGORI
                 catAllText: "Semua Produk",
-                catStreaming: "Striming", catGaming: "Permainan", catCode: "Kod Sumber", catAuto: "Automotif", catLifestyle: "Gaya Hidup",
-                catBusiness: "Perniagaan", catHealth: "Kesihatan", catIT: "IT & Perisian", catTeaching: "Pendidikan", catMarketing: "Pemasaran",
-                catDesign: "Reka Bentuk", catFinance: "Kewangan", catPhoto: "Foto & Video", catDev: "Pembangunan", catMusic: "Muzik", catOther: "Lain",
-                admLoginTitle: "Log Masuk Admin", admEmail: "Emel", admPass: "Kata Laluan", admSuccess: "Berjaya", admFail: "Gagal", btnSave: "Simpan",
-                admAddTitle: "Tambah Produk", admEditTitle: "Edit Produk", admDelTitle: "Padam Produk?", admDelMsg: "Data akan hilang kekal!", admYesDel: "Ya, Padam"
+                catStreaming: "Striming", catGaming: "Permainan", catCode: "Kod Sumber",
+                catAuto: "Automotif", catLifestyle: "Gaya Hidup", catBusiness: "Perniagaan",
+                catHealth: "Kesihatan", catIT: "IT & Perisian", catTeaching: "Pendidikan",
+                catMarketing: "Pemasaran", catDesign: "Reka Bentuk", catFinance: "Kewangan",
+                catPhoto: "Foto & Video", catDev: "Pembangunan", catMusic: "Muzik",
+                catOther: "Lain"
             }
         };
         const flags = { ID:'🇮🇩', EN:'🇺🇸', JP:'🇯🇵', KR:'🇰🇷', CN:'🇨🇳', TH:'🇹🇭', VN:'🇻🇳', MY:'🇲🇾' };
-        
+
+        // SAFETY CHECK
+        if (!translations[currentLang]) { currentLang = 'ID'; localStorage.setItem('lang', 'ID'); }
         const t = (key) => translations[currentLang][key] || translations['ID'][key];
 
-        function getCategoryLabel(catKey) {
-            const map = {
-                'streaming': 'catStreaming', 'gaming': 'catGaming', 'code': 'catCode',
-                'automotive': 'catAuto', 'lifestyle': 'catLifestyle', 'business': 'catBusiness',
-                'health': 'catHealth', 'it-software': 'catIT', 'teaching': 'catTeaching',
-                'marketing': 'catMarketing', 'design': 'catDesign', 'finance': 'catFinance',
-                'photo-video': 'catPhoto', 'development': 'catDev', 'music': 'catMusic', 'other': 'catOther'
-            };
-            return map[catKey] ? t(map[catKey]) : catKey.toUpperCase();
-        }
+        // LOGIC MENU
+        window.toggleExplore = () => document.getElementById('exploreMenu').classList.toggle('hidden');
+        window.filter = (cat) => { 
+            currentCat = cat; 
+            document.getElementById('exploreMenu').classList.add('hidden'); 
+            loadProducts(); 
+        };
 
-        // --- RENDER LOGIC ---
+        window.toggleLangMenu = () => document.getElementById('langDropdown').classList.toggle('hidden');
+        window.setLang = (lang) => {
+            currentLang = lang; localStorage.setItem('lang', lang);
+            document.querySelectorAll('[data-key]').forEach(el => { if(t(el.dataset.key)) el.innerText = t(el.dataset.key); });
+            document.getElementById('searchInput').placeholder = t('searchPlaceholder');
+            document.getElementById('langDisplay').innerText = lang;
+            document.getElementById('flagDisplay').innerText = flags[lang];
+            document.getElementById('langDropdown').classList.add('hidden');
+            renderProducts(allProducts);
+            if(allProducts.length > 0) renderHeroCard(allProducts[0]);
+        };
+        window.setLang(currentLang); 
+
+        // LOGIC THEME (DARK MODE)
+        const tBtn = document.getElementById('themeToggle');
+        function updateIcons() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.getElementById('sunIcon').classList.remove('hidden');
+                document.getElementById('moonIcon').classList.add('hidden');
+            } else {
+                document.getElementById('sunIcon').classList.add('hidden');
+                document.getElementById('moonIcon').classList.remove('hidden');
+            }
+        }
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+        updateIcons();
+        tBtn.addEventListener('click', () => {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.theme = isDark ? 'dark' : 'light';
+            updateIcons();
+        });
+
+        // LOGIC RENDER PRODUK
         async function loadProducts() {
             document.getElementById('loading').classList.remove('hidden');
             document.getElementById('productGrid').classList.add('hidden');
-            document.getElementById('loading').innerHTML = `<div class="text-center"><div class="loader mb-2"></div><p class="text-gray-400 text-sm">${t('txtLoading')}</p></div>`;
 
             try {
                 const q = query(productsCollection, orderBy("timestamp", "desc"));
                 const querySnapshot = await getDocs(q);
                 allProducts = [];
                 querySnapshot.forEach((doc) => { allProducts.push({ id: doc.id, ...doc.data() }); });
+                
+                // Urutkan Best Seller Paling Atas
+                allProducts.sort((a, b) => (b.isBestSeller === true) - (a.isBestSeller === true));
+
                 if(allProducts.length > 0) renderHeroCard(allProducts[0]);
                 renderProducts(allProducts);
             } catch (error) { console.error(error); } 
@@ -331,140 +435,197 @@
         function renderHeroCard(p) {
             const heroCard = document.getElementById('heroCard');
             const imgContent = p.image ? `<img src="${p.image}" class="absolute inset-0 w-full h-full object-cover transition duration-700">` : `<div class="w-full h-full bg-gradient-to-br from-gray-800 to-black flex items-center justify-center text-white font-bold text-6xl">${p.initial || '?'}</div>`;
-            heroCard.innerHTML = `<div class="relative h-2/3 w-full overflow-hidden">${imgContent}<div class="absolute top-4 left-4 px-3 py-1 bg-green-500 text-white rounded-full text-xs font-bold shadow-lg">${t('cardNew')}</div></div><div class="p-6 h-1/3 flex flex-col justify-center bg-white/90 dark:bg-black/80 backdrop-blur"><h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-1 line-clamp-1">${p.name}</h3><p class="text-gray-500 text-sm mb-3">${getCategoryLabel(p.category)}</p><div class="flex justify-between items-center"><div><p class="text-[10px] text-gray-400 uppercase">${t('cardStart')}</p><p class="text-2xl font-black text-cyan-500">Rp ${p.price}</p></div><button onclick="document.getElementById('catalog').scrollIntoView()" class="w-10 h-10 rounded-full bg-slate-900 dark:bg-white text-white dark:text-black flex items-center justify-center hover:scale-110 transition">➜</button></div></div>`;
+            heroCard.innerHTML = `
+                <div class="relative h-2/3 w-full overflow-hidden">
+                    ${imgContent}
+                    <div class="absolute top-4 left-4 px-3 py-1 bg-green-500 text-white rounded-full text-xs font-bold shadow-lg">${t('cardNew')}</div>
+                    ${p.isBestSeller ? `<div class="absolute top-4 right-4 px-3 py-1 bg-yellow-400 text-black rounded-full text-xs font-bold shadow-lg">${t('cardBest')}</div>` : ''}
+                </div>
+                <div class="p-6 h-1/3 flex flex-col justify-center bg-white/90 dark:bg-black/80 backdrop-blur">
+                    <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-1 line-clamp-1">${p.name}</h3>
+                    <p class="text-gray-500 text-sm mb-3">${p.subtitle || p.category}</p>
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <p class="text-[10px] text-gray-400 uppercase">${t('cardStart')}</p>
+                            <p class="text-2xl font-black text-cyan-500">Rp ${p.price}</p>
+                        </div>
+                        <button onclick="document.getElementById('catalog').scrollIntoView()" class="w-10 h-10 rounded-full bg-slate-900 dark:bg-white text-white dark:text-black flex items-center justify-center hover:scale-110 transition">➜</button>
+                    </div>
+                </div>`;
         }
 
         function renderProducts(data) {
             const grid = document.getElementById('productGrid');
-            document.getElementById('totalItems').innerText = data.length;
+            
             let filtered = data;
             if (currentCat !== 'all') filtered = data.filter(p => p.category === currentCat);
             const searchVal = document.getElementById('searchInput').value.toLowerCase();
             if(searchVal) filtered = filtered.filter(p => p.name.toLowerCase().includes(searchVal));
 
+            document.getElementById('totalItems').innerText = filtered.length;
             grid.innerHTML = '';
-            if(filtered.length === 0) { grid.innerHTML = `<div class="col-span-full text-center py-10 text-gray-500">${t('txtEmpty')}</div>`; return; }
+            if(filtered.length === 0) { grid.innerHTML = `<div class="col-span-full text-center py-10 text-gray-500">Produk tidak ditemukan.</div>`; return; }
 
             filtered.forEach(p => {
                 const imgContent = p.image ? `<img src="${p.image}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700" loading="lazy">` : `<div class="w-full h-full bg-slate-800 flex items-center justify-center text-white text-4xl font-bold">${p.initial||'?'}</div>`;
+                const bestSellerBadge = p.isBestSeller ? `<div class="absolute top-3 right-3 z-10 px-2 py-1 bg-yellow-400 text-black text-[10px] font-bold rounded shadow-lg">${t('cardBest')}</div>` : '';
                 
-                // --- FIXED DELETE BUTTON LOGIC (INLINE ONCLICK) ---
                 let adminBtns = isAdmin ? `
-                    <div class="absolute top-3 right-3 z-20 flex gap-2">
-                        <button class="btn-edit bg-white/20 backdrop-blur border border-white/30 text-white p-2 rounded-xl hover:bg-yellow-500 transition" data-id="${p.id}" data-name="${p.name}" data-price="${p.price}" data-image="${p.image||''}" data-cat="${p.category}"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg></button>
-                        <button class="bg-white/20 backdrop-blur border border-white/30 text-white p-2 rounded-xl hover:bg-red-600 transition" onclick="window.deleteProduct('${p.id}')"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
+                    <div class="absolute top-3 left-3 z-20 flex gap-2">
+                        <button class="btn-edit bg-white/20 backdrop-blur border border-white/30 text-white p-2 rounded-xl hover:bg-yellow-500 transition" 
+                            data-id="${p.id}" data-name="${p.name}" data-price="${p.price}" data-image="${p.image||''}" data-cat="${p.category}" data-subtitle="${p.subtitle||''}" data-desc="${p.description||''}" data-best="${p.isBestSeller}">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                        </button>
+                        <button class="bg-white/20 backdrop-blur border border-white/30 text-white p-2 rounded-xl hover:bg-red-600 transition" onclick="window.deleteProduct('${p.id}')">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                        </button>
                     </div>` : '';
-
-                grid.innerHTML += `<div class="group glass-panel rounded-3xl overflow-hidden hover:-translate-y-2 hover:shadow-2xl hover:shadow-cyan-500/10 transition-all duration-500 relative">${adminBtns}<div class="relative h-56 bg-gray-100 dark:bg-[#151515] overflow-hidden">${imgContent}<div class="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-black/80 to-transparent"></div><span class="absolute bottom-3 left-4 text-xs font-bold text-white uppercase tracking-widest bg-cyan-500/80 backdrop-blur px-2 py-1 rounded-md">${getCategoryLabel(p.category)}</span></div><div class="p-6"><h3 class="font-bold text-lg text-slate-900 dark:text-white leading-snug mb-3 group-hover:text-cyan-500 transition line-clamp-2">${p.name}</h3><div class="flex justify-between items-center pt-2"><div><p class="text-[10px] text-gray-400 uppercase">${t('lblPrice')}</p><p class="font-black text-xl text-cyan-600 dark:text-cyan-400 font-mono">Rp ${p.price}</p></div><button class="w-10 h-10 rounded-full bg-slate-900 dark:bg-white text-white dark:text-black flex items-center justify-center hover:scale-110 hover:rotate-45 transition shadow-lg" onclick="window.open('https://wa.me/6282270189045?text=Beli ${p.name}', '_blank')"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg></button></div></div></div>`;
+                    // MENU DETAIL PRODUK           
+grid.innerHTML += `
+    <div class="group glass-panel rounded-3xl overflow-hidden hover:-translate-y-2 hover:shadow-2xl hover:shadow-cyan-500/10 transition-all duration-500 relative cursor-pointer" onclick="window.openProductModal('${p.id}')">
+        ${adminBtns}
+        <div class="relative h-56 bg-gray-100 dark:bg-[#151515] overflow-hidden">
+            ${imgContent}
+            ${bestSellerBadge}
+            <div class="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-black/80 to-transparent"></div>
+            <span class="absolute bottom-3 left-4 text-xs font-bold text-white uppercase tracking-widest bg-cyan-500/80 backdrop-blur px-2 py-1 rounded-md">${p.category}</span>
+        </div>
+        <div class="p-6">
+            <h3 class="font-bold text-lg text-slate-900 dark:text-white leading-snug mb-1 group-hover:text-cyan-500 transition line-clamp-2">${p.name}</h3>
+            <p class="text-xs text-gray-500 mb-3 truncate">${p.subtitle || 'Kazuya Digital'}</p>
+            <div class="flex justify-between items-center pt-2 border-t border-gray-200 dark:border-white/5">
+                <div>
+                    <p class="text-[10px] text-gray-400 uppercase">${t('lblPrice')}</p>
+                    <p class="font-black text-xl text-cyan-600 dark:text-cyan-400 font-mono">Rp ${p.price}</p>
+                </div>
+                <div class="w-8 h-8 rounded-full bg-slate-900 dark:bg-white text-white dark:text-black flex items-center justify-center hover:scale-110 transition shadow-lg">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                </div>
+            </div>
+        </div>
+    </div>`;
+            });
+            
+            document.querySelectorAll('.btn-edit, .btn-delete').forEach(btn => {
+                btn.addEventListener('click', (e) => e.stopPropagation());
             });
             attachEditEvents();
         }
 
-        window.setLang = (lang) => {
-            currentLang = lang; localStorage.setItem('lang', lang);
-            document.querySelectorAll('[data-key]').forEach(el => { if(t(el.dataset.key)) el.innerText = t(el.dataset.key); });
-            document.getElementById('searchInput').placeholder = t('searchPlaceholder');
-            document.getElementById('langDisplay').innerText = lang;
-            document.getElementById('flagDisplay').innerText = flags[lang];
-            document.getElementById('langDropdown').classList.add('hidden');
-            renderProducts(allProducts);
-            if(allProducts.length > 0) renderHeroCard(allProducts[0]);
+        // FUNGSI MODAL
+        window.openProductModal = (id) => {
+            const p = allProducts.find(item => item.id === id);
+            if (!p) return;
+            document.getElementById('modalImg').src = p.image || '';
+            document.getElementById('modalTitle').innerText = p.name;
+            document.getElementById('modalSubtitle').innerText = p.subtitle || p.category;
+            document.getElementById('modalDesc').innerText = p.description || "Tidak ada deskripsi detail.";
+            document.getElementById('modalPrice').innerText = `Rp ${p.price}`;
+            const badge = document.getElementById('modalBestSellerBadge');
+            if(p.isBestSeller) badge.classList.remove('hidden'); else badge.classList.add('hidden');
+            const msg = `Halo Kazuya Store, saya tertarik dengan *${p.name}* (Rp ${p.price}). Apakah stok masih ada?`;
+            document.getElementById('modalWaLink').href = `https://wa.me/6282270189045?text=${encodeURIComponent(msg)}`;
+            document.getElementById('productModal').classList.remove('hidden');
         };
-        window.setLang(currentLang);
+        window.closeModal = () => document.getElementById('productModal').classList.add('hidden');
 
-        // --- GLOBAL DELETE FUNCTION (Stable) ---
+        // ADMIN EDIT & ADD
         window.deleteProduct = async (id) => {
-            const r = await Swal.fire({title: t('admDelTitle'), text: t('admDelMsg'), icon:'warning', showCancelButton:true, confirmButtonColor:'#d33', confirmButtonText: t('admYesDel'), background:'#1e293b', color:'#fff'});
+            const r = await Swal.fire({title: "Hapus?", text: "Permanen!", icon:'warning', showCancelButton:true, confirmButtonColor:'#d33', background:'#1e293b', color:'#fff'});
             if(r.isConfirmed) { await deleteDoc(doc(db, "products", id)); loadProducts(); }
         }
 
-        // --- EDIT WITH CATEGORY SELECTOR ---
         function attachEditEvents() {
             document.querySelectorAll('.btn-edit').forEach(btn => {
                 btn.addEventListener('click', async (e) => {
+                    e.stopPropagation();
                     const d = e.currentTarget.dataset;
-                    const catOptions = `
-                        <option value="streaming" ${d.cat==='streaming'?'selected':''}>Streaming</option>
-                        <option value="gaming" ${d.cat==='gaming'?'selected':''}>Gaming</option>
-                        <option value="code" ${d.cat==='code'?'selected':''}>Source Code</option>
-                        <option value="automotive" ${d.cat==='automotive'?'selected':''}>Automotive</option>
-                        <option value="lifestyle" ${d.cat==='lifestyle'?'selected':''}>Lifestyle</option>
-                        <option value="business" ${d.cat==='business'?'selected':''}>Business</option>
-                        <option value="health" ${d.cat==='health'?'selected':''}>Health</option>
-                        <option value="it-software" ${d.cat==='it-software'?'selected':''}>IT & Software</option>
-                        <option value="teaching" ${d.cat==='teaching'?'selected':''}>Teaching</option>
-                        <option value="marketing" ${d.cat==='marketing'?'selected':''}>Marketing</option>
-                        <option value="design" ${d.cat==='design'?'selected':''}>Design</option>
-                        <option value="finance" ${d.cat==='finance'?'selected':''}>Finance</option>
-                        <option value="photo-video" ${d.cat==='photo-video'?'selected':''}>Photography</option>
-                        <option value="development" ${d.cat==='development'?'selected':''}>Development</option>
-                        <option value="music" ${d.cat==='music'?'selected':''}>Music</option>
-                        <option value="other" ${d.cat==='other'?'selected':''}>Other</option>
-                    `;
-                    
                     const { value: v } = await Swal.fire({
-                        title: t('admEditTitle'), html: `
-                        <input id="e-n" class="swal2-input" value="${d.name}">
-                        <input id="e-p" class="swal2-input" value="${d.price}">
-                        <select id="e-c" class="swal2-input bg-gray-700 text-white">${catOptions}</select>
-                        <input id="e-i" class="swal2-input" value="${d.image}" placeholder="Image URL">`,
-                        focusConfirm: false, confirmButtonText: t('btnSave'), background:'#1e293b', color:'#fff', 
-                        preConfirm: () => [
-                            document.getElementById('e-n').value, 
-                            document.getElementById('e-p').value, 
-                            document.getElementById('e-i').value,
-                            document.getElementById('e-c').value
-                        ]
+                        title: 'Edit Produk Lengkap',
+                       html: `
+    <div class="text-left flex flex-col gap-3">
+        <div>
+            <label class="text-xs font-bold text-gray-400 uppercase">Nama Produk</label>
+            <input id="e-n" class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:border-cyan-500 outline-none" value="${d.name}" placeholder="Nama Produk">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+            <div>
+                <label class="text-xs font-bold text-gray-400 uppercase">Harga (Rp)</label>
+                <input id="e-p" type="number" class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:border-cyan-500 outline-none" value="${d.price}">
+            </div>
+            <div>
+                <label class="text-xs font-bold text-gray-400 uppercase">Kategori</label>
+                <select id="e-c" class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:border-cyan-500 outline-none">
+                    <option value="streaming" ${d.cat==='streaming'?'selected':''}>Streaming</option>
+                    <option value="gaming" ${d.cat==='gaming'?'selected':''}>Gaming</option>
+                    <option value="code" ${d.cat==='code'?'selected':''}>Source Code</option>
+                    <option value="automotive" ${d.cat==='automotive'?'selected':''}>Otomotif</option>
+                    <option value="design" ${d.cat==='design'?'selected':''}>Design</option>
+                    <option value="other" ${d.cat==='other'?'selected':''}>Lainnya</option>
+                </select>
+            </div>
+        </div>
+
+        <div>
+            <label class="text-xs font-bold text-gray-400 uppercase">Subtitle</label>
+            <input id="e-sub" class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:border-cyan-500 outline-none" value="${d.subtitle}" placeholder="Keterangan singkat">
+        </div>
+
+        <div>
+            <label class="text-xs font-bold text-gray-400 uppercase">Deskripsi</label>
+            <textarea id="e-desc" rows="3" class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:border-cyan-500 outline-none" placeholder="Detail produk...">${d.desc}</textarea>
+        </div>
+
+        <div>
+            <label class="text-xs font-bold text-gray-400 uppercase">Link Gambar</label>
+            <input id="e-i" class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:border-cyan-500 outline-none" value="${d.image}" placeholder="https://...">
+        </div>
+
+        <div class="flex items-center gap-3 p-3 bg-gray-800/50 rounded-lg border border-gray-700">
+            <input type="checkbox" id="e-best" ${d.best === 'true' ? 'checked' : ''} class="w-5 h-5 accent-cyan-500 cursor-pointer">
+            <label for="e-best" class="text-sm font-bold text-white cursor-pointer select-none">🔥 Jadikan Produk Terlaris (Best Seller)</label>
+        </div>
+    </div>
+`,
+                        confirmButtonText: 'Simpan', background:'#1e293b', color:'#fff', width: '600px',
+                        preConfirm: () => ({ name: document.getElementById('e-n').value, price: document.getElementById('e-p').value, category: document.getElementById('e-c').value, subtitle: document.getElementById('e-sub').value, description: document.getElementById('e-desc').value, image: document.getElementById('e-i').value, isBestSeller: document.getElementById('e-best').checked })
                     });
-                    if(v) { 
-                        await updateDoc(doc(db, "products", d.id), { name: v[0], price: v[1], image: v[2], category: v[3] }); 
-                        loadProducts(); 
-                    }
+                    if(v) { await updateDoc(doc(db, "products", d.id), v); loadProducts(); Swal.fire("Berhasil", "", "success"); }
                 });
             });
         }
 
-        window.toggleExplore = () => { document.getElementById('exploreMenu').classList.toggle('hidden'); }
-        window.filter = (cat) => { currentCat = cat; document.getElementById('exploreMenu').classList.add('hidden'); loadProducts(); }
-        window.toggleLangMenu = () => { document.getElementById('langDropdown').classList.toggle('hidden'); }
-        
+        document.getElementById('btnAdd').addEventListener('click', async () => {
+            const { value: v } = await Swal.fire({
+                title: 'Tambah Produk',
+                html: `
+                <div class="text-left space-y-2">
+                    <input id="n" class="swal2-input" placeholder="Nama Produk">
+                    <input id="p" class="swal2-input" placeholder="Harga">
+                    <select id="c" class="swal2-input bg-gray-700 text-white"><option value="streaming">Streaming</option><option value="gaming">Gaming</option><option value="code">Source Code</option><option value="design">Design</option><option value="other">Lainnya</option></select>
+                    <input id="sub" class="swal2-input" placeholder="Subtitle">
+                    <textarea id="desc" class="swal2-textarea" placeholder="Deskripsi"></textarea>
+                    <input id="i" class="swal2-input" placeholder="URL Gambar">
+                    <div class="flex items-center gap-2"><input type="checkbox" id="best"><label class="text-white">🔥 Best Seller</label></div>
+                </div>`,
+                background:'#1e293b', color:'#fff', confirmButtonText: 'Simpan',
+                preConfirm: () => ({ name: document.getElementById('n').value, price: document.getElementById('p').value, category: document.getElementById('c').value, subtitle: document.getElementById('sub').value, description: document.getElementById('desc').value, image: document.getElementById('i').value, isBestSeller: document.getElementById('best').checked, initial: 'K', timestamp: Date.now() })
+            });
+            if(v) { await addDoc(productsCollection, v); loadProducts(); Swal.fire("Berhasil", "", "success"); }
+        });
+
+        // AUTH
         onAuthStateChanged(auth, (user) => {
             if (user) { isAdmin = true; document.getElementById('btnLogin').classList.add('hidden'); document.getElementById('adminPanel').classList.remove('hidden'); document.getElementById('adminPanel').classList.add('flex'); }
             else { isAdmin = false; document.getElementById('btnLogin').classList.remove('hidden'); document.getElementById('adminPanel').classList.add('hidden'); }
             loadProducts();
         });
-
         document.getElementById('btnLogin').addEventListener('click', async () => {
-            const { value: v } = await Swal.fire({ title: t('admLoginTitle'), html: `<input id="u" class="swal2-input" placeholder="${t('admEmail')}"><input id="p" type="password" class="swal2-input" placeholder="${t('admPass')}">`, background:'#1e293b', color:'#fff', preConfirm: () => [document.getElementById('u').value, document.getElementById('p').value] });
-            if(v) try { await signInWithEmailAndPassword(auth, v[0], v[1]); Swal.fire(t('admSuccess'), "", "success"); } catch(e) { Swal.fire(t('admFail'), "", "error"); }
+            const { value: v } = await Swal.fire({ title: 'Admin Login', html: `<input id="u" class="swal2-input" placeholder="Email"><input id="p" type="password" class="swal2-input" placeholder="Password">`, background:'#1e293b', color:'#fff', preConfirm: () => [document.getElementById('u').value, document.getElementById('p').value] });
+            if(v) try { await signInWithEmailAndPassword(auth, v[0], v[1]); Swal.fire("Sukses", "", "success"); } catch(e) { Swal.fire("Gagal", "", "error"); }
         });
         document.getElementById('btnLogout').addEventListener('click', () => { signOut(auth); });
-
-        document.getElementById('btnAdd').addEventListener('click', async () => {
-            const { value: v } = await Swal.fire({
-                title: t('admAddTitle'), html: `
-                <input id="n" class="swal2-input" placeholder="Name">
-                <input id="p" class="swal2-input" placeholder="Price">
-                <select id="c" class="swal2-input bg-gray-700 text-white">
-                    <option value="streaming">Streaming</option><option value="gaming">Gaming</option><option value="code">Source Code</option>
-                    <option value="automotive">Automotive</option><option value="lifestyle">Lifestyle</option><option value="business">Business</option>
-                    <option value="health">Health</option><option value="it-software">IT & Software</option><option value="teaching">Teaching</option>
-                    <option value="marketing">Marketing</option><option value="design">Design</option><option value="finance">Finance</option>
-                    <option value="photo-video">Photo & Video</option><option value="development">Development</option><option value="music">Music</option>
-                    <option value="other">Other</option>
-                </select>
-                <input id="i" class="swal2-input" placeholder="Image URL">`,
-                background:'#1e293b', color:'#fff', confirmButtonText: t('btnSave'),
-                preConfirm: () => ({ name: document.getElementById('n').value, price: document.getElementById('p').value, category: document.getElementById('c').value, image: document.getElementById('i').value, initial: '?', timestamp: Date.now() })
-            });
-            if(v) { await addDoc(productsCollection, v); loadProducts(); Swal.fire(t('admSuccess'), "", "success"); }
-        });
-
-        const tBtn = document.getElementById('themeToggle');
-        function updateIcons() { if (document.documentElement.classList.contains('dark')) { document.getElementById('sunIcon').classList.remove('hidden'); document.getElementById('moonIcon').classList.add('hidden'); } else { document.getElementById('sunIcon').classList.add('hidden'); document.getElementById('moonIcon').classList.remove('hidden'); } }
-        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) { document.documentElement.classList.add('dark'); } updateIcons();
-        tBtn.addEventListener('click', () => { document.documentElement.classList.toggle('dark'); localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light'; updateIcons(); });
-
         document.getElementById('searchInput').addEventListener('input', loadProducts);
     </script>
   </body>
