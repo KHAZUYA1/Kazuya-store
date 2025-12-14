@@ -47,7 +47,6 @@
       .loader { width: 48px; height: 48px; border: 5px solid #FFF; border-bottom-color: #06b6d4; border-radius: 50%; display: inline-block; animation: rotation 1s linear infinite; }
       @keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
       
-      /* Animasi Fade In Manual (karena custom config) */
       @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
       .animate-fade-in { animation: fadeIn 0.3s ease-out forwards; }
     </style>
@@ -72,7 +71,7 @@
         <button id="btnLogout" class="w-12 h-12 bg-slate-700 rounded-xl flex items-center justify-center text-white shadow-lg hover:scale-110 transition border border-white/20"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg></button>
     </div>
 
-      <nav class="fixed top-0 inset-x-0 z-50 h-20 glass-nav transition-all duration-300">
+    <nav class="fixed top-0 inset-x-0 z-50 h-20 glass-nav transition-all duration-300">
         <div class="max-w-[1600px] mx-auto px-6 h-full flex items-center justify-between gap-6">
             <a href="#" class="flex items-center gap-3 group min-w-max" onclick="location.reload()">
                 <div class="relative w-10 h-10">
@@ -86,39 +85,38 @@
             </a>
 
             <div class="relative group">
-                <button onclick="toggleExplore()" class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-gray-100 dark:bg-white/5 border border-transparent dark:border-white/10 hover:border-cyan-500/50 hover:bg-cyan-50 dark:hover:bg-cyan-900/20 transition-all duration-300">
+                <button onclick="window.toggleExplore()" class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-gray-100 dark:bg-white/5 border border-transparent dark:border-white/10 hover:border-cyan-500/50 hover:bg-cyan-50 dark:hover:bg-cyan-900/20 transition-all duration-300">
                     <svg class="w-5 h-5 text-cyan-600 dark:text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                     <span class="text-sm font-bold text-slate-700 dark:text-gray-200" data-key="navExplore">Jelajahi</span>
                 </button>
- <div id="exploreMenu" class="absolute top-16 left-0 w-[320px] md:w-[800px] bg-white/95 dark:bg-[#0a0a0a]/95 backdrop-blur-2xl rounded-3xl shadow-2xl border border-gray-200 dark:border-white/10 p-6 hidden z-50 animate-fade-in origin-top-left transform transition-all">
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-2">
-        <div class="col-span-1 md:col-span-4 mb-3 pb-3 border-b border-gray-100 dark:border-white/5">
-            <button onclick="window.filter('all')" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/20 font-bold hover:scale-[1.01] transition">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
-                <span data-key="catAllText">Semua Produk</span>
-            </button>
-        </div>
-        
-        <button onclick="window.filter('streaming')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">🎬</span> <span class="group-hover/item:text-cyan-500" data-key="catStreaming">Streaming</span></button>
-        <button onclick="window.filter('gaming')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">🎮</span> <span class="group-hover/item:text-cyan-500" data-key="catGaming">Gaming</span></button>
-        <button onclick="window.filter('code')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">💻</span> <span class="group-hover/item:text-cyan-500" data-key="catCode">Source Code</span></button>
-        <button onclick="window.filter('automotive')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">🚗</span> <span class="group-hover/item:text-cyan-500" data-key="catAuto">Otomotif</span></button>
-        <button onclick="window.filter('lifestyle')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">👟</span> <span class="group-hover/item:text-cyan-500" data-key="catLifestyle">Lifestyle</span></button>
-        <button onclick="window.filter('business')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">💼</span> <span class="group-hover/item:text-cyan-500" data-key="catBusiness">Bisnis</span></button>
-        <button onclick="window.filter('health')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">🥗</span> <span class="group-hover/item:text-cyan-500" data-key="catHealth">Kesehatan</span></button>
-        <button onclick="window.filter('it-software')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">🖥️</span> <span class="group-hover/item:text-cyan-500" data-key="catIT">IT & Software</span></button>
-        <button onclick="window.filter('teaching')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">📚</span> <span class="group-hover/item:text-cyan-500" data-key="catTeaching">Pendidikan</span></button>
-        <button onclick="window.filter('marketing')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">📈</span> <span class="group-hover/item:text-cyan-500" data-key="catMarketing">Marketing</span></button>
-        <button onclick="window.filter('design')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">🎨</span> <span class="group-hover/item:text-cyan-500" data-key="catDesign">Desain</span></button>
-        <button onclick="window.filter('finance')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">💰</span> <span class="group-hover/item:text-cyan-500" data-key="catFinance">Keuangan</span></button>
-        <button onclick="window.filter('photo-video')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">📸</span> <span class="group-hover/item:text-cyan-500" data-key="catPhoto">Foto & Video</span></button>
-        <button onclick="window.filter('development')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">⚙️</span> <span class="group-hover/item:text-cyan-500" data-key="catDev">Development</span></button>
-        <button onclick="window.filter('music')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">🎵</span> <span class="group-hover/item:text-cyan-500" data-key="catMusic">Musik</span></button>
-        <button onclick="window.filter('other')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">📦</span> <span class="group-hover/item:text-cyan-500" data-key="catOther">Lainnya</span></button>
-    </div>
-</div>
+                <div id="exploreMenu" class="absolute top-16 left-0 w-[320px] md:w-[800px] bg-white/95 dark:bg-[#0a0a0a]/95 backdrop-blur-2xl rounded-3xl shadow-2xl border border-gray-200 dark:border-white/10 p-6 hidden z-50 animate-fade-in origin-top-left transform transition-all">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-2">
+                        <div class="col-span-1 md:col-span-4 mb-3 pb-3 border-b border-gray-100 dark:border-white/5">
+                            <button onclick="window.filter('all')" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/20 font-bold hover:scale-[1.01] transition">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+                                <span data-key="catAllText">Semua Produk</span>
+                            </button>
+                        </div>
+                        <button onclick="window.filter('streaming')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">🎬</span> <span class="group-hover/item:text-cyan-500" data-key="catStreaming">Streaming</span></button>
+                        <button onclick="window.filter('gaming')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">🎮</span> <span class="group-hover/item:text-cyan-500" data-key="catGaming">Gaming</span></button>
+                        <button onclick="window.filter('code')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">💻</span> <span class="group-hover/item:text-cyan-500" data-key="catCode">Source Code</span></button>
+                        <button onclick="window.filter('automotive')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">🚗</span> <span class="group-hover/item:text-cyan-500" data-key="catAuto">Otomotif</span></button>
+                        <button onclick="window.filter('lifestyle')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">👟</span> <span class="group-hover/item:text-cyan-500" data-key="catLifestyle">Lifestyle</span></button>
+                        <button onclick="window.filter('business')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">💼</span> <span class="group-hover/item:text-cyan-500" data-key="catBusiness">Bisnis</span></button>
+                        <button onclick="window.filter('health')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">🥗</span> <span class="group-hover/item:text-cyan-500" data-key="catHealth">Kesehatan</span></button>
+                        <button onclick="window.filter('it-software')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">🖥️</span> <span class="group-hover/item:text-cyan-500" data-key="catIT">IT & Software</span></button>
+                        <button onclick="window.filter('teaching')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">📚</span> <span class="group-hover/item:text-cyan-500" data-key="catTeaching">Pendidikan</span></button>
+                        <button onclick="window.filter('marketing')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">📈</span> <span class="group-hover/item:text-cyan-500" data-key="catMarketing">Marketing</span></button>
+                        <button onclick="window.filter('design')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">🎨</span> <span class="group-hover/item:text-cyan-500" data-key="catDesign">Desain</span></button>
+                        <button onclick="window.filter('finance')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">💰</span> <span class="group-hover/item:text-cyan-500" data-key="catFinance">Keuangan</span></button>
+                        <button onclick="window.filter('photo-video')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">📸</span> <span class="group-hover/item:text-cyan-500" data-key="catPhoto">Foto & Video</span></button>
+                        <button onclick="window.filter('development')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">⚙️</span> <span class="group-hover/item:text-cyan-500" data-key="catDev">Development</span></button>
+                        <button onclick="window.filter('music')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">🎵</span> <span class="group-hover/item:text-cyan-500" data-key="catMusic">Musik</span></button>
+                        <button onclick="window.filter('other')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">📦</span> <span class="group-hover/item:text-cyan-500" data-key="catOther">Lainnya</span></button>
+                    </div>
+                </div>
             </div>
-            
+
             <div class="hidden md:block flex-1 max-w-xl">
                 <div class="relative group">
                     <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none"><svg class="w-5 h-5 text-gray-400 group-focus-within:text-cyan-500 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg></div>
@@ -128,16 +126,16 @@
 
             <div class="flex items-center gap-3">
                 <div class="relative">
-                    <button id="langButton" onclick="toggleLangMenu()" class="flex items-center gap-2 w-10 h-10 md:w-auto md:px-3 md:py-2 justify-center rounded-xl bg-gray-100 dark:bg-white/5 hover:bg-gray-200 dark:hover:bg-white/10 transition text-lg"><span id="flagDisplay">🇮🇩</span><span id="langDisplay" class="text-xs font-bold hidden md:block text-slate-600 dark:text-white">ID</span></button>
+                    <button id="langButton" onclick="window.toggleLangMenu()" class="flex items-center gap-2 w-10 h-10 md:w-auto md:px-3 md:py-2 justify-center rounded-xl bg-gray-100 dark:bg-white/5 hover:bg-gray-200 dark:hover:bg-white/10 transition text-lg"><span id="flagDisplay">🇮🇩</span><span id="langDisplay" class="text-xs font-bold hidden md:block text-slate-600 dark:text-white">ID</span></button>
                     <div id="langDropdown" class="absolute right-0 mt-3 w-40 bg-white dark:bg-[#121212] rounded-2xl shadow-xl border border-gray-100 dark:border-white/10 overflow-hidden hidden z-50">
-                        <button onclick="setLang('ID')" class="w-full text-left px-4 py-3 text-xs font-bold hover:bg-gray-50 dark:hover:bg-white/5 text-slate-700 dark:text-gray-300 border-b border-gray-100 dark:border-white/5">🇮🇩 Indonesia</button>
-                        <button onclick="setLang('EN')" class="w-full text-left px-4 py-3 text-xs font-bold hover:bg-gray-50 dark:hover:bg-white/5 text-slate-700 dark:text-gray-300 border-b border-gray-100 dark:border-white/5">🇺🇸 English</button>
-                        <button onclick="setLang('JP')" class="w-full text-left px-4 py-3 text-xs font-bold hover:bg-gray-50 dark:hover:bg-white/5 text-slate-700 dark:text-gray-300 border-b border-gray-100 dark:border-white/5">🇯🇵 Japan</button>
-                        <button onclick="setLang('KR')" class="w-full text-left px-4 py-3 text-xs font-bold hover:bg-gray-50 dark:hover:bg-white/5 text-slate-700 dark:text-gray-300 border-b border-gray-100 dark:border-white/5">🇰🇷 Korea</button>
-                        <button onclick="setLang('CN')" class="w-full text-left px-4 py-3 text-xs font-bold hover:bg-gray-50 dark:hover:bg-white/5 text-slate-700 dark:text-gray-300 border-b border-gray-100 dark:border-white/5">🇨🇳 Mandarin</button>
-                        <button onclick="setLang('TH')" class="w-full text-left px-4 py-3 text-xs font-bold hover:bg-gray-50 dark:hover:bg-white/5 text-slate-700 dark:text-gray-300 border-b border-gray-100 dark:border-white/5">🇹🇭 Thailand</button>
-                        <button onclick="setLang('VN')" class="w-full text-left px-4 py-3 text-xs font-bold hover:bg-gray-50 dark:hover:bg-white/5 text-slate-700 dark:text-gray-300 border-b border-gray-100 dark:border-white/5">🇻🇳 Vietnam</button>
-                        <button onclick="setLang('MY')" class="w-full text-left px-4 py-3 text-xs font-bold hover:bg-gray-50 dark:hover:bg-white/5 text-slate-700 dark:text-gray-300">🇲🇾 Melayu</button>
+                        <button onclick="window.setLang('ID')" class="w-full text-left px-4 py-3 text-xs font-bold hover:bg-gray-50 dark:hover:bg-white/5 text-slate-700 dark:text-gray-300 border-b border-gray-100 dark:border-white/5">🇮🇩 Indonesia</button>
+                        <button onclick="window.setLang('EN')" class="w-full text-left px-4 py-3 text-xs font-bold hover:bg-gray-50 dark:hover:bg-white/5 text-slate-700 dark:text-gray-300 border-b border-gray-100 dark:border-white/5">🇺🇸 English</button>
+                        <button onclick="window.setLang('JP')" class="w-full text-left px-4 py-3 text-xs font-bold hover:bg-gray-50 dark:hover:bg-white/5 text-slate-700 dark:text-gray-300 border-b border-gray-100 dark:border-white/5">🇯🇵 Japan</button>
+                        <button onclick="window.setLang('KR')" class="w-full text-left px-4 py-3 text-xs font-bold hover:bg-gray-50 dark:hover:bg-white/5 text-slate-700 dark:text-gray-300 border-b border-gray-100 dark:border-white/5">🇰🇷 Korea</button>
+                        <button onclick="window.setLang('CN')" class="w-full text-left px-4 py-3 text-xs font-bold hover:bg-gray-50 dark:hover:bg-white/5 text-slate-700 dark:text-gray-300 border-b border-gray-100 dark:border-white/5">🇨🇳 Mandarin</button>
+                        <button onclick="window.setLang('TH')" class="w-full text-left px-4 py-3 text-xs font-bold hover:bg-gray-50 dark:hover:bg-white/5 text-slate-700 dark:text-gray-300 border-b border-gray-100 dark:border-white/5">🇹🇭 Thailand</button>
+                        <button onclick="window.setLang('VN')" class="w-full text-left px-4 py-3 text-xs font-bold hover:bg-gray-50 dark:hover:bg-white/5 text-slate-700 dark:text-gray-300 border-b border-gray-100 dark:border-white/5">🇻🇳 Vietnam</button>
+                        <button onclick="window.setLang('MY')" class="w-full text-left px-4 py-3 text-xs font-bold hover:bg-gray-50 dark:hover:bg-white/5 text-slate-700 dark:text-gray-300">🇲🇾 Melayu</button>
                     </div>
                 </div>
                 <button id="themeToggle" class="w-10 h-10 rounded-xl bg-gray-100 dark:bg-white/5 flex items-center justify-center text-slate-600 dark:text-yellow-400 hover:bg-gray-200 dark:hover:bg-white/10 transition shadow-sm border border-transparent dark:border-white/5"><svg id="sunIcon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg><svg id="moonIcon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg></button>
@@ -183,45 +181,7 @@
             <p class="text-xs text-gray-500 mb-8">&copy; 2025 Hak Cipta oleh Yuda Pamungkas.</p>
         </div>
     </footer>
-
-    <div id="productModal" class="fixed inset-0 z-[100] hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-        <div class="fixed inset-0 bg-black/80 backdrop-blur-sm transition-opacity" onclick="window.closeModal()"></div>
-        <div class="fixed inset-0 z-10 overflow-y-auto">
-            <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-                <div class="relative transform overflow-hidden rounded-2xl bg-white dark:bg-gray-900 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-3xl border border-gray-200 dark:border-gray-700">
-                    <button onclick="window.closeModal()" class="absolute top-4 right-4 z-10 p-2 rounded-full bg-white/10 text-gray-500 hover:text-white hover:bg-red-500 transition">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                    </button>
-                    <div class="flex flex-col md:flex-row">
-                        <div class="w-full md:w-1/2 h-64 md:h-auto relative bg-gray-200 dark:bg-black">
-                            <img id="modalImg" src="" class="absolute inset-0 w-full h-full object-cover">
-                        </div>
-                        <div class="w-full md:w-1/2 p-8 flex flex-col justify-between">
-                            <div>
-                                <div id="modalBestSellerBadge" class="hidden inline-block px-3 py-1 mb-3 text-xs font-bold tracking-wider text-black bg-yellow-400 rounded-full w-max">🔥 BEST SELLER</div>
-                                <h3 id="modalTitle" class="text-3xl font-black text-slate-900 dark:text-white mb-1 brand-font">Product</h3>
-                                <p id="modalSubtitle" class="text-sm font-semibold text-cyan-500 uppercase tracking-widest mb-6">Subtitle</p>
-                                <div class="prose prose-sm dark:prose-invert">
-                                    <h4 class="text-sm font-bold text-gray-400 uppercase mb-2">Deskripsi:</h4>
-                                    <p id="modalDesc" class="text-gray-600 dark:text-gray-300 leading-relaxed whitespace-pre-line">Deskripsi...</p>
-                                </div>
-                            </div>
-                            <div class="mt-8 pt-6 border-t border-gray-100 dark:border-white/10">
-                                <div class="flex items-center justify-between mb-4">
-                                    <span class="text-xs text-gray-500 uppercase" data-key="lblPrice">Harga</span>
-                                    <span id="modalPrice" class="text-2xl font-black text-cyan-500 font-mono">Rp 0</span>
-                                </div>
-                                <a id="modalWaLink" href="#" target="_blank" class="flex items-center justify-center w-full py-4 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 text-white font-bold rounded-xl transition transform hover:scale-[1.02] shadow-lg shadow-green-500/20">
-                                    Beli via WhatsApp
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getFirestore, collection, getDocs, addDoc, deleteDoc, updateDoc, doc, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
@@ -244,7 +204,7 @@
         
         let allProducts = [], currentCat = 'all', isAdmin = false, currentLang = localStorage.getItem('lang') || 'ID';
 
-       // DICTIONARY LENGKAP 8 BAHASA (UPDATE: KATEGORI LENGKAP)
+        // DICTIONARY LENGKAP 8 BAHASA
         const translations = {
             ID: {
                 navExplore: "Jelajahi", heroBadge: "Toko Digital Resmi", heroTitle1: "Bebaskan", heroTitle2: "Potensi Digital.", heroDesc: "Akses produk digital premium.", btnShop: "Belanja Sekarang",
@@ -432,102 +392,186 @@
             }
         }
 
-        function renderHeroCard(p) {
-            const heroCard = document.getElementById('heroCard');
-            const imgContent = p.image ? `<img src="${p.image}" class="absolute inset-0 w-full h-full object-cover transition duration-700">` : `<div class="w-full h-full bg-gradient-to-br from-gray-800 to-black flex items-center justify-center text-white font-bold text-6xl">${p.initial || '?'}</div>`;
-            heroCard.innerHTML = `
-                <div class="relative h-2/3 w-full overflow-hidden">
-                    ${imgContent}
-                    <div class="absolute top-4 left-4 px-3 py-1 bg-green-500 text-white rounded-full text-xs font-bold shadow-lg">${t('cardNew')}</div>
-                    ${p.isBestSeller ? `<div class="absolute top-4 right-4 px-3 py-1 bg-yellow-400 text-black rounded-full text-xs font-bold shadow-lg">${t('cardBest')}</div>` : ''}
-                </div>
-                <div class="p-6 h-1/3 flex flex-col justify-center bg-white/90 dark:bg-black/80 backdrop-blur">
-                    <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-1 line-clamp-1">${p.name}</h3>
-                    <p class="text-gray-500 text-sm mb-3">${p.subtitle || p.category}</p>
-                    <div class="flex justify-between items-center">
-                        <div>
-                            <p class="text-[10px] text-gray-400 uppercase">${t('cardStart')}</p>
-                            <p class="text-2xl font-black text-cyan-500">Rp ${p.price}</p>
-                        </div>
-                        <button onclick="document.getElementById('catalog').scrollIntoView()" class="w-10 h-10 rounded-full bg-slate-900 dark:bg-white text-white dark:text-black flex items-center justify-center hover:scale-110 transition">➜</button>
-                    </div>
-                </div>`;
-        }
-
-        function renderProducts(data) {
-            const grid = document.getElementById('productGrid');
-            
-            let filtered = data;
-            if (currentCat !== 'all') filtered = data.filter(p => p.category === currentCat);
-            const searchVal = document.getElementById('searchInput').value.toLowerCase();
-            if(searchVal) filtered = filtered.filter(p => p.name.toLowerCase().includes(searchVal));
-
-            document.getElementById('totalItems').innerText = filtered.length;
-            grid.innerHTML = '';
-            if(filtered.length === 0) { grid.innerHTML = `<div class="col-span-full text-center py-10 text-gray-500">Produk tidak ditemukan.</div>`; return; }
-
-            filtered.forEach(p => {
-                const imgContent = p.image ? `<img src="${p.image}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700" loading="lazy">` : `<div class="w-full h-full bg-slate-800 flex items-center justify-center text-white text-4xl font-bold">${p.initial||'?'}</div>`;
-                const bestSellerBadge = p.isBestSeller ? `<div class="absolute top-3 right-3 z-10 px-2 py-1 bg-yellow-400 text-black text-[10px] font-bold rounded shadow-lg">${t('cardBest')}</div>` : '';
-                
-                let adminBtns = isAdmin ? `
-                    <div class="absolute top-3 left-3 z-20 flex gap-2">
-                        <button class="btn-edit bg-white/20 backdrop-blur border border-white/30 text-white p-2 rounded-xl hover:bg-yellow-500 transition" 
-                            data-id="${p.id}" data-name="${p.name}" data-price="${p.price}" data-image="${p.image||''}" data-cat="${p.category}" data-subtitle="${p.subtitle||''}" data-desc="${p.description||''}" data-best="${p.isBestSeller}">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
-                        </button>
-                        <button class="bg-white/20 backdrop-blur border border-white/30 text-white p-2 rounded-xl hover:bg-red-600 transition" onclick="window.deleteProduct('${p.id}')">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                        </button>
-                    </div>` : '';
-                    // MENU DETAIL PRODUK           
-grid.innerHTML += `
-    <div class="group glass-panel rounded-3xl overflow-hidden hover:-translate-y-2 hover:shadow-2xl hover:shadow-cyan-500/10 transition-all duration-500 relative cursor-pointer" onclick="window.openProductModal('${p.id}')">
-        ${adminBtns}
-        <div class="relative h-56 bg-gray-100 dark:bg-[#151515] overflow-hidden">
+ // === GANTI TOTAL FUNGSI INI ===
+function renderHeroCard(p) {
+    const heroCard = document.getElementById('heroCard');
+    
+    // Pastikan gambar ada. Jika tidak, pakai placeholder warna.
+    const imgContent = p.image 
+        ? `<img src="${p.image}" class="absolute inset-0 w-full h-full object-cover transition duration-700">` 
+        : `<div class="w-full h-full bg-gradient-to-br from-gray-800 to-black flex items-center justify-center text-white font-bold text-6xl">${p.initial || '?'}</div>`;
+    
+    heroCard.innerHTML = `
+        <div class="relative w-full overflow-hidden" style="height: 55%;">
             ${imgContent}
-            ${bestSellerBadge}
-            <div class="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-black/80 to-transparent"></div>
-            <span class="absolute bottom-3 left-4 text-xs font-bold text-white uppercase tracking-widest bg-cyan-500/80 backdrop-blur px-2 py-1 rounded-md">${p.category}</span>
+            
+            <div class="absolute top-4 left-4 px-3 py-1 bg-green-500 text-white rounded-full text-xs font-bold shadow-lg">${t('cardNew')}</div>
+            ${p.isBestSeller ? `<div class="absolute top-4 right-4 px-3 py-1 bg-yellow-400 text-black rounded-full text-xs font-bold shadow-lg">${t('cardBest')}</div>` : ''}
         </div>
-        <div class="p-6">
-            <h3 class="font-bold text-lg text-slate-900 dark:text-white leading-snug mb-1 group-hover:text-cyan-500 transition line-clamp-2">${p.name}</h3>
-            <p class="text-xs text-gray-500 mb-3 truncate">${p.subtitle || 'Kazuya Digital'}</p>
-            <div class="flex justify-between items-center pt-2 border-t border-gray-200 dark:border-white/5">
+        
+        <div class="p-5 w-full flex flex-col justify-between bg-white/90 dark:bg-black/80 backdrop-blur" style="height: 45%;">
+            
+            <div>
+                <h3 class="text-xl md:text-2xl font-black text-slate-900 dark:text-white mb-2 leading-snug line-clamp-2" title="${p.name}">
+                    ${p.name}
+                </h3>
+                <p class="text-xs text-gray-500 truncate">${p.subtitle || p.category}</p>
+            </div>
+            
+            <div class="flex justify-between items-center mt-2">
                 <div>
-                    <p class="text-[10px] text-gray-400 uppercase">${t('lblPrice')}</p>
-                    <p class="font-black text-xl text-cyan-600 dark:text-cyan-400 font-mono">Rp ${p.price}</p>
+                    <p class="text-[10px] text-gray-400 uppercase font-bold">${t('cardStart')}</p>
+                    <p class="text-2xl font-black text-cyan-500 font-mono">Rp ${p.price}</p>
                 </div>
-                <div class="w-8 h-8 rounded-full bg-slate-900 dark:bg-white text-white dark:text-black flex items-center justify-center hover:scale-110 transition shadow-lg">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                <button onclick="document.getElementById('catalog').scrollIntoView()" class="w-12 h-12 rounded-full bg-slate-900 dark:bg-white text-white dark:text-black flex items-center justify-center hover:scale-110 transition shadow-lg flex-shrink-0">
+                    ➜
+                </button>
+            </div>
+        </div>`;
+}
+ // === GANTI FUNGSI RENDER PRODUCTS (FIX TOMBOL HAPUS) ===
+function renderProducts(data) {
+    const grid = document.getElementById('productGrid');
+    let filtered = data;
+    
+    // Filter Hidden (Hanya admin yang bisa lihat produk hidden)
+    if (!isAdmin) {
+        filtered = filtered.filter(p => p.isVisible !== false);
+    }
+
+    if (currentCat !== 'all') filtered = filtered.filter(p => p.category === currentCat);
+    const searchVal = document.getElementById('searchInput').value.toLowerCase();
+    if(searchVal) filtered = filtered.filter(p => p.name.toLowerCase().includes(searchVal));
+
+    document.getElementById('totalItems').innerText = filtered.length;
+    grid.innerHTML = '';
+
+    if(filtered.length === 0) { 
+        grid.innerHTML = `<div class="col-span-full text-center py-10 text-gray-500">Produk tidak ditemukan.</div>`; 
+        return; 
+    }
+
+    filtered.forEach(p => {
+        const imgContent = p.image ? `<img src="${p.image}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700" loading="lazy">` : `<div class="w-full h-full bg-slate-800 flex items-center justify-center text-white text-4xl font-bold">${p.initial||'?'}</div>`;
+        const bestSellerBadge = p.isBestSeller ? `<div class="absolute top-3 right-3 z-10 px-2 py-1 bg-yellow-400 text-black text-[10px] font-bold rounded shadow-lg">🔥 TERLARIS</div>` : '';
+        
+        // Tampilan Admin (Hidden)
+        const isHidden = p.isVisible === false;
+        const hiddenClass = isHidden ? 'opacity-50 grayscale border-2 border-red-500' : '';
+        const hiddenLabel = isHidden ? '<div class="absolute top-3 left-3 z-30 bg-red-600 text-white text-[10px] font-bold px-2 py-1 rounded shadow-md">HIDDEN</div>' : '';
+
+        // === BAGIAN INI YANG DIPERBAIKI ===
+        // Saya tambahkan 'event.stopPropagation()' di tombol Delete
+        // Agar saat diklik, dia tidak memicu klik pada kartu utama
+        let adminBtns = isAdmin ? `
+            <div class="absolute top-12 left-3 z-20 flex gap-2">
+                <button class="btn-edit bg-white/20 backdrop-blur border border-white/30 text-white p-2 rounded-xl hover:bg-yellow-500 transition" 
+                    data-id="${p.id}" data-name="${p.name}" data-price="${p.price}" data-image="${p.image||''}" data-cat="${p.category}" data-subtitle="${p.subtitle||''}" data-desc="${p.description||''}" data-best="${p.isBestSeller}" data-visible="${p.isVisible}">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                </button>
+                
+                <button class="bg-white/20 backdrop-blur border border-white/30 text-white p-2 rounded-xl hover:bg-red-600 transition" 
+                    onclick="event.stopPropagation(); window.deleteProduct('${p.id}')">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                </button>
+            </div>` : '';
+
+        grid.innerHTML += `
+            <div class="group glass-panel rounded-3xl overflow-hidden hover:-translate-y-2 hover:shadow-2xl hover:shadow-cyan-500/10 transition-all duration-500 relative cursor-pointer ${hiddenClass}" onclick="window.openProductModal('${p.id}')">
+                ${adminBtns}
+                ${hiddenLabel}
+                <div class="relative h-56 bg-gray-100 dark:bg-[#151515] overflow-hidden">
+                    ${imgContent}
+                    ${bestSellerBadge}
+                    <div class="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-black/80 to-transparent"></div>
+                    <span class="absolute bottom-3 left-4 text-xs font-bold text-white uppercase tracking-widest bg-cyan-500/80 backdrop-blur px-2 py-1 rounded-md">${p.category}</span>
+                </div>
+                <div class="p-6">
+                    <h3 class="font-bold text-lg text-slate-900 dark:text-white leading-snug mb-1 group-hover:text-cyan-500 transition line-clamp-2 min-h-[3.5rem]">${p.name}</h3>
+                    <p class="text-xs text-gray-500 mb-3 truncate">${p.subtitle || 'Kazuya Digital'}</p>
+                    <div class="pt-2 border-t border-gray-200 dark:border-white/5">
+                        <p class="text-[10px] text-gray-400 uppercase">${t('lblPrice')}</p>
+                        <p class="font-black text-xl text-cyan-600 dark:text-cyan-400 font-mono">Rp ${p.price}</p>
+                    </div>
+                </div>
+            </div>`;
+    });
+    
+    // Safety tambahan untuk tombol edit
+    document.querySelectorAll('.btn-edit').forEach(btn => {
+        btn.addEventListener('click', (e) => e.stopPropagation());
+    });
+    attachEditEvents();
+}
+      // === GANTI FUNGSI WINDOW.OPENPRODUCTMODAL DENGAN INI ===
+window.openProductModal = (id) => {
+    // 1. Cari data produk
+    const p = allProducts.find(item => item.id === id);
+    if (!p) return;
+
+    // 2. Siapkan Badge Best Seller & Link WA
+    const bestSellerBadge = (p.isBestSeller === true || p.isBestSeller === "true") 
+        ? '<span class="bg-yellow-400 text-black text-[10px] font-bold px-2 py-1 rounded ml-2 align-middle">🔥 BEST SELLER</span>' 
+        : '';
+    
+    const waLink = `https://wa.me/6282270189045?text=Halo%20Admin,%20saya%20tertarik%20beli%20*${encodeURIComponent(p.name)}*%20seharga%20Rp%20${p.price}`;
+
+    // 3. TAMPILKAN POPUP MENGGUNAKAN SWEETALERT 
+    Swal.fire({
+        background: '#1e293b', // Warna Hitam Gelap (Sama kayak Edit)
+        color: '#fff',         // Teks Putih
+        width: '900px',        // Lebar
+        showConfirmButton: false, // Hilangkan tombol OK bawaan
+        showCloseButton: true,    // Munculkan tombol X di pojok
+        backdrop: `rgba(0,0,0,0.8) blur(5px)`, // Efek Blur Dashboard
+        
+        // ISI KONTEN
+        html: `
+            <div class="flex flex-col md:flex-row gap-6 text-left font-sans">
+                
+                <div class="w-full md:w-1/2">
+                    <div class="relative rounded-2xl overflow-hidden border border-gray-600 shadow-xl group">
+                        <img src="${p.image}" class="w-full h-64 md:h-80 object-cover transform group-hover:scale-105 transition duration-500">
+                    </div>
+                </div>
+
+                <div class="w-full md:w-1/2 flex flex-col justify-between">
+                    <div>
+                        <h2 class="text-3xl font-bold text-white mb-2 leading-tight brand-font">${p.name}</h2>
+                        <div class="mb-4">
+                            <span class="text-cyan-400 font-bold text-sm tracking-widest uppercase border border-cyan-400/30 px-2 py-1 rounded">${p.category}</span>
+                            ${bestSellerBadge}
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="text-xs text-gray-400 font-bold uppercase">Subtitle</label>
+                            <p class="text-gray-200 text-sm font-medium border-b border-gray-700 pb-2">${p.subtitle || '-'}</p>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="text-xs text-gray-400 font-bold uppercase">Deskripsi & Spesifikasi</label>
+                            <div class="bg-gray-800/50 p-3 rounded-lg border border-gray-700 h-32 overflow-y-auto mt-1 custom-scrollbar">
+                                <p class="text-gray-300 text-sm leading-relaxed whitespace-pre-line">${p.description || 'Tidak ada deskripsi detail.'}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-2 pt-4 border-t border-gray-700">
+                        <div class="flex justify-between items-end mb-4">
+                            <span class="text-gray-400 text-xs uppercase font-bold">Harga Spesial</span>
+                            <span class="text-3xl font-black text-cyan-400 font-mono">Rp ${p.price}</span>
+                        </div>
+                        
+                        <a href="${waLink}" target="_blank" class="flex items-center justify-center w-full py-3 bg-gradient-to-r from-green-600 to-emerald-500 hover:from-green-500 hover:to-emerald-400 text-white font-bold rounded-xl transition shadow-lg shadow-green-900/30 transform hover:scale-[1.02]">
+                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                            Beli via WhatsApp
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>`;
-            });
-            
-            document.querySelectorAll('.btn-edit, .btn-delete').forEach(btn => {
-                btn.addEventListener('click', (e) => e.stopPropagation());
-            });
-            attachEditEvents();
-        }
-
-        // FUNGSI MODAL
-        window.openProductModal = (id) => {
-            const p = allProducts.find(item => item.id === id);
-            if (!p) return;
-            document.getElementById('modalImg').src = p.image || '';
-            document.getElementById('modalTitle').innerText = p.name;
-            document.getElementById('modalSubtitle').innerText = p.subtitle || p.category;
-            document.getElementById('modalDesc').innerText = p.description || "Tidak ada deskripsi detail.";
-            document.getElementById('modalPrice').innerText = `Rp ${p.price}`;
-            const badge = document.getElementById('modalBestSellerBadge');
-            if(p.isBestSeller) badge.classList.remove('hidden'); else badge.classList.add('hidden');
-            const msg = `Halo Kazuya Store, saya tertarik dengan *${p.name}* (Rp ${p.price}). Apakah stok masih ada?`;
-            document.getElementById('modalWaLink').href = `https://wa.me/6282270189045?text=${encodeURIComponent(msg)}`;
-            document.getElementById('productModal').classList.remove('hidden');
-        };
-        window.closeModal = () => document.getElementById('productModal').classList.add('hidden');
+        `
+    });
+};
 
         // ADMIN EDIT & ADD
         window.deleteProduct = async (id) => {
@@ -535,86 +579,177 @@ grid.innerHTML += `
             if(r.isConfirmed) { await deleteDoc(doc(db, "products", id)); loadProducts(); }
         }
 
-        function attachEditEvents() {
-            document.querySelectorAll('.btn-edit').forEach(btn => {
-                btn.addEventListener('click', async (e) => {
-                    e.stopPropagation();
-                    const d = e.currentTarget.dataset;
-                    const { value: v } = await Swal.fire({
-                        title: 'Edit Produk Lengkap',
-                       html: `
-    <div class="text-left flex flex-col gap-3">
-        <div>
-            <label class="text-xs font-bold text-gray-400 uppercase">Nama Produk</label>
-            <input id="e-n" class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:border-cyan-500 outline-none" value="${d.name}" placeholder="Nama Produk">
-        </div>
+// === GANTI FUNGSI EDIT (LABEL BERSIH) ===
+function attachEditEvents() {
+    document.querySelectorAll('.btn-edit').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+            e.stopPropagation();
+            const d = e.currentTarget.dataset;
+            const isVis = d.visible === 'false' ? false : true; 
 
-        <div class="grid grid-cols-2 gap-3">
-            <div>
-                <label class="text-xs font-bold text-gray-400 uppercase">Harga (Rp)</label>
-                <input id="e-p" type="number" class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:border-cyan-500 outline-none" value="${d.price}">
-            </div>
-            <div>
-                <label class="text-xs font-bold text-gray-400 uppercase">Kategori</label>
-                <select id="e-c" class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:border-cyan-500 outline-none">
-                    <option value="streaming" ${d.cat==='streaming'?'selected':''}>Streaming</option>
-                    <option value="gaming" ${d.cat==='gaming'?'selected':''}>Gaming</option>
-                    <option value="code" ${d.cat==='code'?'selected':''}>Source Code</option>
-                    <option value="automotive" ${d.cat==='automotive'?'selected':''}>Otomotif</option>
-                    <option value="design" ${d.cat==='design'?'selected':''}>Design</option>
-                    <option value="other" ${d.cat==='other'?'selected':''}>Lainnya</option>
-                </select>
-            </div>
-        </div>
-
-        <div>
-            <label class="text-xs font-bold text-gray-400 uppercase">Subtitle</label>
-            <input id="e-sub" class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:border-cyan-500 outline-none" value="${d.subtitle}" placeholder="Keterangan singkat">
-        </div>
-
-        <div>
-            <label class="text-xs font-bold text-gray-400 uppercase">Deskripsi</label>
-            <textarea id="e-desc" rows="3" class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:border-cyan-500 outline-none" placeholder="Detail produk...">${d.desc}</textarea>
-        </div>
-
-        <div>
-            <label class="text-xs font-bold text-gray-400 uppercase">Link Gambar</label>
-            <input id="e-i" class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:border-cyan-500 outline-none" value="${d.image}" placeholder="https://...">
-        </div>
-
-        <div class="flex items-center gap-3 p-3 bg-gray-800/50 rounded-lg border border-gray-700">
-            <input type="checkbox" id="e-best" ${d.best === 'true' ? 'checked' : ''} class="w-5 h-5 accent-cyan-500 cursor-pointer">
-            <label for="e-best" class="text-sm font-bold text-white cursor-pointer select-none">🔥 Jadikan Produk Terlaris (Best Seller)</label>
-        </div>
-    </div>
-`,
-                        confirmButtonText: 'Simpan', background:'#1e293b', color:'#fff', width: '600px',
-                        preConfirm: () => ({ name: document.getElementById('e-n').value, price: document.getElementById('e-p').value, category: document.getElementById('e-c').value, subtitle: document.getElementById('e-sub').value, description: document.getElementById('e-desc').value, image: document.getElementById('e-i').value, isBestSeller: document.getElementById('e-best').checked })
-                    });
-                    if(v) { await updateDoc(doc(db, "products", d.id), v); loadProducts(); Swal.fire("Berhasil", "", "success"); }
-                });
-            });
-        }
-
-        document.getElementById('btnAdd').addEventListener('click', async () => {
             const { value: v } = await Swal.fire({
-                title: 'Tambah Produk',
+                title: 'Edit Produk Lengkap',
+                width: '600px',
+                confirmButtonText: 'Simpan Perubahan',
+                confirmButtonColor: '#f59e0b',
+                background: '#1e293b', color: '#fff',
                 html: `
-                <div class="text-left space-y-2">
-                    <input id="n" class="swal2-input" placeholder="Nama Produk">
-                    <input id="p" class="swal2-input" placeholder="Harga">
-                    <select id="c" class="swal2-input bg-gray-700 text-white"><option value="streaming">Streaming</option><option value="gaming">Gaming</option><option value="code">Source Code</option><option value="design">Design</option><option value="other">Lainnya</option></select>
-                    <input id="sub" class="swal2-input" placeholder="Subtitle">
-                    <textarea id="desc" class="swal2-textarea" placeholder="Deskripsi"></textarea>
-                    <input id="i" class="swal2-input" placeholder="URL Gambar">
-                    <div class="flex items-center gap-2"><input type="checkbox" id="best"><label class="text-white">🔥 Best Seller</label></div>
-                </div>`,
-                background:'#1e293b', color:'#fff', confirmButtonText: 'Simpan',
-                preConfirm: () => ({ name: document.getElementById('n').value, price: document.getElementById('p').value, category: document.getElementById('c').value, subtitle: document.getElementById('sub').value, description: document.getElementById('desc').value, image: document.getElementById('i').value, isBestSeller: document.getElementById('best').checked, initial: 'K', timestamp: Date.now() })
-            });
-            if(v) { await addDoc(productsCollection, v); loadProducts(); Swal.fire("Berhasil", "", "success"); }
-        });
+                <div class="text-left flex flex-col gap-3">
+                    <div>
+                        <label class="text-xs font-bold text-gray-400 uppercase">Nama Produk</label>
+                        <input id="e-n" class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:border-cyan-500 outline-none" value="${d.name}">
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="text-xs font-bold text-gray-400 uppercase">Harga</label>
+                            <input id="e-p" type="number" class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:border-cyan-500 outline-none" value="${d.price}">
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold text-gray-400 uppercase">Kategori</label>
+                           <select id="e-c" class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:border-cyan-500 outline-none">
+    <option value="streaming" ${d.cat==='streaming'?'selected':''}>Streaming</option>
+    <option value="gaming" ${d.cat==='gaming'?'selected':''}>Gaming</option>
+    <option value="code" ${d.cat==='code'?'selected':''}>Source Code</option>
+    <option value="automotive" ${d.cat==='automotive'?'selected':''}>Otomotif</option>
+    <option value="lifestyle" ${d.cat==='lifestyle'?'selected':''}>Lifestyle</option>
+    <option value="business" ${d.cat==='business'?'selected':''}>Bisnis</option>
+    <option value="health" ${d.cat==='health'?'selected':''}>Kesehatan</option>
+    <option value="it-software" ${d.cat==='it-software'?'selected':''}>IT & Software</option>
+    <option value="teaching" ${d.cat==='teaching'?'selected':''}>Pendidikan</option>
+    <option value="marketing" ${d.cat==='marketing'?'selected':''}>Marketing</option>
+    <option value="design" ${d.cat==='design'?'selected':''}>Desain</option>
+    <option value="finance" ${d.cat==='finance'?'selected':''}>Keuangan</option>
+    <option value="photo-video" ${d.cat==='photo-video'?'selected':''}>Foto & Video</option>
+    <option value="development" ${d.cat==='development'?'selected':''}>Development</option>
+    <option value="music" ${d.cat==='music'?'selected':''}>Musik</option>
+    <option value="other" ${d.cat==='other'?'selected':''}>Lainnya</option>
+</select>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-gray-400 uppercase">Subtitle</label>
+                        <input id="e-sub" class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:border-cyan-500 outline-none" value="${d.subtitle}">
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-gray-400 uppercase">Deskripsi</label>
+                        <textarea id="e-desc" rows="3" class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:border-cyan-500 outline-none">${d.desc}</textarea>
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-gray-400 uppercase">Link Gambar</label>
+                        <input id="e-i" class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:border-cyan-500 outline-none" value="${d.image}">
+                    </div>
 
+                    <div class="grid grid-cols-2 gap-3 mt-2">
+                        <div class="flex items-center gap-3 p-3 bg-gray-800 rounded-lg border border-gray-600 hover:border-green-500 transition">
+                            <input type="checkbox" id="e-visible" ${isVis ? 'checked' : ''} class="w-5 h-5 accent-green-500 cursor-pointer">
+                            <label for="e-visible" class="text-xs font-bold text-white cursor-pointer select-none">Tampilkan Produk?</label>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 bg-gray-800 rounded-lg border border-gray-600 hover:border-yellow-500 transition">
+                            <input type="checkbox" id="e-best" ${d.best === 'true' ? 'checked' : ''} class="w-5 h-5 accent-yellow-500 cursor-pointer">
+                            <label for="e-best" class="text-xs font-bold text-white cursor-pointer select-none">Jadikan Best Seller</label>
+                        </div>
+                    </div>
+                </div>`,
+                preConfirm: () => ({ name: document.getElementById('e-n').value, price: document.getElementById('e-p').value, category: document.getElementById('e-c').value, subtitle: document.getElementById('e-sub').value, description: document.getElementById('e-desc').value, image: document.getElementById('e-i').value, isVisible: document.getElementById('e-visible').checked, isBestSeller: document.getElementById('e-best').checked })
+            });
+
+            if(v) { await updateDoc(doc(db, "products", d.id), v); loadProducts(); Swal.fire("Berhasil", "Data terupdate", "success"); }
+        });
+    });
+}
+// === GANTI TOMBOL TAMBAH (LABEL BERSIH) ===
+document.getElementById('btnAdd').addEventListener('click', async () => {
+    const { value: v } = await Swal.fire({
+        title: 'Tambah Produk Baru',
+        width: '600px',
+        confirmButtonText: 'Simpan Produk',
+        confirmButtonColor: '#10b981',
+        background: '#1e293b', 
+        color: '#fff',
+        html: `
+        <div class="text-left flex flex-col gap-3">
+            <div>
+                <label class="text-xs font-bold text-gray-400 uppercase">Nama Produk</label>
+                <input id="n" class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:border-cyan-500 outline-none" placeholder="Nama Produk">
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="text-xs font-bold text-gray-400 uppercase">Harga (Rp)</label>
+                    <input id="p" type="number" class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:border-cyan-500 outline-none" placeholder="0">
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-gray-400 uppercase">Kategori</label>
+                    <select id="c" class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:border-cyan-500 outline-none">
+    <option value="streaming">Streaming</option>
+    <option value="gaming">Gaming</option>
+    <option value="code">Source Code</option>
+    <option value="automotive">Otomotif</option>
+    <option value="lifestyle">Lifestyle</option>
+    <option value="business">Bisnis</option>
+    <option value="health">Kesehatan</option>
+    <option value="it-software">IT & Software</option>
+    <option value="teaching">Pendidikan</option>
+    <option value="marketing">Marketing</option>
+    <option value="design">Desain</option>
+    <option value="finance">Keuangan</option>
+    <option value="photo-video">Foto & Video</option>
+    <option value="development">Development</option>
+    <option value="music">Musik</option>
+    <option value="other">Lainnya</option>
+</select>
+                </div>
+            </div>
+            <div>
+                <label class="text-xs font-bold text-gray-400 uppercase">Subtitle</label>
+                <input id="sub" class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:border-cyan-500 outline-none" placeholder="Keterangan singkat">
+            </div>
+            <div>
+                <label class="text-xs font-bold text-gray-400 uppercase">Deskripsi</label>
+                <textarea id="desc" rows="3" class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:border-cyan-500 outline-none" placeholder="Detail produk..."></textarea>
+            </div>
+            <div>
+                <label class="text-xs font-bold text-gray-400 uppercase">Link Gambar</label>
+                <input id="i" class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:border-cyan-500 outline-none" placeholder="URL Gambar">
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 mt-2">
+                <div class="flex items-center gap-3 p-3 bg-gray-800 rounded-lg border border-gray-600 hover:border-green-500 transition">
+                    <input type="checkbox" id="visible" checked class="w-5 h-5 accent-green-500 cursor-pointer">
+                    <label for="visible" class="text-xs font-bold text-white cursor-pointer select-none">Tampilkan Produk?</label>
+                </div>
+                <div class="flex items-center gap-3 p-3 bg-gray-800 rounded-lg border border-gray-600 hover:border-yellow-500 transition">
+                    <input type="checkbox" id="best" class="w-5 h-5 accent-yellow-500 cursor-pointer">
+                    <label for="best" class="text-xs font-bold text-white cursor-pointer select-none">Jadikan Best Seller</label>
+                </div>
+            </div>
+        </div>`,
+        
+        preConfirm: () => ({ 
+            name: document.getElementById('n').value, 
+            price: document.getElementById('p').value, 
+            category: document.getElementById('c').value, 
+            subtitle: document.getElementById('sub').value, 
+            description: document.getElementById('desc').value, 
+            image: document.getElementById('i').value, 
+            isVisible: document.getElementById('visible').checked, 
+            isBestSeller: document.getElementById('best').checked, 
+            initial: 'K', timestamp: Date.now() 
+        })
+    });
+    if(v) { await addDoc(productsCollection, v); loadProducts(); Swal.fire("Berhasil", "Produk disimpan", "success"); }
+
+    // Proses Simpan ke Database Firebase
+    if(v) { 
+        try {
+            await addDoc(productsCollection, v); 
+            loadProducts(); 
+            Swal.fire("Berhasil", "Produk baru berhasil ditambahkan!", "success"); 
+        } catch (error) {
+            console.error("Error adding document: ", error);
+            Swal.fire("Gagal", "Terjadi kesalahan saat menyimpan.", "error");
+        }
+    }
+});
         // AUTH
         onAuthStateChanged(auth, (user) => {
             if (user) { isAdmin = true; document.getElementById('btnLogin').classList.add('hidden'); document.getElementById('adminPanel').classList.remove('hidden'); document.getElementById('adminPanel').classList.add('flex'); }
