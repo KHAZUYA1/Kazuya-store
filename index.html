@@ -1,705 +1,463 @@
 <!DOCTYPE html>
-<html lang="id" class="dark scroll-smooth">
+<html lang="id">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>KAZUYA STORE // Global Market</title>
-    
-    <link href="./output.css" rel="stylesheet" />
-    
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
-    <style>
-      body { font-family: 'Plus Jakarta Sans', sans-serif; }
-      .brand-font { font-family: 'Outfit', sans-serif; }
-      
-      ::-webkit-scrollbar { width: 8px; }
-      ::-webkit-scrollbar-track { background: transparent; }
-      ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
-      ::-webkit-scrollbar-thumb:hover { background: #06b6d4; }
+    <title>PT SINO INDAH JAYA - Car Seat Cover Manufacturer</title>
 
-      .glass-nav {
-        background: rgba(255, 255, 255, 0.65);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-      }
-      .dark .glass-nav {
-        background: rgba(5, 5, 5, 0.65);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-      }
+    <link href="./dist/output.css" rel="stylesheet" />
 
-      .glass-panel {
-        background: rgba(255, 255, 255, 0.7);
-        backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.5);
-      }
-      .dark .glass-panel {
-        background: rgba(20, 20, 20, 0.6);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-      }
-      
-      .glow-text { text-shadow: 0 0 25px rgba(6, 182, 212, 0.6); }
-      @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
-      .animate-float { animation: float 6s ease-in-out infinite; }
-      .loader { width: 48px; height: 48px; border: 5px solid #FFF; border-bottom-color: #06b6d4; border-radius: 50%; display: inline-block; animation: rotation 1s linear infinite; }
-      @keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-      
-      @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-      .animate-fade-in { animation: fadeIn 0.3s ease-out forwards; }
-    </style>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
   </head>
-  
-  <body class="bg-gray-50 text-slate-900 dark:bg-[#030303] dark:text-white transition-colors duration-500 overflow-x-hidden pb-32">
+  <body class="overflow-x-hidden bg-slate-50 font-sans">
+    <nav
+      id="navbar"
+      class="fixed w-full z-50 transition-all duration-300 bg-transparent border-b border-white/10"
+    >
+      <div
+        class="container mx-auto px-6 py-3 flex justify-between items-center"
+      >
+        <a href="#" class="flex items-center gap-3 group">
+          <div
+            class="bg-white p-2 rounded-lg shadow-lg hover:scale-105 transition duration-300"
+          >
+            <img
+              src="./image/LOGO SIJ.jpg"
+              alt="Logo SIJ"
+              class="h-10 w-auto object-contain"
+            />
+          </div>
+          <div class="hidden md:flex flex-col text-white">
+            <span class="text-xl font-bold tracking-wider drop-shadow-md"
+              >PT SINO INDAH JAYA</span
+            >
+            <span
+              class="text-[10px] font-bold text-amber-400 tracking-[0.2em] uppercase"
+              >Korean Car Seat Cover Specialist</span
+            >
+          </div>
+        </a>
 
-    <div class="fixed inset-0 z-0 pointer-events-none">
-        <div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
-        <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent to-white dark:to-[#030303]"></div>
-        <div class="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] bg-cyan-500/10 rounded-full blur-[100px] animate-pulse"></div>
-        <div class="absolute bottom-[-10%] left-[-5%] w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[100px]"></div>
+        <div
+          class="hidden md:flex items-center space-x-8 text-sm font-bold text-white uppercase tracking-wide"
+        >
+          <a href="#home" class="hover:text-amber-400 transition relative group"
+            >Beranda<span
+              class="absolute -bottom-1 left-0 w-0 h-0.5 bg-amber-400 transition-all group-hover:w-full"
+            ></span
+          ></a>
+          <a
+            href="#about"
+            class="hover:text-amber-400 transition relative group"
+            >Profil<span
+              class="absolute -bottom-1 left-0 w-0 h-0.5 bg-amber-400 transition-all group-hover:w-full"
+            ></span
+          ></a>
+          <a
+            href="#products"
+            class="hover:text-amber-400 transition relative group"
+            >Produk<span
+              class="absolute -bottom-1 left-0 w-0 h-0.5 bg-amber-400 transition-all group-hover:w-full"
+            ></span
+          ></a>
+          <a
+            href="#bulletin"
+            class="hover:text-amber-400 transition relative group"
+            >Berita<span
+              class="absolute -bottom-1 left-0 w-0 h-0.5 bg-amber-400 transition-all group-hover:w-full"
+            ></span
+          ></a>
+          <div id="auth-buttons" class="flex items-center gap-4">
     </div>
-
-    <button id="btnLogin" class="fixed bottom-8 right-8 z-[80] w-14 h-14 bg-gradient-to-br from-red-500 to-pink-600 rounded-2xl flex items-center justify-center text-white shadow-2xl hover:scale-110 transition border border-white/20 group backdrop-blur-md">
-        <svg class="w-6 h-6 group-hover:animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-    </button>
-
-    <div id="adminPanel" class="hidden fixed bottom-28 right-8 z-[80] flex-col gap-4 items-end animate-fade-in">
-        <div class="bg-black/80 text-white text-[10px] font-bold px-3 py-1.5 rounded-lg backdrop-blur border border-white/10 mb-1 tracking-widest uppercase">Admin Mode</div>
-        <button id="btnAdd" class="w-12 h-12 bg-emerald-500 rounded-xl flex items-center justify-center text-white shadow-lg hover:scale-110 transition border border-white/20"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg></button>
-        <button id="btnLogout" class="w-12 h-12 bg-slate-700 rounded-xl flex items-center justify-center text-white shadow-lg hover:scale-110 transition border border-white/20"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg></button>
-    </div>
-
-    <nav class="fixed top-0 inset-x-0 z-50 h-20 glass-nav transition-all duration-300">
-        <div class="max-w-[1600px] mx-auto px-6 h-full flex items-center justify-between gap-6">
-            <a href="#" class="flex items-center gap-3 group min-w-max" onclick="location.reload()">
-                <div class="relative w-10 h-10">
-                    <div class="absolute inset-0 bg-cyan-500 blur-lg opacity-40 group-hover:opacity-60 transition"></div>
-                    <div class="relative w-full h-full bg-gradient-to-br from-cyan-400 to-blue-600 rounded-xl flex items-center justify-center text-white font-black text-xl shadow-inner border border-white/20">K</div>
-                </div>
-                <div class="hidden lg:flex flex-col">
-                    <span class="brand-font font-bold text-xl tracking-tight leading-none text-slate-900 dark:text-white group-hover:text-cyan-500 transition">KAZUYA</span>
-                    <span class="text-[9px] font-bold tracking-[0.3em] text-cyan-600 dark:text-cyan-400 uppercase">Store</span>
-                </div>
-            </a>
-
-            <div class="relative group">
-                <button onclick="window.toggleExplore()" class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-gray-100 dark:bg-white/5 border border-transparent dark:border-white/10 hover:border-cyan-500/50 hover:bg-cyan-50 dark:hover:bg-cyan-900/20 transition-all duration-300">
-                    <svg class="w-5 h-5 text-cyan-600 dark:text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-                    <span class="text-sm font-bold text-slate-700 dark:text-gray-200" data-key="navExplore">Jelajahi</span>
-                </button>
-                <div id="exploreMenu" class="absolute top-16 left-0 w-[320px] md:w-[800px] bg-white/95 dark:bg-[#0a0a0a]/95 backdrop-blur-2xl rounded-3xl shadow-2xl border border-gray-200 dark:border-white/10 p-6 hidden z-50 animate-fade-in origin-top-left transform transition-all">
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-2">
-                        <div class="col-span-1 md:col-span-4 mb-3 pb-3 border-b border-gray-100 dark:border-white/5">
-                            <button onclick="window.filter('all')" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/20 font-bold hover:scale-[1.01] transition">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
-                                <span data-key="catAllText">Semua Produk</span>
-                            </button>
-                        </div>
-                        <button onclick="window.filter('streaming')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">🎬</span> <span class="group-hover/item:text-cyan-500" data-key="catStreaming">Streaming</span></button>
-                        <button onclick="window.filter('gaming')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">🎮</span> <span class="group-hover/item:text-cyan-500" data-key="catGaming">Gaming</span></button>
-                        <button onclick="window.filter('code')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">💻</span> <span class="group-hover/item:text-cyan-500" data-key="catCode">Source Code</span></button>
-                        <button onclick="window.filter('automotive')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">🚗</span> <span class="group-hover/item:text-cyan-500" data-key="catAuto">Otomotif</span></button>
-                        <button onclick="window.filter('lifestyle')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">👟</span> <span class="group-hover/item:text-cyan-500" data-key="catLifestyle">Lifestyle</span></button>
-                        <button onclick="window.filter('business')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">💼</span> <span class="group-hover/item:text-cyan-500" data-key="catBusiness">Bisnis</span></button>
-                        <button onclick="window.filter('health')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">🥗</span> <span class="group-hover/item:text-cyan-500" data-key="catHealth">Kesehatan</span></button>
-                        <button onclick="window.filter('it-software')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">🖥️</span> <span class="group-hover/item:text-cyan-500" data-key="catIT">IT & Software</span></button>
-                        <button onclick="window.filter('teaching')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">📚</span> <span class="group-hover/item:text-cyan-500" data-key="catTeaching">Pendidikan</span></button>
-                        <button onclick="window.filter('marketing')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">📈</span> <span class="group-hover/item:text-cyan-500" data-key="catMarketing">Marketing</span></button>
-                        <button onclick="window.filter('design')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">🎨</span> <span class="group-hover/item:text-cyan-500" data-key="catDesign">Desain</span></button>
-                        <button onclick="window.filter('finance')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">💰</span> <span class="group-hover/item:text-cyan-500" data-key="catFinance">Keuangan</span></button>
-                        <button onclick="window.filter('photo-video')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">📸</span> <span class="group-hover/item:text-cyan-500" data-key="catPhoto">Foto & Video</span></button>
-                        <button onclick="window.filter('development')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">⚙️</span> <span class="group-hover/item:text-cyan-500" data-key="catDev">Development</span></button>
-                        <button onclick="window.filter('music')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">🎵</span> <span class="group-hover/item:text-cyan-500" data-key="catMusic">Musik</span></button>
-                        <button onclick="window.filter('other')" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-left text-sm text-gray-600 dark:text-gray-300 transition group/item"><span class="text-lg">📦</span> <span class="group-hover/item:text-cyan-500" data-key="catOther">Lainnya</span></button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="hidden md:block flex-1 max-w-xl">
-                <div class="relative group">
-                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none"><svg class="w-5 h-5 text-gray-400 group-focus-within:text-cyan-500 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg></div>
-                    <input type="text" id="searchInput" class="block w-full pl-12 pr-4 py-3 bg-gray-50/50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:bg-white dark:focus:bg-black transition-all" placeholder="Cari produk...">
-                </div>
-            </div>
-
-            <div class="flex items-center gap-3">
-                <div class="relative">
-                    <button id="langButton" onclick="window.toggleLangMenu()" class="flex items-center gap-2 w-10 h-10 md:w-auto md:px-3 md:py-2 justify-center rounded-xl bg-gray-100 dark:bg-white/5 hover:bg-gray-200 dark:hover:bg-white/10 transition text-lg"><span id="flagDisplay">🇮🇩</span><span id="langDisplay" class="text-xs font-bold hidden md:block text-slate-600 dark:text-white">ID</span></button>
-                    <div id="langDropdown" class="absolute right-0 mt-3 w-40 bg-white dark:bg-[#121212] rounded-2xl shadow-xl border border-gray-100 dark:border-white/10 overflow-hidden hidden z-50">
-                        <button onclick="window.setLang('ID')" class="w-full text-left px-4 py-3 text-xs font-bold hover:bg-gray-50 dark:hover:bg-white/5 text-slate-700 dark:text-gray-300 border-b border-gray-100 dark:border-white/5">🇮🇩 Indonesia</button>
-                        <button onclick="window.setLang('EN')" class="w-full text-left px-4 py-3 text-xs font-bold hover:bg-gray-50 dark:hover:bg-white/5 text-slate-700 dark:text-gray-300 border-b border-gray-100 dark:border-white/5">🇺🇸 English</button>
-                        <button onclick="window.setLang('JP')" class="w-full text-left px-4 py-3 text-xs font-bold hover:bg-gray-50 dark:hover:bg-white/5 text-slate-700 dark:text-gray-300 border-b border-gray-100 dark:border-white/5">🇯🇵 Japan</button>
-                        <button onclick="window.setLang('KR')" class="w-full text-left px-4 py-3 text-xs font-bold hover:bg-gray-50 dark:hover:bg-white/5 text-slate-700 dark:text-gray-300 border-b border-gray-100 dark:border-white/5">🇰🇷 Korea</button>
-                        <button onclick="window.setLang('CN')" class="w-full text-left px-4 py-3 text-xs font-bold hover:bg-gray-50 dark:hover:bg-white/5 text-slate-700 dark:text-gray-300 border-b border-gray-100 dark:border-white/5">🇨🇳 Mandarin</button>
-                        <button onclick="window.setLang('TH')" class="w-full text-left px-4 py-3 text-xs font-bold hover:bg-gray-50 dark:hover:bg-white/5 text-slate-700 dark:text-gray-300 border-b border-gray-100 dark:border-white/5">🇹🇭 Thailand</button>
-                        <button onclick="window.setLang('VN')" class="w-full text-left px-4 py-3 text-xs font-bold hover:bg-gray-50 dark:hover:bg-white/5 text-slate-700 dark:text-gray-300 border-b border-gray-100 dark:border-white/5">🇻🇳 Vietnam</button>
-                        <button onclick="window.setLang('MY')" class="w-full text-left px-4 py-3 text-xs font-bold hover:bg-gray-50 dark:hover:bg-white/5 text-slate-700 dark:text-gray-300">🇲🇾 Melayu</button>
-                    </div>
-                </div>
-                <button id="themeToggle" class="w-10 h-10 rounded-xl bg-gray-100 dark:bg-white/5 flex items-center justify-center text-slate-600 dark:text-yellow-400 hover:bg-gray-200 dark:hover:bg-white/10 transition shadow-sm border border-transparent dark:border-white/5"><svg id="sunIcon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg><svg id="moonIcon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg></button>
-            </div>
         </div>
+
+        <button id="mobile-btn" class="md:hidden text-2xl text-white">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+      <div
+        id="mobile-menu"
+        class="hidden bg-[#0f172a] border-t border-slate-700 shadow-xl"
+      >
+        <a
+          href="#home"
+          class="block py-3 px-6 text-white border-b border-slate-800 hover:bg-slate-800"
+          >Beranda</a
+        >
+        <a
+          href="#about"
+          class="block py-3 px-6 text-white border-b border-slate-800 hover:bg-slate-800"
+          >Profil</a
+        >
+        <a
+          href="#products"
+          class="block py-3 px-6 text-white border-b border-slate-800 hover:bg-slate-800"
+          >Produk</a
+        >
+        <a
+          href="admin.html"
+          class="block py-3 px-6 text-amber-400 font-bold hover:bg-slate-800"
+          >Login Admin</a
+        >
+      </div>
     </nav>
 
-    <section class="relative pt-36 pb-16 px-6 max-w-[1600px] mx-auto overflow-hidden">
-        <div class="relative z-10 grid lg:grid-cols-2 gap-16 items-center">
-            <div class="space-y-8 animate-fade-in">
-                <div class="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/50 dark:bg-white/5 border border-gray-200 dark:border-white/10 backdrop-blur-md">
-                    <span class="relative flex h-3 w-3"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span><span class="relative inline-flex rounded-full h-3 w-3 bg-cyan-500"></span></span>
-                    <span class="text-xs font-bold tracking-widest uppercase text-cyan-700 dark:text-cyan-300" data-key="heroBadge">Official Digital Store</span>
-                </div>
-                <h1 class="text-5xl lg:text-7xl font-black leading-[1.1] tracking-tight text-slate-900 dark:text-white"><span data-key="heroTitle1">Unleash</span> <br> <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-blue-600 dark:from-cyan-400 dark:to-blue-400 glow-text" data-key="heroTitle2">Digital Potential.</span></h1>
-                <p class="text-lg text-gray-600 dark:text-gray-400 max-w-xl leading-relaxed" data-key="heroDesc">Akses produk digital premium tanpa batas. Software, Games, E-Book, dan Layanan IT dalam satu ekosistem terpercaya.</p>
-                <div class="flex gap-4"><button onclick="document.getElementById('catalog').scrollIntoView()" class="px-8 py-4 bg-slate-900 dark:bg-white text-white dark:text-black font-bold rounded-2xl hover:scale-105 transition-transform flex items-center gap-2 shadow-xl shadow-cyan-500/20"><span data-key="btnShop">Belanja Sekarang</span> <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg></button></div>
-            </div>
-            <div class="hidden lg:flex justify-end perspective-1000">
-                <div class="relative w-96 h-[500px] animate-float">
-                    <div class="absolute inset-0 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-[40px] rotate-6 opacity-30 blur-3xl"></div>
-                    <div class="absolute inset-0 glass-panel rounded-[40px] flex flex-col justify-between shadow-2xl transform rotate-y-12 hover:rotate-0 transition duration-700 border border-white/20 overflow-hidden" id="heroCard">
-                        <div class="w-full h-full bg-slate-800 flex items-center justify-center text-white">Loading...</div>
-                    </div>
-                </div>
-            </div>
+    <section
+      id="home"
+      class="relative min-h-screen flex items-center justify-start"
+    >
+      <div class="absolute inset-0 z-0">
+        <img
+          src="https://images.unsplash.com/photo-1565515267120-e374567e94f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80"
+          class="w-full h-full object-cover"
+        />
+        <div
+          class="absolute inset-0 bg-gradient-to-r from-[#0f172a] via-[#0f172a]/80 to-transparent"
+        ></div>
+      </div>
+
+      <div class="container mx-auto px-6 z-10 pt-20">
+        <div class="max-w-3xl" data-aos="fade-right" data-aos-duration="1000">
+          <div
+            class="inline-block bg-amber-500 text-[#0f172a] text-xs font-bold px-3 py-1 rounded mb-4 shadow-lg animate-pulse"
+          >
+            INVESTASI KOREA TERPERCAYA
+          </div>
+          <h1
+            class="text-5xl md:text-7xl font-extrabold text-white mb-6 leading-tight drop-shadow-2xl"
+          >
+            Inovasi Manufaktur <br />
+            <span
+              class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-yellow-200 text-glow-gold"
+              >Interior Otomotif</span
+            >
+          </h1>
+          <p
+            class="text-xl text-gray-300 mb-10 leading-relaxed border-l-4 border-amber-500 pl-6 shadow-black drop-shadow-md"
+          >
+            Produsen <strong>Covering Jok Mobil (Car Seat Cover)</strong> dan
+            komponen otomotif berteknologi tinggi di Majalengka. Mengutamakan
+            presisi, kualitas, dan standar global.
+          </p>
+          <div class="flex gap-4">
+            <a
+              href="#products"
+              class="px-8 py-4 bg-amber-500 hover:bg-amber-400 text-[#0f172a] font-bold rounded-lg shadow-[0_0_20px_rgba(245,158,11,0.4)] transition transform hover:scale-105"
+            >
+              LIHAT PRODUK KAMI <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+            <a
+              href="#about"
+              class="px-8 py-4 border border-white text-white font-bold rounded-lg hover:bg-white hover:text-[#0f172a] transition transform hover:scale-105"
+            >
+              TENTANG KAMI
+            </a>
+          </div>
         </div>
+      </div>
     </section>
 
-    <main id="catalog" class="relative z-10 bg-white dark:bg-[#080808] rounded-t-[4rem] border-t border-gray-200 dark:border-white/5 shadow-[0_-20px_60px_rgba(0,0,0,0.05)] pt-20 pb-32">
-        <div class="max-w-[1600px] mx-auto px-6">
-            <h2 class="text-4xl font-black text-slate-900 dark:text-white mb-3" data-key="catTitle">Katalog Produk</h2>
-            <p class="text-gray-500 dark:text-gray-400 mb-12"><span data-key="txtTotal">Total</span> <span id="totalItems" class="font-bold text-cyan-500">0</span> <span data-key="txtItems">produk tersedia</span></p>
-            
-            <div id="loading" class="flex justify-center py-32"><div class="loader"></div></div>
-            <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-8 hidden"></div>
+    <section class="relative z-20 -mt-16 px-6">
+      <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div
+          class="glass p-8 rounded-2xl text-center text-white hover-3d"
+          data-aos="fade-up"
+          data-aos-delay="100"
+        >
+          <h3 class="text-5xl font-extrabold text-amber-400 mb-2">
+            24k<span class="text-2xl">+</span>
+          </h3>
+          <p class="text-sm font-bold tracking-widest uppercase">
+            Luas Area (m²)
+          </p>
         </div>
-    </main>
-
-    <footer class="bg-gray-100 dark:bg-black pt-20 pb-10 border-t border-gray-200 dark:border-white/5">
-        <div class="max-w-7xl mx-auto px-6 text-center">
-            <h3 class="brand-font font-black text-2xl text-slate-900 dark:text-white mb-2">KAZUYA<span class="text-cyan-500">STORE</span></h3>
-            <p class="text-xs text-gray-500 mb-8">&copy; 2025 Hak Cipta oleh Yuda Pamungkas.</p>
+        <div
+          class="glass p-8 rounded-2xl text-center text-white hover-3d"
+          data-aos="fade-up"
+          data-aos-delay="200"
+        >
+          <h3 class="text-5xl font-extrabold text-amber-400 mb-2">
+            100<span class="text-2xl">%</span>
+          </h3>
+          <p class="text-sm font-bold tracking-widest uppercase">
+            Teknologi Korea
+          </p>
         </div>
-    </footer>
-    
-    <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getFirestore, collection, getDocs, addDoc, deleteDoc, updateDoc, doc, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-    import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        <div
+          class="glass p-8 rounded-2xl text-center text-white hover-3d"
+          data-aos="fade-up"
+          data-aos-delay="300"
+        >
+          <h3 class="text-5xl font-extrabold text-amber-400 mb-2">
+            ISO<span class="text-2xl">+</span>
+          </h3>
+          <p class="text-sm font-bold tracking-widest uppercase">
+            Standar Mutu
+          </p>
+        </div>
+      </div>
+    </section>
 
-    // --- [BARU] INJECT OTOMATIS LIBRARY EDITOR WORD (QUILL) ---
-    // Agar Bapak tidak perlu edit HTML manual
-    const linkQ = document.createElement('link'); linkQ.rel='stylesheet'; linkQ.href='https://cdn.quilljs.com/1.3.6/quill.snow.css'; document.head.appendChild(linkQ);
-    const scriptQ = document.createElement('script'); scriptQ.src='https://cdn.quilljs.com/1.3.6/quill.js'; document.head.appendChild(scriptQ);
-    
-    // CSS TAMBAHAN AGAR EDITOR RAPI (PUTIH & TEKS HITAM & VIDEO RESPONSIVE)
-    const styleFix = document.createElement('style');
-    styleFix.innerHTML = `
-        .ql-toolbar { background: #f8fafc; border-radius: 8px 8px 0 0; border-color: #475569; }
-        .ql-container { background: #ffffff; color: #000000; border-radius: 0 0 8px 8px; border-color: #475569; font-size: 16px; }
-        .ql-editor { min-height: 200px; max-height: 300px; overflow-y: auto; }
-        
-        /* TAMBAHAN BARU: Agar Video YouTube Rapi & Responsif */
-        .ql-editor iframe {
-            width: 100% !important;
-            aspect-ratio: 16 / 9; /* Agar bentuknya persegi panjang video */
-            height: auto !important;
-            margin: 10px 0;
-            border-radius: 8px;
-        }
-
-        .swal2-popup { overflow: visible !important; } 
-    `;
-    document.head.appendChild(styleFix);
-
-    // CONFIG FIREBASE (TETAP SAMA)
-    const firebaseConfig = {
-        apiKey: "AIzaSyDzo9T_RflcmM6vqaz7jAlmJs1S09UeWjQ",
-        authDomain: "kazuya-store-db.firebaseapp.com",
-        projectId: "kazuya-store-db",
-        storageBucket: "kazuya-store-db.firebasestorage.app",
-        messagingSenderId: "403441636994",
-        appId: "1:403441636994:web:396be296ed5f515caac69b"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const auth = getAuth(app);
-    const productsCollection = collection(db, "products");
-    
-    let allProducts = [], currentCat = 'all', isAdmin = false, currentLang = localStorage.getItem('lang') || 'ID';
-
-    // DICTIONARY LENGKAP 8 BAHASA (DIKEMBALIKAN UTUH)
-    const translations = {
-        ID: {
-            navExplore: "Jelajahi", heroBadge: "Toko Digital Resmi", heroTitle1: "Bebaskan", heroTitle2: "Potensi Digital.", heroDesc: "Akses produk digital premium.", btnShop: "Belanja Sekarang",
-            catTitle: "Katalog Produk", txtTotal: "Total", txtItems: "produk", lblPrice: "Harga",
-            cardNew: "TERBARU", cardBest: "🔥 TERLARIS", cardStart: "Harga Mulai", btnBuy: "Beli Sekarang", searchPlaceholder: "Cari produk...",
-            catAllText: "Semua Produk",
-            catStreaming: "Streaming", catGaming: "Gaming", catCode: "Source Code",
-            catAuto: "Otomotif", catLifestyle: "Gaya Hidup", catBusiness: "Bisnis",
-            catHealth: "Kesehatan", catIT: "IT & Software", catTeaching: "Pendidikan",
-            catMarketing: "Marketing", catDesign: "Desain", catFinance: "Keuangan",
-            catPhoto: "Foto & Video", catDev: "Development", catMusic: "Musik",
-            catOther: "Lainnya"
-        },
-        EN: {
-            navExplore: "Explore", heroBadge: "Official Digital Store", heroTitle1: "Unleash", heroTitle2: "Digital Potential.", heroDesc: "Access premium digital products.", btnShop: "Shop Now",
-            catTitle: "Product Catalog", txtTotal: "Total", txtItems: "items", lblPrice: "Price",
-            cardNew: "NEW ARRIVAL", cardBest: "🔥 BEST SELLER", cardStart: "Starts from", btnBuy: "Buy Now", searchPlaceholder: "Search products...",
-            catAllText: "All Products",
-            catStreaming: "Streaming", catGaming: "Gaming", catCode: "Source Code",
-            catAuto: "Automotive", catLifestyle: "Lifestyle", catBusiness: "Business",
-            catHealth: "Health", catIT: "IT & Software", catTeaching: "Education",
-            catMarketing: "Marketing", catDesign: "Design", catFinance: "Finance",
-            catPhoto: "Photo & Video", catDev: "Development", catMusic: "Music",
-            catOther: "Others"
-        },
-        JP: {
-            navExplore: "探検する", heroBadge: "公式デジタルストア", heroTitle1: "解き放つ", heroTitle2: "デジタルの可能性。", heroDesc: "プレミアム製品へのアクセス。", btnShop: "今すぐ購入",
-            catTitle: "製品カタログ", txtTotal: "合計", txtItems: "アイテム", lblPrice: "価格",
-            cardNew: "新着", cardBest: "🔥 ベストセラー", cardStart: "価格", btnBuy: "購入する", searchPlaceholder: "検索...",
-            catAllText: "全商品",
-            catStreaming: "ストリーミング", catGaming: "ゲーム", catCode: "ソースコード",
-            catAuto: "自動車", catLifestyle: "ライフスタイル", catBusiness: "ビジネス",
-            catHealth: "健康", catIT: "IT・ソフト", catTeaching: "教育",
-            catMarketing: "マーケティング", catDesign: "デザイン", catFinance: "金融",
-            catPhoto: "写真・動画", catDev: "開発", catMusic: "音楽",
-            catOther: "その他"
-        },
-        KR: {
-            navExplore: "탐색", heroBadge: "공식 디지털 스토어", heroTitle1: "해방하다", heroTitle2: "디지털 잠재력.", heroDesc: "프리미엄 제품 액세스.", btnShop: "쇼핑하기",
-            catTitle: "제품 카탈로그", txtTotal: "합계", txtItems: "개", lblPrice: "가격",
-            cardNew: "신상품", cardBest: "🔥 베스트 셀러", cardStart: "가격", btnBuy: "구매", searchPlaceholder: "검색...",
-            catAllText: "모든 제품",
-            catStreaming: "스트리밍", catGaming: "게이밍", catCode: "소스 코드",
-            catAuto: "자동차", catLifestyle: "라이프스타일", catBusiness: "비즈니스",
-            catHealth: "건강", catIT: "IT 및 S/W", catTeaching: "교육",
-            catMarketing: "마케팅", catDesign: "디자인", catFinance: "금융",
-            catPhoto: "사진 및 비디오", catDev: "개발", catMusic: "음악",
-            catOther: "기타"
-        },
-        CN: {
-            navExplore: "探索", heroBadge: "官方数字商店", heroTitle1: "释放", heroTitle2: "数字潜力。", heroDesc: "访问优质产品。", btnShop: "立即购买",
-            catTitle: "产品目录", txtTotal: "总计", txtItems: "件", lblPrice: "价格",
-            cardNew: "新品", cardBest: "🔥 畅销", cardStart: "起价", btnBuy: "购买", searchPlaceholder: "搜索...",
-            catAllText: "所有产品",
-            catStreaming: "流媒体", catGaming: "游戏", catCode: "源代码",
-            catAuto: "汽车", catLifestyle: "生活方式", catBusiness: "商业",
-            catHealth: "健康", catIT: "IT与软件", catTeaching: "教育",
-            catMarketing: "营销", catDesign: "设计", catFinance: "金融",
-            catPhoto: "摄影视频", catDev: "开发", catMusic: "音乐",
-            catOther: "其他"
-        },
-        TH: {
-            navExplore: "สำรวจ", heroBadge: "ร้านค้าดิจิทัล", heroTitle1: "ปลดปล่อย", heroTitle2: "ศักยภาพดิจิทัล", heroDesc: "เข้าถึงสินค้าพรีเมียม", btnShop: "ช้อปเลย",
-            catTitle: "แคตตาล็อก", txtTotal: "รวม", txtItems: "รายการ", lblPrice: "ราคา",
-            cardNew: "มาใหม่", cardBest: "🔥 ขายดี", cardStart: "ราคาเริ่ม", btnBuy: "ซื้อเลย", searchPlaceholder: "ค้นหา...",
-            catAllText: "สินค้าทั้งหมด",
-            catStreaming: "สตรีมมิ่ง", catGaming: "เกม", catCode: "ซอร์สโค้ด",
-            catAuto: "ยานยนต์", catLifestyle: "ไลฟ์สไตล์", catBusiness: "ธุรกิจ",
-            catHealth: "สุขภาพ", catIT: "ไอที", catTeaching: "การศึกษา",
-            catMarketing: "การตลาด", catDesign: "ดีไซน์", catFinance: "การเงิน",
-            catPhoto: "ภาพและวิดีโอ", catDev: "การพัฒนา", catMusic: "ดนตรี",
-            catOther: "อื่นๆ"
-        },
-        VN: {
-            navExplore: "Khám phá", heroBadge: "Cửa hàng số", heroTitle1: "Giải phóng", heroTitle2: "Tiềm năng số.", heroDesc: "Truy cập sản phẩm cao cấp.", btnShop: "Mua ngay",
-            catTitle: "Danh mục", txtTotal: "Tổng", txtItems: "mục", lblPrice: "Giá",
-            cardNew: "MỚI", cardBest: "🔥 BÁN CHẠY", cardStart: "Giá từ", btnBuy: "Mua ngay", searchPlaceholder: "Tìm kiếm...",
-            catAllText: "Tất cả",
-            catStreaming: "Streaming", catGaming: "Gaming", catCode: "Mã nguồn",
-            catAuto: "Ô tô", catLifestyle: "Lối sống", catBusiness: "Kinh doanh",
-            catHealth: "Sức khỏe", catIT: "CNTT", catTeaching: "Giáo dục",
-            catMarketing: "Tiếp thị", catDesign: "Thiết kế", catFinance: "Tài chính",
-            catPhoto: "Ảnh & Video", catDev: "Phát triển", catMusic: "Âm nhạc",
-            catOther: "Khác"
-        },
-        MY: {
-            navExplore: "Jelajah", heroBadge: "Kedai Digital", heroTitle1: "Serlahkan", heroTitle2: "Potensi Digital.", heroDesc: "Akses produk digital premium.", btnShop: "Beli Sekarang",
-            catTitle: "Katalog Produk", txtTotal: "Jumlah", txtItems: "item", lblPrice: "Harga",
-            cardNew: "TERBARU", cardBest: "🔥 TERLARIS", cardStart: "Bermula dari", btnBuy: "Beli Sekarang", searchPlaceholder: "Cari produk...",
-            catAllText: "Semua Produk",
-            catStreaming: "Striming", catGaming: "Permainan", catCode: "Kod Sumber",
-            catAuto: "Automotif", catLifestyle: "Gaya Hidup", catBusiness: "Perniagaan",
-            catHealth: "Kesihatan", catIT: "IT & Perisian", catTeaching: "Pendidikan",
-            catMarketing: "Pemasaran", catDesign: "Reka Bentuk", catFinance: "Kewangan",
-            catPhoto: "Foto & Video", catDev: "Pembangunan", catMusic: "Muzik",
-            catOther: "Lain"
-        }
-    };
-    const flags = { ID:'🇮🇩', EN:'🇺🇸', JP:'🇯🇵', KR:'🇰🇷', CN:'🇨🇳', TH:'🇹🇭', VN:'🇻🇳', MY:'🇲🇾' };
-
-    // SAFETY CHECK
-    if (!translations[currentLang]) { currentLang = 'ID'; localStorage.setItem('lang', 'ID'); }
-    const t = (key) => translations[currentLang][key] || translations['ID'][key];
-
-    // LOGIC MENU
-    window.toggleExplore = () => document.getElementById('exploreMenu').classList.toggle('hidden');
-    window.filter = (cat) => { 
-        currentCat = cat; 
-        document.getElementById('exploreMenu').classList.add('hidden'); 
-        loadProducts(); 
-    };
-
-    window.toggleLangMenu = () => document.getElementById('langDropdown').classList.toggle('hidden');
-    window.setLang = (lang) => {
-        currentLang = lang; localStorage.setItem('lang', lang);
-        document.querySelectorAll('[data-key]').forEach(el => { if(t(el.dataset.key)) el.innerText = t(el.dataset.key); });
-        document.getElementById('searchInput').placeholder = t('searchPlaceholder');
-        document.getElementById('langDisplay').innerText = lang;
-        document.getElementById('flagDisplay').innerText = flags[lang];
-        document.getElementById('langDropdown').classList.add('hidden');
-        renderProducts(allProducts);
-        if(allProducts.length > 0) renderHeroCard(allProducts[0]);
-    };
-    window.setLang(currentLang); 
-
-    // LOGIC THEME (DARK MODE)
-    const tBtn = document.getElementById('themeToggle');
-    function updateIcons() {
-        if (document.documentElement.classList.contains('dark')) {
-            document.getElementById('sunIcon').classList.remove('hidden');
-            document.getElementById('moonIcon').classList.add('hidden');
-        } else {
-            document.getElementById('sunIcon').classList.add('hidden');
-            document.getElementById('moonIcon').classList.remove('hidden');
-        }
-    }
-    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        document.documentElement.classList.add('dark');
-    } else {
-        document.documentElement.classList.remove('dark');
-    }
-    updateIcons();
-    tBtn.addEventListener('click', () => {
-        const isDark = document.documentElement.classList.toggle('dark');
-        localStorage.theme = isDark ? 'dark' : 'light';
-        updateIcons();
-    });
-
-    // LOGIC RENDER PRODUK
-    async function loadProducts() {
-        document.getElementById('loading').classList.remove('hidden');
-        document.getElementById('productGrid').classList.add('hidden');
-
-        try {
-            const q = query(productsCollection, orderBy("timestamp", "desc"));
-            const querySnapshot = await getDocs(q);
-            allProducts = [];
-            querySnapshot.forEach((doc) => { allProducts.push({ id: doc.id, ...doc.data() }); });
-            
-            // Urutkan Best Seller Paling Atas
-            allProducts.sort((a, b) => (b.isBestSeller === true) - (a.isBestSeller === true));
-
-            if(allProducts.length > 0) renderHeroCard(allProducts[0]);
-            renderProducts(allProducts);
-        } catch (error) { console.error(error); } 
-        finally {
-            document.getElementById('loading').classList.add('hidden');
-            document.getElementById('productGrid').classList.remove('hidden');
-        }
-    }
-
-    function renderHeroCard(p) {
-        const heroCard = document.getElementById('heroCard');
-        const imgContent = p.image 
-            ? `<img src="${p.image}" class="absolute inset-0 w-full h-full object-cover transition duration-700">` 
-            : `<div class="w-full h-full bg-gradient-to-br from-gray-800 to-black flex items-center justify-center text-white font-bold text-6xl">${p.initial || '?'}</div>`;
-        
-        heroCard.innerHTML = `
-            <div class="relative w-full overflow-hidden" style="height: 55%;">
-                ${imgContent}
-                <div class="absolute top-4 left-4 px-3 py-1 bg-green-500 text-white rounded-full text-xs font-bold shadow-lg">${t('cardNew')}</div>
-                ${p.isBestSeller ? `<div class="absolute top-4 right-4 px-3 py-1 bg-yellow-400 text-black rounded-full text-xs font-bold shadow-lg">${t('cardBest')}</div>` : ''}
+    <section id="about" class="py-24 bg-white">
+      <div class="container mx-auto px-6">
+        <div class="flex flex-col lg:flex-row items-center gap-16">
+          <div class="lg:w-1/2" data-aos="fade-right">
+            <h4 class="text-blue-600 font-bold uppercase tracking-[0.2em] mb-4">
+              Profil Perusahaan
+            </h4>
+            <h2 class="text-4xl font-extrabold text-[#0f172a] mb-6">
+              Presisi dalam Setiap Detail
+            </h2>
+            <p class="text-gray-600 text-lg leading-relaxed mb-6">
+              <strong>PT SINO INDAH JAYA</strong> adalah perusahaan PMA Korea
+              yang berlokasi strategis di Wanasalam, Ligung, Majalengka. Kami
+              hadir sebagai solusi manufaktur modern untuk kebutuhan interior
+              otomotif.
+            </p>
+            <ul class="space-y-4 text-gray-700">
+              <li class="flex items-center gap-3">
+                <i class="fas fa-check-circle text-amber-500 text-xl"></i>
+                Spesialisasi Cover Jok Mobil (Cutting & Sewing).
+              </li>
+              <li class="flex items-center gap-3">
+                <i class="fas fa-check-circle text-amber-500 text-xl"></i>
+                Penerapan UKL-UPL Ramah Lingkungan.
+              </li>
+              <li class="flex items-center gap-3">
+                <i class="fas fa-check-circle text-amber-500 text-xl"></i>
+                Tenaga Kerja Terlatih & Mesin Modern.
+              </li>
+            </ul>
+          </div>
+          <div class="lg:w-1/2 relative" data-aos="fade-left">
+            <div class="relative rounded-3xl overflow-hidden shadow-2xl group">
+              <img
+                src="https://images.unsplash.com/photo-1625047509248-ec889cbff17f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                class="w-full object-cover transform group-hover:scale-105 transition duration-700"
+              />
+              <div
+                class="absolute inset-0 bg-[#0f172a]/20 group-hover:bg-transparent transition"
+              ></div>
             </div>
-            <div class="p-5 w-full flex flex-col justify-between bg-white/90 dark:bg-black/80 backdrop-blur" style="height: 45%;">
-                <div>
-                    <h3 class="text-xl md:text-2xl font-black text-slate-900 dark:text-white mb-2 leading-snug line-clamp-2" title="${p.name}">
-                        ${p.name}
-                    </h3>
-                    <p class="text-xs text-gray-500 truncate">${p.subtitle || p.category}</p>
-                </div>
-                <div class="flex justify-between items-center mt-2">
-                    <div>
-                        <p class="text-[10px] text-gray-400 uppercase font-bold">${t('cardStart')}</p>
-                        <p class="text-2xl font-black text-cyan-500 font-mono">Rp ${p.price}</p>
-                    </div>
-                    <button onclick="document.getElementById('catalog').scrollIntoView()" class="w-12 h-12 rounded-full bg-slate-900 dark:bg-white text-white dark:text-black flex items-center justify-center hover:scale-110 transition shadow-lg flex-shrink-0">
-                        ➜
-                    </button>
-                </div>
-            </div>`;
-    }
+          </div>
+        </div>
+      </div>
+    </section>
 
-    function renderProducts(data) {
-        const grid = document.getElementById('productGrid');
-        let filtered = data;
-        
-        // Filter Hidden (Hanya admin yang bisa lihat produk hidden)
-        if (!isAdmin) {
-            filtered = filtered.filter(p => p.isVisible !== false);
-        }
+    <section id="products" class="py-24 bg-slate-50">
+      <div class="container mx-auto px-6">
+        <div class="text-center mb-16" data-aos="fade-up">
+          <h4 class="text-blue-600 font-bold uppercase tracking-widest mb-4">
+            Core Business
+          </h4>
+          <h2 class="text-4xl font-extrabold text-[#0f172a]">
+            Manufaktur Jok Mobil
+          </h2>
+          <div class="w-24 h-1 bg-amber-500 mx-auto mt-6 rounded"></div>
+        </div>
 
-        if (currentCat !== 'all') filtered = filtered.filter(p => p.category === currentCat);
-        const searchVal = document.getElementById('searchInput').value.toLowerCase();
-        if(searchVal) filtered = filtered.filter(p => p.name.toLowerCase().includes(searchVal));
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div
+            class="bg-white rounded-2xl overflow-hidden shadow-xl hover-3d group"
+            data-aos="fade-up"
+            data-aos-delay="100"
+          >
+            <div class="h-64 overflow-hidden relative">
+              <img
+                src="https://images.unsplash.com/photo-1503376763036-066120622c74?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700"
+              />
+              <div
+                class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black to-transparent p-6 pt-20"
+              >
+                <h3 class="text-xl font-bold text-white">Car Seat Cover</h3>
+              </div>
+            </div>
+            <div class="p-8">
+              <p class="text-gray-600 mb-4">
+                Pembuatan sarung jok dengan teknik *Pattern Cutting* presisi dan
+                jahitan *Double Stitch* yang kuat.
+              </p>
+              <span class="text-blue-600 font-bold text-sm"
+                >MATERIAL: LEATHER / PVC</span
+              >
+            </div>
+          </div>
 
-        document.getElementById('totalItems').innerText = filtered.length;
-        grid.innerHTML = '';
+          <div
+            class="bg-white rounded-2xl overflow-hidden shadow-xl hover-3d group"
+            data-aos="fade-up"
+            data-aos-delay="200"
+          >
+            <div class="h-64 overflow-hidden relative">
+              <img
+                src="https://images.unsplash.com/photo-1617695612771-46b52649850b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700"
+              />
+              <div
+                class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black to-transparent p-6 pt-20"
+              >
+                <h3 class="text-xl font-bold text-white">
+                  Interior Components
+                </h3>
+              </div>
+            </div>
+            <div class="p-8">
+              <p class="text-gray-600 mb-4">
+                Produksi komponen pendukung interior mobil seperti *Door Trim*,
+                *Arm Rest*, dan aksesoris lainnya.
+              </p>
+              <span class="text-blue-600 font-bold text-sm"
+                >TEKNOLOGI: MOLDING & PRESS</span
+              >
+            </div>
+          </div>
 
-        if(filtered.length === 0) { 
-            grid.innerHTML = `<div class="col-span-full text-center py-10 text-gray-500">Produk tidak ditemukan.</div>`; 
-            return; 
-        }
+          <div
+            class="bg-[#0f172a] rounded-2xl overflow-hidden shadow-xl hover-3d group text-white p-8 flex flex-col justify-center"
+            data-aos="fade-up"
+            data-aos-delay="300"
+          >
+            <i class="fas fa-layer-group text-5xl text-amber-500 mb-6"></i>
+            <h3 class="text-2xl font-bold mb-4">Material Supply</h3>
+            <ul class="space-y-3 text-gray-300">
+              <li class="flex items-center gap-3">
+                <i class="fas fa-check text-green-400"></i> Synthetic Leather
+                (PU/PVC)
+              </li>
+              <li class="flex items-center gap-3">
+                <i class="fas fa-check text-green-400"></i> High Grade Fabric
+              </li>
+              <li class="flex items-center gap-3">
+                <i class="fas fa-check text-green-400"></i> Foam & Padding
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        filtered.forEach(p => {
-            const imgContent = p.image ? `<img src="${p.image}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700" loading="lazy">` : `<div class="w-full h-full bg-slate-800 flex items-center justify-center text-white text-4xl font-bold">${p.initial||'?'}</div>`;
-            const bestSellerBadge = p.isBestSeller ? `<div class="absolute top-3 right-3 z-10 px-2 py-1 bg-yellow-400 text-black text-[10px] font-bold rounded shadow-lg">🔥 TERLARIS</div>` : '';
-            const isHidden = p.isVisible === false;
-            const hiddenClass = isHidden ? 'opacity-50 grayscale border-2 border-red-500' : '';
-            const hiddenLabel = isHidden ? '<div class="absolute top-3 left-3 z-30 bg-red-600 text-white text-[10px] font-bold px-2 py-1 rounded shadow-md">HIDDEN</div>' : '';
+    <section id="bulletin" class="py-24 bg-slate-100">
+      <div class="container mx-auto px-6">
+        <div class="flex justify-between items-end mb-12">
+          <div>
+            <h4 class="text-blue-600 font-bold uppercase tracking-widest mb-2">
+              Media Center
+            </h4>
+            <h2 class="text-3xl font-extrabold text-[#0f172a]">
+              Berita Perusahaan
+            </h2>
+          </div>
+          <button
+            id="refresh-news"
+            class="bg-white px-4 py-2 rounded shadow hover:bg-blue-50 text-blue-600 font-bold transition"
+          >
+            <i class="fas fa-sync-alt mr-2"></i>Refresh
+          </button>
+        </div>
 
-            let adminBtns = isAdmin ? `
-                <div class="absolute top-12 left-3 z-20 flex gap-2">
-                    <button class="btn-edit bg-white/20 backdrop-blur border border-white/30 text-white p-2 rounded-xl hover:bg-yellow-500 transition" 
-                        data-id="${p.id}">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
-                    </button>
-                    <button class="bg-white/20 backdrop-blur border border-white/30 text-white p-2 rounded-xl hover:bg-red-600 transition" 
-                        onclick="event.stopPropagation(); window.deleteProduct('${p.id}')">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                    </button>
-                </div>` : '';
+        <div id="bulletin-container" class="grid md:grid-cols-3 gap-8">
+          <div class="col-span-3 text-center py-12 bg-white rounded-xl shadow">
+            <i
+              class="fas fa-circle-notch fa-spin text-4xl text-blue-600 mb-4"
+            ></i>
+            <p class="text-gray-500">Menghubungkan ke Database...</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
-            grid.innerHTML += `
-                <div class="group glass-panel rounded-3xl overflow-hidden hover:-translate-y-2 hover:shadow-2xl hover:shadow-cyan-500/10 transition-all duration-500 relative cursor-pointer ${hiddenClass}" onclick="window.openProductModal('${p.id}')">
-                    ${adminBtns}
-                    ${hiddenLabel}
-                    <div class="relative h-56 bg-gray-100 dark:bg-[#151515] overflow-hidden">
-                        ${imgContent}
-                        ${bestSellerBadge}
-                        <div class="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-black/80 to-transparent"></div>
-                        <span class="absolute bottom-3 left-4 text-xs font-bold text-white uppercase tracking-widest bg-cyan-500/80 backdrop-blur px-2 py-1 rounded-md">${p.category}</span>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="font-bold text-lg text-slate-900 dark:text-white leading-snug mb-1 group-hover:text-cyan-500 transition line-clamp-2 min-h-[3.5rem]">${p.name}</h3>
-                        <p class="text-xs text-gray-500 mb-3 truncate">${p.subtitle || 'Kazuya Digital'}</p>
-                        <div class="pt-2 border-t border-gray-200 dark:border-white/5">
-                            <p class="text-[10px] text-gray-400 uppercase">${t('lblPrice')}</p>
-                            <p class="font-black text-xl text-cyan-600 dark:text-cyan-400 font-mono">Rp ${p.price}</p>
-                        </div>
-                    </div>
-                </div>`;
-        });
-        
-        document.querySelectorAll('.btn-edit').forEach(btn => {
-            btn.addEventListener('click', (e) => e.stopPropagation());
-        });
-        attachEditEvents();
-    }
+    <footer
+      id="contact"
+      class="bg-[#0a0f1d] text-gray-400 pt-20 pb-10 border-t border-white/10"
+    >
+      <div class="container mx-auto px-6 grid md:grid-cols-4 gap-12 mb-12">
+        <div class="col-span-2">
+          <div class="flex items-center gap-3 mb-6">
+            <img src="image/logo.png" class="h-8 bg-white rounded p-1" />
+            <span class="text-xl font-bold text-white tracking-wider"
+              >PT SINO INDAH JAYA</span
+            >
+          </div>
+          <p class="leading-relaxed mb-6 pr-10">
+            Mitra strategis dalam industri manufaktur otomotif. Kami berkomitmen
+            memberikan kualitas terbaik dengan standar Korea untuk pasar
+            Indonesia dan Global.
+          </p>
+          <div class="flex gap-4">
+            <a
+              href="#"
+              class="w-10 h-10 rounded-full bg-white/10 hover:bg-amber-500 hover:text-[#0f172a] flex items-center justify-center transition"
+              ><i class="fab fa-instagram"></i
+            ></a>
+            <a
+              href="#"
+              class="w-10 h-10 rounded-full bg-white/10 hover:bg-amber-500 hover:text-[#0f172a] flex items-center justify-center transition"
+              ><i class="fab fa-linkedin-in"></i
+            ></a>
+          </div>
+        </div>
 
-    window.openProductModal = (id) => {
-        const p = allProducts.find(item => item.id === id);
-        if (!p) return;
+        <div>
+          <h4 class="text-white font-bold mb-6 uppercase tracking-wider">
+            Kontak
+          </h4>
+          <ul class="space-y-4">
+            <li class="flex items-start gap-3">
+              <i class="fas fa-map-marker-alt text-amber-500 mt-1"></i>
+              <span
+                >Blok Karang Gedong, Desa Wanasalam, Kec. Ligung,
+                Majalengka.</span
+              >
+            </li>
+            <li class="flex items-center gap-3">
+              <i class="fas fa-phone-alt text-amber-500"></i>
+              <span class="font-bold text-white">(0233) - 8866 595</span>
+            </li>
+          </ul>
+        </div>
 
-        const bestSellerBadge = (p.isBestSeller === true || p.isBestSeller === "true") 
-            ? '<span class="bg-yellow-400 text-black text-[10px] font-bold px-2 py-1 rounded ml-2 align-middle">🔥 BEST SELLER</span>' 
-            : '';
-        
-        const waLink = `https://wa.me/6282270189045?text=Halo%20Admin,%20saya%20tertarik%20beli%20*${encodeURIComponent(p.name)}*%20seharga%20Rp%20${p.price}`;
+        <div>
+          <h4 class="text-white font-bold mb-6 uppercase tracking-wider">
+            Lokasi
+          </h4>
+          <div
+            class="w-full h-32 bg-slate-800 rounded-lg overflow-hidden relative group"
+          >
+            <iframe
+              width="100%"
+              height="100%"
+              frameborder="0"
+              style="border: 0"
+              src="https://maps.google.com/maps?q=Desa+Wanasalam,+Kec.+Ligung,+Kab.+Majalengka&t=&z=13&ie=UTF8&iwloc=&output=embed"
+              class="filter grayscale group-hover:grayscale-0 transition"
+            ></iframe>
+            <a
+              href="https://maps.app.goo.gl/YiwsLdPB4uTgXXjY8"
+              target="_blank"
+              class="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition"
+            >
+              <span
+                class="text-white text-xs font-bold bg-amber-500 px-3 py-1 rounded-full"
+                >Buka Peta</span
+              >
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-white/10 pt-8 text-center text-sm">
+        &copy; 2025 PT SINO INDAH JAYA. All Rights Reserved.
+      </div>
+    </footer>
 
-        Swal.fire({
-            background: '#1e293b', color: '#fff', width: '900px', showConfirmButton: false, showCloseButton: true, backdrop: `rgba(0,0,0,0.8) blur(5px)`,
-            html: `
-                <div class="flex flex-col md:flex-row gap-6 text-left font-sans">
-                    <div class="w-full md:w-1/2">
-                        <div class="relative rounded-2xl overflow-hidden border border-gray-600 shadow-xl group">
-                            <img src="${p.image}" class="w-full h-64 md:h-80 object-cover transform group-hover:scale-105 transition duration-500">
-                        </div>
-                    </div>
-                    <div class="w-full md:w-1/2 flex flex-col justify-between">
-                        <div>
-                            <h2 class="text-3xl font-bold text-white mb-2 leading-tight brand-font">${p.name}</h2>
-                            <div class="mb-4">
-                                <span class="text-cyan-400 font-bold text-sm tracking-widest uppercase border border-cyan-400/30 px-2 py-1 rounded">${p.category}</span>
-                                ${bestSellerBadge}
-                            </div>
-                            <div class="mb-4">
-                                <label class="text-xs text-gray-400 font-bold uppercase">Subtitle</label>
-                                <p class="text-gray-200 text-sm font-medium border-b border-gray-700 pb-2">${p.subtitle || '-'}</p>
-                            </div>
-                            <div class="mb-4">
-                                <label class="text-xs text-gray-400 font-bold uppercase">Deskripsi & Spesifikasi</label>
-                                <div class="bg-gray-800/50 p-3 rounded-lg border border-gray-700 h-40 overflow-y-auto mt-1 custom-scrollbar ql-editor" style="min-height:auto; color:white !important;">
-                                    ${p.description || p.desc || 'Tidak ada deskripsi detail.'}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mt-2 pt-4 border-t border-gray-700">
-                            <div class="flex justify-between items-end mb-4">
-                                <span class="text-gray-400 text-xs uppercase font-bold">Harga Spesial</span>
-                                <span class="text-3xl font-black text-cyan-400 font-mono">Rp ${p.price}</span>
-                            </div>
-                            <a href="${waLink}" target="_blank" class="flex items-center justify-center w-full py-3 bg-gradient-to-r from-green-600 to-emerald-500 hover:from-green-500 hover:to-emerald-400 text-white font-bold rounded-xl transition shadow-lg shadow-green-900/30 transform hover:scale-[1.02]">
-                                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-                                Beli via WhatsApp
-                            </a>
-                        </div>
-                    </div>
-                </div>`
-        });
-    };
-
-    // ADMIN EDIT & ADD
-    window.deleteProduct = async (id) => {
-        const r = await Swal.fire({title: "Hapus?", text: "Permanen!", icon:'warning', showCancelButton:true, confirmButtonColor:'#d33', background:'#1e293b', color:'#fff'});
-        if(r.isConfirmed) { await deleteDoc(doc(db, "products", id)); loadProducts(); }
-    }
-
-    // === [MODIFIKASI 1] TOMBOL TAMBAH DENGAN TEXT EDITOR WORD (QUILL) ===
-    document.getElementById('btnAdd').addEventListener('click', async () => {
-        let quillAdd;
-        const { value: v } = await Swal.fire({
-            title: 'Tambah Produk Baru',
-            width: '800px', // Lebar diperbesar agar editor Word muat
-            confirmButtonText: 'Simpan Produk', confirmButtonColor: '#10b981', background: '#1e293b', color: '#fff',
-            html: `
-            <div class="text-left flex flex-col gap-3">
-                <div class="grid grid-cols-2 gap-3">
-                    <div><label class="text-xs font-bold text-gray-400 uppercase">Nama Produk</label><input id="n" class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:border-cyan-500 outline-none" placeholder="Nama Produk"></div>
-                    <div><label class="text-xs font-bold text-gray-400 uppercase">Link Gambar</label><input id="i" class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:border-cyan-500 outline-none" placeholder="URL Gambar"></div>
-                </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <div><label class="text-xs font-bold text-gray-400 uppercase">Harga (Rp)</label><input id="p" type="number" class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:border-cyan-500 outline-none" placeholder="0"></div>
-                    <div><label class="text-xs font-bold text-gray-400 uppercase">Kategori</label>
-                        <select id="c" class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:border-cyan-500 outline-none">
-                            <option value="streaming">Streaming</option><option value="gaming">Gaming</option><option value="code">Source Code</option><option value="automotive">Otomotif</option>
-                            <option value="lifestyle">Lifestyle</option><option value="business">Bisnis</option><option value="health">Kesehatan</option><option value="it-software">IT & Software</option>
-                            <option value="teaching">Pendidikan</option><option value="marketing">Marketing</option><option value="design">Desain</option><option value="finance">Keuangan</option>
-                            <option value="photo-video">Foto & Video</option><option value="development">Development</option><option value="music">Musik</option><option value="other">Lainnya</option>
-                        </select>
-                    </div>
-                </div>
-                <div><label class="text-xs font-bold text-gray-400 uppercase">Subtitle</label><input id="sub" class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:border-cyan-500 outline-none" placeholder="Keterangan singkat"></div>
-                
-                <div>
-                    <label class="text-xs font-bold text-gray-400 uppercase mb-1 block">Deskripsi</label>
-                    <div class="bg-white rounded-lg overflow-hidden text-black"><div id="editor-add"></div></div>
-                </div>
-
-                <div class="grid grid-cols-2 gap-3 mt-2">
-                    <div class="flex items-center gap-3 p-3 bg-gray-800 rounded-lg border border-gray-600 hover:border-green-500 transition"><input type="checkbox" id="visible" checked class="w-5 h-5 accent-green-500 cursor-pointer"><label for="visible" class="text-xs font-bold text-white cursor-pointer select-none">Tampilkan Produk?</label></div>
-                    <div class="flex items-center gap-3 p-3 bg-gray-800 rounded-lg border border-gray-600 hover:border-yellow-500 transition"><input type="checkbox" id="best" class="w-5 h-5 accent-yellow-500 cursor-pointer"><label for="best" class="text-xs font-bold text-white cursor-pointer select-none">Jadikan Best Seller</label></div>
-                </div>
-            </div>`,
-            didOpen: () => {
-                // Inisialisasi Editor Word
-                quillAdd = new Quill('#editor-add', { theme: 'snow', placeholder: 'Tulis deskripsi...', modules: { toolbar: [[{ 'header': [1, 2, false] }], ['bold', 'italic', 'underline'], [{ 'list': 'ordered'}, { 'list': 'bullet' }], [{ 'align': [] }], ['video'], ['clean']] } });
-            },
-            preConfirm: () => ({ 
-                name: document.getElementById('n').value, price: document.getElementById('p').value, category: document.getElementById('c').value, subtitle: document.getElementById('sub').value, 
-                description: quillAdd.root.innerHTML, // Ambil Data dari Editor
-                image: document.getElementById('i').value, isVisible: document.getElementById('visible').checked, isBestSeller: document.getElementById('best').checked, initial: 'K', timestamp: Date.now() 
-            })
-        });
-        if(v) { await addDoc(productsCollection, v); loadProducts(); Swal.fire("Berhasil", "Produk disimpan", "success"); }
-    });
-
-    // === [MODIFIKASI 2] TOMBOL EDIT PRODUK (DENGAN EDITOR WORD) ===
-    function attachEditEvents() {
-        document.querySelectorAll('.btn-edit').forEach(btn => {
-            btn.addEventListener('click', async (e) => {
-                e.stopPropagation();
-                
-                // Ambil ID & Data Produk
-                const id = e.currentTarget.dataset.id;
-                const p = allProducts.find(item => item.id === id);
-                if (!p) return;
-
-                const isVis = p.isVisible === false ? false : true; 
-                const isBest = (p.isBestSeller === true || p.isBestSeller === 'true') ? true : false;
-                let quillEdit;
-
-                const { value: v } = await Swal.fire({
-                    title: 'Edit Produk Lengkap',
-                    width: '800px', // Lebar diperbesar
-                    confirmButtonText: 'Simpan Perubahan', confirmButtonColor: '#f59e0b', background: '#1e293b', color: '#fff',
-                    html: `
-                    <div class="text-left flex flex-col gap-3">
-                        <div class="grid grid-cols-2 gap-3">
-                            <div><label class="text-xs font-bold text-gray-400 uppercase">Nama Produk</label><input id="e-n" class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:border-cyan-500 outline-none" value="${p.name}"></div>
-                            <div><label class="text-xs font-bold text-gray-400 uppercase">Link Gambar</label><input id="e-i" class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:border-cyan-500 outline-none" value="${p.image}"></div>
-                        </div>
-                        <div class="grid grid-cols-2 gap-3">
-                            <div><label class="text-xs font-bold text-gray-400 uppercase">Harga</label><input id="e-p" type="number" class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:border-cyan-500 outline-none" value="${p.price}"></div>
-                            <div><label class="text-xs font-bold text-gray-400 uppercase">Kategori</label>
-                                <select id="e-c" class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:border-cyan-500 outline-none">
-                                    <option value="streaming" ${p.category==='streaming'?'selected':''}>Streaming</option><option value="gaming" ${p.category==='gaming'?'selected':''}>Gaming</option><option value="code" ${p.category==='code'?'selected':''}>Source Code</option><option value="automotive" ${p.category==='automotive'?'selected':''}>Otomotif</option>
-                                    <option value="lifestyle" ${p.category==='lifestyle'?'selected':''}>Lifestyle</option><option value="business" ${p.category==='business'?'selected':''}>Bisnis</option><option value="health" ${p.category==='health'?'selected':''}>Kesehatan</option><option value="it-software" ${p.category==='it-software'?'selected':''}>IT & Software</option>
-                                    <option value="teaching" ${p.category==='teaching'?'selected':''}>Pendidikan</option><option value="marketing" ${p.category==='marketing'?'selected':''}>Marketing</option><option value="design" ${p.category==='design'?'selected':''}>Desain</option><option value="finance" ${p.category==='finance'?'selected':''}>Keuangan</option>
-                                    <option value="photo-video" ${p.category==='photo-video'?'selected':''}>Foto & Video</option><option value="development" ${p.category==='development'?'selected':''}>Development</option><option value="music" ${p.category==='music'?'selected':''}>Musik</option><option value="other" ${p.category==='other'?'selected':''}>Lainnya</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div><label class="text-xs font-bold text-gray-400 uppercase">Subtitle</label><input id="e-sub" class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:border-cyan-500 outline-none" value="${p.subtitle || ''}"></div>
-                        
-                        <div>
-                            <label class="text-xs font-bold text-gray-400 uppercase mb-1 block">Deskripsi</label>
-                            <div class="bg-white rounded-lg overflow-hidden text-black"><div id="editor-edit"></div></div>
-                        </div>
-
-                        <div class="grid grid-cols-2 gap-3 mt-2">
-                            <div class="flex items-center gap-3 p-3 bg-gray-800 rounded-lg border border-gray-600 hover:border-green-500 transition"><input type="checkbox" id="e-visible" ${isVis ? 'checked' : ''} class="w-5 h-5 accent-green-500 cursor-pointer"><label for="e-visible" class="text-xs font-bold text-white cursor-pointer select-none">Tampilkan?</label></div>
-                            <div class="flex items-center gap-3 p-3 bg-gray-800 rounded-lg border border-gray-600 hover:border-yellow-500 transition"><input type="checkbox" id="e-best" ${isBest ? 'checked' : ''} class="w-5 h-5 accent-yellow-500 cursor-pointer"><label for="e-best" class="text-xs font-bold text-white cursor-pointer select-none">Jadikan Best Seller</label></div>
-                        </div>
-                    </div>`,
-                    didOpen: () => {
-                        // Inisialisasi Editor Word & Isi Data Lama
-                        quillEdit = new Quill('#editor-edit', { theme: 'snow', placeholder: 'Edit deskripsi...', modules: { toolbar: [[{ 'header': [1, 2, false] }], ['bold', 'italic', 'underline'], [{ 'list': 'ordered'}, { 'list': 'bullet' }], [{ 'align': [] }], ['clean']] } });
-                        quillEdit.root.innerHTML = p.description || p.desc || ''; 
-                    },
-                    preConfirm: () => ({ 
-                        name: document.getElementById('e-n').value, price: document.getElementById('e-p').value, category: document.getElementById('e-c').value, subtitle: document.getElementById('e-sub').value, 
-                        description: quillEdit.root.innerHTML, // Ambil Data Edit
-                        image: document.getElementById('e-i').value, isVisible: document.getElementById('e-visible').checked, isBestSeller: document.getElementById('e-best').checked 
-                    })
-                });
-
-                if(v) { await updateDoc(doc(db, "products", p.id), v); loadProducts(); Swal.fire("Berhasil", "Data terupdate", "success"); }
-            });
-        });
-    }
-
-    // AUTH (TETAP SAMA)
-    onAuthStateChanged(auth, (user) => {
-        if (user) { isAdmin = true; document.getElementById('btnLogin').classList.add('hidden'); document.getElementById('adminPanel').classList.remove('hidden'); document.getElementById('adminPanel').classList.add('flex'); }
-        else { isAdmin = false; document.getElementById('btnLogin').classList.remove('hidden'); document.getElementById('adminPanel').classList.add('hidden'); }
-        loadProducts();
-    });
-    
-    document.getElementById('btnLogin').addEventListener('click', async () => {
-        const { value: v } = await Swal.fire({ 
-            title: 'Admin Login', 
-            html: `
-            <div class="flex flex-col gap-4 text-left">
-                <div><label class="text-sm font-bold text-gray-400">Email</label><input id="u" class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:border-cyan-500 outline-none" placeholder="Email"></div>
-                <div><label class="text-sm font-bold text-gray-400">Password</label>
-                    <div class="relative mt-1"><input id="p" type="password" class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:border-cyan-500 outline-none pr-12" placeholder="Password"><span id="togglePass" class="absolute right-4 top-3.5 cursor-pointer text-xl select-none text-gray-400 hover:text-white" title="Lihat">👁️</span></div>
-                </div>
-            </div>`, 
-            background:'#1e293b', color:'#fff', confirmButtonText: 'Masuk', confirmButtonColor: '#06b6d4',
-            didOpen: () => {
-                const input = Swal.getPopup().querySelector('#p'); const icon = Swal.getPopup().querySelector('#togglePass');
-                icon.onclick = () => { if (input.type === 'password') { input.type = 'text'; icon.textContent = '❌'; } else { input.type = 'password'; icon.textContent = '👁️'; } }
-            },
-            preConfirm: () => [document.getElementById('u').value, document.getElementById('p').value] 
-        });
-        if(v) try { await signInWithEmailAndPassword(auth, v[0], v[1]); Swal.fire("Sukses", "Login Berhasil!", "success"); } catch(e) { Swal.fire("Gagal", "Email/Password Salah", "error"); }
-    });
-
-    document.getElementById('btnLogout').addEventListener('click', () => { signOut(auth); });
-    document.getElementById('searchInput').addEventListener('input', loadProducts);
-</script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script type="module" src="js/main.js"></script>
+    <script type="module" src="js/navbar_auth.js"></script> 
+  </body>
+</html>
   </body>
 </html>

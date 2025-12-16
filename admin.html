@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin - PT SINO INDAH JAYA</title>
+    <link href="./dist/output.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-slate-100 font-sans">
+
+    <nav class="bg-[#0f172a] text-white p-4 shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <img src="image/logo.png" class="h-8 bg-white rounded p-1">
+                <span class="font-bold text-lg">ADMIN DASHBOARD</span>
+            </div>
+            <a href="index.html" class="text-sm bg-blue-600 px-4 py-2 rounded hover:bg-blue-500 transition">
+                <i class="fas fa-external-link-alt mr-2"></i>Lihat Website
+            </a>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-6 py-8">
+        <div class="grid lg:grid-cols-3 gap-8">
+            
+            <div class="lg:col-span-1">
+                <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200 sticky top-24">
+                    <h2 class="text-xl font-bold text-[#0f172a] mb-6 border-b pb-2">
+                        <i class="fas fa-edit mr-2"></i>Kelola Berita
+                    </h2>
+                    
+                    <form id="news-form" class="space-y-4">
+                        <input type="hidden" id="doc-id"> <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Judul Berita</label>
+                            <input type="text" id="judul" required class="w-full border rounded p-2 focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Contoh: Kunjungan Direksi...">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Tanggal</label>
+                            <input type="date" id="tanggal" required class="w-full border rounded p-2 focus:ring-2 focus:ring-blue-500 outline-none">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Link Gambar (URL)</label>
+                            <input type="url" id="imageUrl" class="w-full border rounded p-2 focus:ring-2 focus:ring-blue-500 outline-none" placeholder="https://...">
+                            <p class="text-xs text-gray-400 mt-1">*Copy link gambar dari Google/Internet</p>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Link Video (Opsional)</label>
+                            <input type="url" id="videoUrl" class="w-full border rounded p-2 focus:ring-2 focus:ring-blue-500 outline-none" placeholder="https://youtube.com/...">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Deskripsi</label>
+                            <textarea id="deskripsi" rows="4" required class="w-full border rounded p-2 focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Isi berita..."></textarea>
+                        </div>
+
+                        <div class="flex gap-2 pt-2">
+                            <button type="submit" id="btn-save" class="flex-1 bg-green-600 text-white py-2 rounded font-bold hover:bg-green-700 transition">
+                                <i class="fas fa-save mr-2"></i>SIMPAN
+                            </button>
+                            <button type="button" id="btn-cancel" class="hidden bg-gray-500 text-white px-4 rounded font-bold hover:bg-gray-600 transition">
+                                BATAL
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="lg:col-span-2">
+                <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200">
+                    <h2 class="text-xl font-bold text-[#0f172a] mb-6 border-b pb-2">
+                        <i class="fas fa-list mr-2"></i>Daftar Berita Aktif
+                    </h2>
+                    
+                    <div id="admin-news-list" class="space-y-4">
+                        <div class="text-center py-8 text-gray-500">Memuat data...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="js/admin.js"></script>
+</body>
+</html>

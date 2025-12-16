@@ -11,7 +11,17 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@tailwindcss/cli": "^4.1.17",
-    "tailwindcss": "^4.1.17"
+    "@tailwindcss/cli": "^4.1.17"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KHAZUYA1/Kazuya-store.git"
+  },
+  "bugs": {
+    "url": "https://github.com/KHAZUYA1/Kazuya-store/issues"
+  },
+  "homepage": "https://github.com/KHAZUYA1/Kazuya-store#readme",
+  "devDependencies": {
+    "tailwindcss": "^4.1.18"
   }
 }

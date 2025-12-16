@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Berita - PT SINO INDAH JAYA</title>
+    <link href="./dist/output.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+</head>
+<body class="bg-slate-50 font-sans">
+
+    <nav class="bg-[#0f172a] p-4 text-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-2 hover:text-amber-400 transition">
+                <i class="fas fa-arrow-left"></i> Kembali ke Beranda
+            </a>
+            <span class="font-bold tracking-widest text-sm">NEWS UPDATE</span>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-6 py-10 max-w-4xl min-h-screen">
+        
+        <div id="loading-indicator" class="text-center py-20">
+            <i class="fas fa-circle-notch fa-spin text-4xl text-amber-500 mb-4"></i>
+            <p class="text-slate-500">Memuat detail berita...</p>
+        </div>
+
+        <article id="news-content" class="hidden bg-white rounded-2xl shadow-xl overflow-hidden">
+            <div class="h-[400px] w-full relative">
+                <img id="detail-img" src="" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+                <div class="absolute bottom-0 left-0 p-8 w-full">
+                    <span id="detail-category" class="bg-amber-500 text-[#0f172a] px-3 py-1 rounded text-xs font-bold uppercase mb-3 inline-block">Category</span>
+                    <h1 id="detail-title" class="text-3xl md:text-5xl font-bold text-white leading-tight drop-shadow-md">Judul Berita</h1>
+                    <p id="detail-date" class="text-slate-300 mt-4 text-sm flex items-center gap-2">
+                        <i class="far fa-calendar-alt"></i> <span>Tanggal</span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="p-8 md:p-12">
+                <div id="detail-body" class="prose prose-lg max-w-none text-slate-700 leading-relaxed whitespace-pre-wrap">
+                    Isi berita akan muncul di sini...
+                </div>
+            </div>
+        </article>
+
+    </main>
+
+    <footer class="bg-[#0f172a] text-slate-500 text-center py-6 text-sm">
+        &copy; 2025 PT SINO INDAH JAYA.
+    </footer>
+
+    <script type="module">
+        import { db, doc, getDoc } from './js/firebase.js';
+
+        // 1. Ambil ID dari URL (contoh: detail.html?id=UNIK123)
+        const urlParams = new URLSearchParams(window.location.search);
+        const newsId = urlParams.get('id');
+
+        const loading = document.getElementById('loading-indicator');
+        const content = document.getElementById('news-content');
+
+        async function loadDetail() {
+            if (!newsId) {
+                loading.innerHTML = '<p class="text-red-500">Berita tidak ditemukan (ID Kosong).</p>';
+                return;
+            }
+
+            try {
+                // 2. Ambil Data dari Firebase berdasarkan ID
+                const docRef = doc(db, "news", newsId);
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    
+                    // Format Tanggal
+                    let dateStr = "Baru saja";
+                    if (data.date && data.date.toDate) {
+                        dateStr = data.date.toDate().toLocaleDateString('id-ID', {
+                            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+                        });
+                    }
+
+                    // 3. Isi Tampilan dengan Data
+                    document.getElementById('detail-img').src = data.imageURL || 'https://via.placeholder.com/800x400';
+                    document.getElementById('detail-category').innerText = data.category || 'News';
+                    document.getElementById('detail-title').innerText = data.title;
+                    document.getElementById('detail-date').innerHTML = `<i class="far fa-calendar-alt"></i> ${dateStr}`;
+                    document.getElementById('detail-body').innerText = data.content;
+
+                    // Tampilkan Konten
+                    loading.classList.add('hidden');
+                    content.classList.remove('hidden');
+                    content.classList.add('animate-fade-in-up'); // Efek muncul halus
+
+                } else {
+                    loading.innerHTML = '<p class="text-red-500 font-bold">Maaf, berita ini sudah dihapus.</p>';
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                loading.innerHTML = '<p class="text-red-500">Terjadi kesalahan koneksi.</p>';
+            }
+        }
+
+        loadDetail();
+    </script>
+
+    <style>
+        .animate-fade-in-up { animation: fadeInUp 0.8s ease-out; }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</body>
+</html>
