@@ -1,0 +1,145 @@
+@import "tailwindcss";
+
+/* === SETUP TEMA & FONT === */
+@theme {
+  /* Nama Font harus sama persis dengan yang di Google Fonts */
+  --font-sans: "Plus Jakarta Sans", sans-serif;
+  --font-mono: "Fira Code", monospace;
+  --font-brand: "Outfit", sans-serif;
+
+  /* Warna River Blue */
+  --color-river-50: #f0f9ff;
+  --color-river-100: #e0f2fe;
+  --color-river-200: #bae6fd;
+  --color-river-300: #7dd3fc;
+  --color-river-400: #38bdf8;
+  --color-river-500: #06b6d4;
+  --color-river-600: #0891b2;
+  --color-river-700: #0e7490;
+  --color-river-800: #155e75;
+  --color-river-900: #0f172a;
+  --color-river-950: #020617;
+
+  /* Animasi */
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-pulse-slow: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer utilities {
+  .brand-font {
+    font-family: var(--font-brand);
+  }
+
+  .glass-panel {
+    @apply backdrop-blur-xl border transition-colors duration-500;
+    background: rgba(255, 255, 255, 0.7);
+    border-color: rgba(6, 182, 212, 0.2);
+  }
+
+  .dark .glass-panel {
+    background: rgba(2, 6, 23, 0.7);
+    border-color: rgba(6, 182, 212, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  .glass-nav {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  }
+  .dark .glass-nav {
+    background: rgba(5, 5, 5, 0.8);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .bg-grid-pattern {
+    background-size: 50px 50px;
+    mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+    background-image:
+      linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+  }
+
+  .dark .bg-grid-pattern {
+    background-image:
+      linear-gradient(to right, rgba(6, 182, 212, 0.1) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(6, 182, 212, 0.1) 1px, transparent 1px);
+  }
+
+  .glow-text {
+    text-shadow: 0 0 25px rgba(6, 182, 212, 0.6);
+  }
+}
+
+@layer base {
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-river-50);
+  }
+  .dark ::-webkit-scrollbar-track {
+    background: var(--color-river-950);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-river-500);
+    border-radius: 4px;
+  }
+
+  body {
+    @apply font-sans antialiased text-slate-900 dark:text-white bg-river-50 dark:bg-river-950;
+  }
+}
+
+/* Loader */
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 5px solid #fff;
+  border-bottom-color: var(--color-river-500);
+  border-radius: 50%;
+  display: inline-block;
+  animation: rotation 1s linear infinite;
+}
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Quill Editor Fixes */
+.ql-toolbar {
+  background: #f8fafc;
+  border-radius: 8px 8px 0 0;
+  border-color: #475569;
+}
+.ql-container {
+  background: #ffffff;
+  color: #000000;
+  border-radius: 0 0 8px 8px;
+  border-color: #475569;
+  font-size: 16px;
+}
+.ql-editor {
+  min-height: 200px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+.swal2-popup {
+  overflow: visible !important;
+}
