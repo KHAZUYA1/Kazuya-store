@@ -1,7 +1,7 @@
-import { useState, useRef, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore'; 
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { db, storage } from '../../lib/firebase'; // Pastikan path ini benar
+// Hapus import storage karena tidak dipakai lagi
+import { db } from '../../lib/firebase'; 
 
 // IMPORT EDITOR WORD
 import ReactQuill from 'react-quill-new';
@@ -38,14 +38,16 @@ interface AddModalProps {
 
 const AddProductModal = ({ onClose, onSuccess }: AddModalProps) => {
   const [loading, setLoading] = useState(false);
-  const [uploading, setUploading] = useState(false);
   
+  // State untuk input link galeri sementara sebelum di-add
+  const [tempGalleryUrl, setTempGalleryUrl] = useState('');
+
   // STATE INITIALIZATION
   const [formData, setFormData] = useState({ 
     name: '',
     price: 0,
     category: '',
-    image: '',
+    image: '', // Ini sekarang string URL manual
     images: [] as string[], 
     description: '',
     videoUrl: '',
@@ -53,9 +55,6 @@ const AddProductModal = ({ onClose, onSuccess }: AddModalProps) => {
     isVisible: true,
     isBestSeller: false
   });
-  
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const galleryInputRef = useRef<HTMLInputElement>(null);
 
   // CONFIG TOOLBAR
   const modules = useMemo(() => ({
@@ -81,55 +80,15 @@ const AddProductModal = ({ onClose, onSuccess }: AddModalProps) => {
     setFormData(prev => ({ ...prev, description: content }));
   };
 
-  // UPLOAD FOTO UTAMA
-  const handleMainImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    setUploading(true);
-    try {
-      const storageRef = ref(storage, `products/${Date.now()}_${file.name}`);
-      await uploadBytes(storageRef, file);
-      const url = await getDownloadURL(storageRef);
-      setFormData(prev => ({ ...prev, image: url }));
-    } catch (error) {
-      console.error("Upload failed", error);
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Gagal upload foto utama!',
-        background: '#1e293b',
-        color: '#fff'
-      });
-    } finally {
-      setUploading(false);
-    }
-  };
-
-  // UPLOAD GALERI
-  const handleGalleryUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (!files || files.length === 0) return;
-
-    setUploading(true);
-    try {
-      const newUrls: string[] = [];
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        const storageRef = ref(storage, `products/gallery/${Date.now()}_${file.name}`);
-        await uploadBytes(storageRef, file);
-        const url = await getDownloadURL(storageRef);
-        newUrls.push(url);
-      }
-      setFormData(prev => ({
-        ...prev,
-        images: [...prev.images, ...newUrls]
-      }));
-    } catch (error) {
-      console.error("Gallery upload failed", error);
-    } finally {
-      setUploading(false);
-    }
+  // LOGIKA TAMBAH FOTO GALERI DARI LINK
+  const handleAddGalleryImage = () => {
+    if (!tempGalleryUrl) return;
+    
+    setFormData(prev => ({
+      ...prev,
+      images: [...prev.images, tempGalleryUrl]
+    }));
+    setTempGalleryUrl(''); // Reset input sementara
   };
 
   const removeGalleryImage = (indexToRemove: number) => {
@@ -161,7 +120,7 @@ const AddProductModal = ({ onClose, onSuccess }: AddModalProps) => {
         name: formData.name,
         price: formData.price,
         category: formData.category,
-        image: formData.image,
+        image: formData.image, // URL langsung dari input
         images: formData.images || [], 
         description: formData.description || '',
         videoUrl: formData.videoUrl || "",
@@ -202,47 +161,76 @@ const AddProductModal = ({ onClose, onSuccess }: AddModalProps) => {
     <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
       <div className="bg-[#1e293b] w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl border border-gray-700 shadow-2xl">
         <div className="sticky top-0 bg-[#1e293b] z-10 px-6 py-4 border-b border-gray-700 flex justify-between items-center">
-          <h2 className="text-xl font-bold text-white">➕ Tambah Produk Baru</h2>
+          <h2 className="text-xl font-bold text-white">➕ Tambah Produk Baru (Link)</h2>
           <button onClick={onClose} className="text-gray-400 hover:text-white text-2xl">✕</button>
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
-          {/* FOTO UTAMA */}
+          
+          {/* BAGIAN 1: FOTO UTAMA (LINK) */}
           <div>
-            <label className="block text-sm font-medium text-gray-400 mb-2">Foto Utama (Cover)</label>
-            <div className="flex items-center gap-4">
+            <label className="block text-sm font-medium text-gray-400 mb-2">Foto Utama (Link URL)</label>
+            <div className="flex gap-4 items-start">
+              {/* Preview Box */}
               <div className="w-24 h-24 bg-black rounded-lg overflow-hidden border border-gray-600 flex-shrink-0">
                 {formData.image ? (
-                  <img src={formData.image} className="w-full h-full object-cover" alt="Preview" />
+                  <img src={formData.image} className="w-full h-full object-cover" alt="Preview" onError={(e) => (e.currentTarget.src = 'https://via.placeholder.com/150?text=Error')} />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center text-gray-600">No Img</div>
+                  <div className="w-full h-full flex items-center justify-center text-gray-600 text-xs text-center p-1">No Preview</div>
                 )}
               </div>
-              <input type="file" ref={fileInputRef} onChange={handleMainImageUpload} className="hidden" accept="image/*" />
-              <button type="button" onClick={() => fileInputRef.current?.click()} disabled={uploading} className="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg text-sm transition">
-                {uploading ? "Uploading..." : "Upload Foto"}
-              </button>
+              
+              {/* Input Link */}
+              <div className="flex-1">
+                <input 
+                  name="image" 
+                  value={formData.image} 
+                  onChange={handleChange} 
+                  className="w-full bg-black/30 border border-gray-600 rounded p-2 text-white focus:border-cyan-500 outline-none mb-2" 
+                  placeholder="https://imgur.com/foto.jpg" 
+                />
+                <p className="text-[10px] text-gray-500">*Pastikan link berakhiran .jpg / .png / .webp agar gambar muncul.</p>
+              </div>
             </div>
           </div>
 
-          {/* GALERI FOTO */}
+          {/* BAGIAN 2: GALERI FOTO (LINK) */}
           <div className="p-4 bg-black/20 rounded-xl border border-gray-700/50">
             <label className="block text-sm font-bold text-cyan-400 mb-3">📸 Galeri Foto (Slide)</label>
-            <div className="grid grid-cols-3 sm:grid-cols-4 gap-3 mb-3">
-              {formData.images.map((img, idx) => (
-                <div key={idx} className="relative group aspect-square bg-black rounded-lg overflow-hidden border border-gray-600">
-                  <img src={img} className="w-full h-full object-cover" alt={`Gallery ${idx}`} />
-                  <button type="button" onClick={() => removeGalleryImage(idx)} className="absolute top-1 right-1 bg-red-600 text-white w-6 h-6 rounded-full text-xs flex items-center justify-center opacity-0 group-hover:opacity-100 transition shadow-lg">✕</button>
-                </div>
-              ))}
-              <button type="button" onClick={() => galleryInputRef.current?.click()} disabled={uploading} className="aspect-square border-2 border-dashed border-gray-600 rounded-lg flex flex-col items-center justify-center text-gray-500 hover:text-cyan-400 hover:border-cyan-500 transition gap-1">
-                <span className="text-2xl">+</span><span className="text-[10px]">Tambah</span>
-              </button>
+            
+            {/* Input untuk tambah link galeri */}
+            <div className="flex gap-2 mb-4">
+                <input 
+                  value={tempGalleryUrl} 
+                  onChange={(e) => setTempGalleryUrl(e.target.value)}
+                  className="flex-1 bg-black/30 border border-gray-600 rounded p-2 text-white focus:border-cyan-500 outline-none text-sm" 
+                  placeholder="Paste link gambar tambahan disini..." 
+                />
+                <button 
+                  type="button" 
+                  onClick={handleAddGalleryImage}
+                  className="px-4 py-2 bg-slate-700 hover:bg-cyan-600 text-white rounded-lg text-sm transition font-bold"
+                >
+                  + Add
+                </button>
             </div>
-            <input type="file" ref={galleryInputRef} onChange={handleGalleryUpload} className="hidden" accept="image/*" multiple />
+
+            {/* Grid Preview Galeri */}
+            {formData.images.length > 0 ? (
+                <div className="grid grid-cols-4 gap-3">
+                  {formData.images.map((img, idx) => (
+                    <div key={idx} className="relative group aspect-square bg-black rounded-lg overflow-hidden border border-gray-600">
+                      <img src={img} className="w-full h-full object-cover" alt={`Gallery ${idx}`} />
+                      <button type="button" onClick={() => removeGalleryImage(idx)} className="absolute top-1 right-1 bg-red-600 text-white w-6 h-6 rounded-full text-xs flex items-center justify-center opacity-0 group-hover:opacity-100 transition shadow-lg">✕</button>
+                    </div>
+                  ))}
+                </div>
+            ) : (
+                <p className="text-gray-500 text-xs italic text-center py-2">Belum ada foto galeri tambahan.</p>
+            )}
           </div>
 
-          {/* INPUT FIELDS */}
+          {/* INPUT FIELDS LAINNYA (SAMA SEPERTI SEBELUMNYA) */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="text-xs text-gray-400">Nama Produk</label>
@@ -329,8 +317,8 @@ const AddProductModal = ({ onClose, onSuccess }: AddModalProps) => {
 
           <div className="pt-4 border-t border-gray-700 flex justify-end gap-3">
             <button type="button" onClick={onClose} className="px-5 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 text-white transition">Batal</button>
-            <button type="submit" disabled={loading || uploading} className="px-6 py-2 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold shadow-lg transition disabled:opacity-50">
-                {loading ? "Buat Produk" : "Buat Produk"}
+            <button type="submit" disabled={loading} className="px-6 py-2 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold shadow-lg transition disabled:opacity-50">
+                {loading ? "Menyimpan..." : "Buat Produk"}
             </button>
           </div>
         </form>

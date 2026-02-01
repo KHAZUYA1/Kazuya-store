@@ -1,14 +1,14 @@
-import { useState, useRef, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { doc, updateDoc } from 'firebase/firestore';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { db, storage } from '../../lib/firebase';
+// Hapus import storage karena tidak dipakai
+import { db } from '../../lib/firebase';
 import type { Product } from '../../types';
 
 // IMPORT EDITOR WORD (VERSI BARU - ANTI CRASH)
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 
-// IMPORT SWEETALERT2 (Wajib install: npm install sweetalert2)
+// IMPORT SWEETALERT2
 import Swal from 'sweetalert2';
 
 // 1. DEFINISI KATEGORI
@@ -40,11 +40,14 @@ interface EditModalProps {
 
 const EditProductModal = ({ product, onClose, onSuccess }: EditModalProps) => {
   const [loading, setLoading] = useState(false);
-  const [uploading, setUploading] = useState(false);
   
+  // State sementara untuk input link galeri baru
+  const [tempGalleryUrl, setTempGalleryUrl] = useState('');
+
   // 2. STATE INITIALIZATION
   const [formData, setFormData] = useState({ 
     ...product,
+    image: product.image || '', // Pastikan string kosong jika null
     description: product.description || '', 
     images: product.images || [], 
     videoUrl: product.videoUrl || '',
@@ -53,9 +56,6 @@ const EditProductModal = ({ product, onClose, onSuccess }: EditModalProps) => {
     isBestSeller: product.isBestSeller || false
   });
   
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const galleryInputRef = useRef<HTMLInputElement>(null);
-
   // CONFIG TOOLBAR
   const modules = useMemo(() => ({
     toolbar: [
@@ -80,53 +80,15 @@ const EditProductModal = ({ product, onClose, onSuccess }: EditModalProps) => {
     setFormData(prev => ({ ...prev, description: content }));
   };
 
-  const handleMainImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    setUploading(true);
-    try {
-      const storageRef = ref(storage, `products/${Date.now()}_${file.name}`);
-      await uploadBytes(storageRef, file);
-      const url = await getDownloadURL(storageRef);
-      setFormData(prev => ({ ...prev, image: url }));
-    } catch (error) {
-      console.error("Upload failed", error);
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Gagal upload foto utama!',
-        background: '#1e293b',
-        color: '#fff'
-      });
-    } finally {
-      setUploading(false);
-    }
-  };
-
-  const handleGalleryUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (!files || files.length === 0) return;
-
-    setUploading(true);
-    try {
-      const newUrls: string[] = [];
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        const storageRef = ref(storage, `products/gallery/${Date.now()}_${file.name}`);
-        await uploadBytes(storageRef, file);
-        const url = await getDownloadURL(storageRef);
-        newUrls.push(url);
-      }
-      setFormData(prev => ({
-        ...prev,
-        images: [...(prev.images || []), ...newUrls]
-      }));
-    } catch (error) {
-      console.error("Gallery upload failed", error);
-    } finally {
-      setUploading(false);
-    }
+  // LOGIKA BARU: Tambah gambar ke galeri dari Link
+  const handleAddGalleryImage = () => {
+    if (!tempGalleryUrl) return;
+    
+    setFormData(prev => ({
+      ...prev,
+      images: [...(prev.images || []), tempGalleryUrl]
+    }));
+    setTempGalleryUrl(''); // Reset input
   };
 
   const removeGalleryImage = (indexToRemove: number) => {
@@ -147,7 +109,7 @@ const EditProductModal = ({ product, onClose, onSuccess }: EditModalProps) => {
         name: formData.name,
         price: formData.price,
         category: formData.category,
-        image: formData.image,
+        image: formData.image, // URL Text
         images: formData.images || [], 
         description: formData.description || '',
         videoUrl: formData.videoUrl || "",
@@ -156,14 +118,13 @@ const EditProductModal = ({ product, onClose, onSuccess }: EditModalProps) => {
         isVisible: formData.isVisible
       });
       
-      // ✅ OPSI B: SWEETALERT2 (Sesuai Request)
       await Swal.fire({
         icon: 'success',
         title: 'Berhasil!',
         text: 'Data produk telah diperbarui.',
-        background: '#1e293b', // Warna background dark mode
-        color: '#fff', // Warna teks putih
-        confirmButtonColor: '#0891b2' // Warna tombol cyan
+        background: '#1e293b', 
+        color: '#fff', 
+        confirmButtonColor: '#0891b2'
       });
       
       onSuccess(); 
@@ -172,14 +133,13 @@ const EditProductModal = ({ product, onClose, onSuccess }: EditModalProps) => {
     } catch (error) {
       console.error("Update error", error);
       
-      // Error alert juga kita bikin estetik sekalian
       Swal.fire({
         icon: 'error',
         title: 'Gagal!',
         text: 'Terjadi kesalahan saat menyimpan data.',
         background: '#1e293b',
         color: '#fff',
-        confirmButtonColor: '#ef4444' // Warna merah
+        confirmButtonColor: '#ef4444'
       });
       
     } finally {
@@ -191,47 +151,72 @@ const EditProductModal = ({ product, onClose, onSuccess }: EditModalProps) => {
     <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
       <div className="bg-[#1e293b] w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl border border-gray-700 shadow-2xl">
         <div className="sticky top-0 bg-[#1e293b] z-10 px-6 py-4 border-b border-gray-700 flex justify-between items-center">
-          <h2 className="text-xl font-bold text-white">✏️ Edit Produk Lengkap</h2>
+          <h2 className="text-xl font-bold text-white">✏️ Edit Produk (Link URL)</h2>
           <button onClick={onClose} className="text-gray-400 hover:text-white text-2xl">✕</button>
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
-          {/* FOTO UTAMA */}
+          
+          {/* FOTO UTAMA (LINK URL) */}
           <div>
-            <label className="block text-sm font-medium text-gray-400 mb-2">Foto Utama (Cover)</label>
-            <div className="flex items-center gap-4">
+            <label className="block text-sm font-medium text-gray-400 mb-2">Foto Utama (Link URL)</label>
+            <div className="flex gap-4 items-start">
+              {/* Preview Box */}
               <div className="w-24 h-24 bg-black rounded-lg overflow-hidden border border-gray-600 flex-shrink-0">
                 {formData.image ? (
-                  <img src={formData.image} className="w-full h-full object-cover" alt="Preview" />
+                  <img src={formData.image} className="w-full h-full object-cover" alt="Preview" onError={(e) => (e.currentTarget.src = 'https://via.placeholder.com/150?text=Error')} />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center text-gray-600">No Img</div>
+                  <div className="w-full h-full flex items-center justify-center text-gray-600 text-xs text-center">No Img</div>
                 )}
               </div>
-              <input type="file" ref={fileInputRef} onChange={handleMainImageUpload} className="hidden" accept="image/*" />
-              <button type="button" onClick={() => fileInputRef.current?.click()} disabled={uploading} className="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg text-sm transition">
-                {uploading ? "Uploading..." : "Ganti Foto Utama"}
-              </button>
+              
+              {/* Input Link */}
+              <div className="flex-1">
+                <input 
+                  name="image" 
+                  value={formData.image} 
+                  onChange={handleChange} 
+                  className="w-full bg-black/30 border border-gray-600 rounded p-2 text-white focus:border-cyan-500 outline-none mb-2" 
+                  placeholder="Paste link gambar utama disini..." 
+                />
+                 <p className="text-[10px] text-gray-500">*Ganti link di atas untuk mengubah foto cover.</p>
+              </div>
             </div>
           </div>
 
-          {/* GALERI FOTO */}
+          {/* GALERI FOTO (LINK URL) */}
           <div className="p-4 bg-black/20 rounded-xl border border-gray-700/50">
             <label className="block text-sm font-bold text-cyan-400 mb-3">📸 Galeri Foto (Slide)</label>
-            <div className="grid grid-cols-3 sm:grid-cols-4 gap-3 mb-3">
+            
+            {/* Input Tambah Galeri */}
+            <div className="flex gap-2 mb-4">
+                <input 
+                  value={tempGalleryUrl} 
+                  onChange={(e) => setTempGalleryUrl(e.target.value)}
+                  className="flex-1 bg-black/30 border border-gray-600 rounded p-2 text-white focus:border-cyan-500 outline-none text-sm" 
+                  placeholder="Paste link gambar tambahan..." 
+                />
+                <button 
+                  type="button" 
+                  onClick={handleAddGalleryImage}
+                  className="px-4 py-2 bg-slate-700 hover:bg-cyan-600 text-white rounded-lg text-sm transition font-bold"
+                >
+                  + Add
+                </button>
+            </div>
+
+            {/* Grid Preview Galeri */}
+            <div className="grid grid-cols-4 gap-3">
               {(formData.images || []).map((img, idx) => (
                 <div key={idx} className="relative group aspect-square bg-black rounded-lg overflow-hidden border border-gray-600">
-                  <img src={img} className="w-full h-full object-cover" alt={`Gallery ${idx}`} />
+                  <img src={img} className="w-full h-full object-cover" alt={`Gallery ${idx}`} onError={(e) => (e.currentTarget.src = 'https://via.placeholder.com/150?text=Err')} />
                   <button type="button" onClick={() => removeGalleryImage(idx)} className="absolute top-1 right-1 bg-red-600 text-white w-6 h-6 rounded-full text-xs flex items-center justify-center opacity-0 group-hover:opacity-100 transition shadow-lg">✕</button>
                 </div>
               ))}
-              <button type="button" onClick={() => galleryInputRef.current?.click()} disabled={uploading} className="aspect-square border-2 border-dashed border-gray-600 rounded-lg flex flex-col items-center justify-center text-gray-500 hover:text-cyan-400 hover:border-cyan-500 transition gap-1">
-                <span className="text-2xl">+</span><span className="text-[10px]">Tambah</span>
-              </button>
             </div>
-            <input type="file" ref={galleryInputRef} onChange={handleGalleryUpload} className="hidden" accept="image/*" multiple />
           </div>
 
-          {/* INPUT FIELDS */}
+          {/* INPUT FIELDS (TIDAK BERUBAH) */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="text-xs text-gray-400">Nama Produk</label>
@@ -317,7 +302,7 @@ const EditProductModal = ({ product, onClose, onSuccess }: EditModalProps) => {
 
           <div className="pt-4 border-t border-gray-700 flex justify-end gap-3">
             <button type="button" onClick={onClose} className="px-5 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 text-white transition">Batal</button>
-            <button type="submit" disabled={loading || uploading} className="px-6 py-2 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold shadow-lg transition disabled:opacity-50">
+            <button type="submit" disabled={loading} className="px-6 py-2 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold shadow-lg transition disabled:opacity-50">
                 {loading ? "Menyimpan..." : "Simpan Perubahan"}
             </button>
           </div>
