@@ -1,14 +1,19 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { useTheme } from '../context/ThemeContext';
 import { useAuth } from '../context/AuthContext';
 import { db } from '../lib/firebase';
 import { doc, getDoc } from 'firebase/firestore';
+// Import useNavigate untuk navigasi halaman
+import { useNavigate } from 'react-router-dom'; 
 
 const Navbar = () => {
   const { t, currentLang, setLang, flags, setCategory } = useLanguage();
   const { isDark, toggleTheme } = useTheme();
   const { isAdmin } = useAuth();
+  
+  // Gunakan navigate dari react-router-dom
+  const navigate = useNavigate();
   
   const [brandName, setBrandName] = useState("KAZUYA");
   const [scrolled, setScrolled] = useState(false);
@@ -112,6 +117,15 @@ const Navbar = () => {
 
           {/* CONTROLS (KANAN) */}
           <div className="flex items-center gap-2">
+            
+            {/* 🔥 TOMBOL MEMBER AREA (DESKTOP ONLY) */}
+            <button 
+               onClick={() => navigate('/member')}
+               className="hidden md:flex items-center gap-2 px-4 h-10 bg-gradient-to-r from-orange-500 to-yellow-500 text-white text-xs font-bold rounded-xl shadow-lg hover:scale-105 transition-transform mr-2"
+            >
+               <span>🚀</span> Member Area
+            </button>
+
             {/* TEMA TOGGLE */}
             <button 
               onClick={toggleTheme} 
@@ -123,7 +137,7 @@ const Navbar = () => {
               {isDark ? '🌞' : '🌙'}
             </button>
 
-            {/* BAHASA TOGGLE (PENYESUAIAN REVISI) */}
+            {/* BAHASA TOGGLE */}
             <div className="relative">
               <button 
                 onClick={() => setIsLangOpen(!isLangOpen)} 
@@ -156,7 +170,7 @@ const Navbar = () => {
               )}
             </div>
 
-            {/* HAMBURGER MENU */}
+            {/* HAMBURGER MENU BUTTON */}
             <button 
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="relative w-12 h-12 flex flex-col items-center justify-center bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl shadow-xl border border-white/20 z-[110] active:scale-95 transition"
@@ -171,7 +185,7 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* 3. SIDE-MENU RAMPIK (POSISI KIRI & SOLID) */}
+      {/* 3. SIDE-MENU RAMPIK (MOBILE) */}
       <div className={`fixed top-0 left-0 h-full w-[280px] sm:w-[320px] bg-white dark:bg-[#080808] z-[105] shadow-[10px_0_30px_rgba(0,0,0,0.1)] transition-transform duration-500 ease-in-out ${
         isMenuOpen ? 'translate-x-0' : '-translate-x-full'
       }`}>
@@ -190,6 +204,16 @@ const Navbar = () => {
           <div className="space-y-6 mb-12">
             <p className="text-slate-400 font-black tracking-[0.4em] text-[8px] uppercase border-l-2 border-blue-500 pl-3">Navigation</p>
             <div className="flex flex-col gap-4 items-start">
+              
+              {/* 🔥 TOMBOL MEMBER AREA (MOBILE VERSION) */}
+              {/* Saya taruh paling atas agar langsung terlihat saat menu dibuka */}
+              <button 
+                 onClick={() => { navigate('/member'); setIsMenuOpen(false); }}
+                 className="w-full py-3 bg-gradient-to-r from-orange-500 to-yellow-500 text-white rounded-xl font-bold shadow-lg flex items-center justify-center gap-2 mb-2 active:scale-95 transition-transform"
+              >
+                 <span>🚀</span> Akses Member Area
+              </button>
+
               {navLinks.map((link) => (
                 <a 
                   key={link.name} 
@@ -200,6 +224,7 @@ const Navbar = () => {
                   {link.name}
                 </a>
               ))}
+
               {isAdmin && <a href="/admin" className="text-[9px] font-black text-red-500 px-3 py-1.5 border border-red-500/20 rounded-lg mt-2 uppercase">🔒 Panel Admin</a>}
             </div>
           </div>

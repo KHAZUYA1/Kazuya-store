@@ -9,7 +9,7 @@ const RunningText = () => {
            🔥 PROMO SPESIAL: Diskon 50% Untuk Semua Source Code!
         </span>
         <span className="mx-4 flex items-center gap-2">
-           ⚡ Top Up Games Proses 1 Detik
+           ⚡ Gratis Mentoring & Update Materi Seumur Hidup!"
         </span>
         <span className="mx-4 flex items-center gap-2">
            📢 Maintenance Server: Jam 00:00 - 02:00 WIB

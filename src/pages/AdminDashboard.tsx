@@ -1,9 +1,12 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 import { collection, getDocs } from 'firebase/firestore'; 
 import { auth, db } from '../lib/firebase';
+
+// IMPORT HALAMAN LOGIN (PENJAGA PINTU)
+import AdminLogin from './AdminLogin'; 
 
 // IMPORT KOMPONEN
 import ProductList from '../components/ProductList';
@@ -14,26 +17,26 @@ import AddProductModal from '../components/admin/AddProductModal';
 
 // --- KOMPONEN GRAFIK BATANG (CSS PURE) ---
 const SalesChart = () => {
-    // Data dummy untuk visualisasi grafik (bisa diganti real data nanti)
-    const data = [40, 65, 45, 80, 55, 90, 70, 85, 60, 95, 75, 100];
-    
-    return (
-        <div className="flex items-end justify-between h-40 gap-2 mt-4 px-2">
-            {data.map((h, i) => (
-                <div key={i} className="w-full bg-slate-700/50 rounded-t-sm relative group overflow-hidden" style={{ height: `${h}%` }}>
-                    <div className="absolute inset-0 bg-gradient-to-t from-cyan-600/20 to-cyan-400/80 opacity-60 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    {/* Tooltip Hover */}
-                    <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-black text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10 pointer-events-none">
-                        {h * 10} Sales
-                    </div>
-                </div>
-            ))}
+  const data = [40, 65, 45, 80, 55, 90, 70, 85, 60, 95, 75, 100];
+  
+  return (
+    <div className="flex items-end justify-between h-40 gap-2 mt-4 px-2">
+      {data.map((h, i) => (
+        <div key={i} className="w-full bg-slate-700/50 rounded-t-sm relative group overflow-hidden" style={{ height: `${h}%` }}>
+          <div className="absolute inset-0 bg-gradient-to-t from-cyan-600/20 to-cyan-400/80 opacity-60 group-hover:opacity-100 transition-opacity duration-300"></div>
+          {/* Tooltip Hover */}
+          <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-black text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10 pointer-events-none">
+            {h * 10} Sales
+          </div>
         </div>
-    );
+      ))}
+    </div>
+  );
 };
 
 const AdminDashboard = () => {
-  const { user, isAdmin } = useAuth(); 
+  // Ambil state auth dan loading dari context
+  const { user, isAdmin, loading } = useAuth(); 
   const navigate = useNavigate();
   
   // STATE DASHBOARD
@@ -49,12 +52,12 @@ const AdminDashboard = () => {
     activeCategories: 0
   });
 
+  // Fetch Stats hanya jika user sudah login & admin
   useEffect(() => {
-    if (!user || !isAdmin) {
-      navigate('/');
+    if (user && isAdmin) {
+      fetchStats();
     }
-    fetchStats();
-  }, [user, isAdmin, navigate, refreshKey]);
+  }, [user, isAdmin, refreshKey]);
 
   // HITUNG STATISTIK DARI FIREBASE
   const fetchStats = async () => {
@@ -81,7 +84,7 @@ const AdminDashboard = () => {
   const handleLogout = async () => {
     try {
       await signOut(auth); 
-      navigate('/');
+      // Setelah logout, otomatis komponen ini akan re-render dan menampilkan <AdminLogin /> karena user null
     } catch (error) {
       console.error("Gagal logout:", error);
     }
@@ -92,8 +95,27 @@ const AdminDashboard = () => {
     fetchStats();
   };
 
-  if (!isAdmin) return null;
+  // --- LOGIKA PENJAGA PINTU (GATEKEEPER) ---
 
+  // 1. Loading State (Agar tidak berkedip)
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#0f172a] flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-500"></div>
+      </div>
+    );
+  }
+
+  // 2. Jika BELUM LOGIN: Tampilkan Halaman Login (Jangan Redirect)
+  if (!user) {
+    return <AdminLogin />;
+  }
+
+  // 3. Jika Login tapi BUKAN ADMIN (Opsional: Tendang ke Home atau Tampilkan Pesan)
+  // Untuk keamanan ekstra, kita anggap null dulu
+  if (!isAdmin) return null; 
+
+  // 4. Jika SUDAH LOGIN & ADMIN: Tampilkan Dashboard Penuh
   return (
     <div className="min-h-screen bg-[#0f172a] text-white pb-20 font-sans selection:bg-cyan-500/30">
       
@@ -186,7 +208,7 @@ const AdminDashboard = () => {
             </div>
         </div>
 
-        {/* --- SECTION 2: GRAFIK & MONITORING (BARU) --- */}
+        {/* --- SECTION 2: GRAFIK & MONITORING --- */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             
             {/* GRAFIK PENJUALAN (KIRI - LEBAR) */}
@@ -202,7 +224,6 @@ const AdminDashboard = () => {
                     </select>
                 </div>
                 
-                {/* Visualisasi Grafik Batang */}
                 <SalesChart />
                 
                 <div className="flex justify-between text-[10px] text-gray-500 px-2 mt-2 font-mono">
@@ -213,7 +234,7 @@ const AdminDashboard = () => {
             {/* MONITORING SYSTEM (KANAN - KECIL) */}
             <div className="bg-[#1e293b]/50 border border-slate-700/50 rounded-3xl p-6 backdrop-blur-sm flex flex-col gap-4">
                 <h2 className="text-lg font-bold text-white flex items-center gap-2">
-                   ⚡ System Health
+                    ⚡ System Health
                 </h2>
                 
                 {/* Status Items */}
