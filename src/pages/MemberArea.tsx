@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { doc, getDoc } from 'firebase/firestore'; // Import Firebase
-import { db } from '../lib/firebase'; // Pastikan path firebase benar
+import { doc, getDoc } from 'firebase/firestore'; 
+import { db } from '../lib/firebase'; 
 import { 
   PlayCircle, Lock, ExternalLink, Star, 
   TrendingUp, ShieldAlert, Zap, X, CheckCircle,
-  FileCode, BookOpen, Gift, Crown, ArrowRight, ArrowLeft // ✅ Tambah icon ArrowLeft
+  FileCode, BookOpen, Gift, Crown, ArrowRight, ArrowLeft 
 } from 'lucide-react';
 import PaymentHandler from '../components/PaymentHandler';
 
@@ -16,7 +16,7 @@ const MemberArea = () => {
 
   // --- 1. STATE UNTUK MENYIMPAN LINK DARI DATABASE ---
   const [paymentLinks, setPaymentLinks] = useState({
-    basic: '',    // Fallback kosong
+    basic: '',    
     premium: '',
     pro: '' 
   });
@@ -37,18 +37,13 @@ const MemberArea = () => {
     fetchPaymentLinks();
   }, []);
 
-  // --- FUNGSI KLIK BAYAR (UPDATED) ---
+  // --- FUNGSI KLIK BAYAR ---
   const handleBuy = (planName: string, type: 'basic' | 'premium' | 'pro') => {
-    
-    // Ambil URL berdasarkan tipe paket
     const url = paymentLinks[type];
-
-    // Cek jika URL kosong (Admin belum input link)
     if (!url) {
       alert("Mohon maaf, pendaftaran sedang ditutup sementara atau Admin belum mengatur link pembayaran.");
       return;
     }
-
     setSelectedPlan({ name: planName, url: url });
     setIsPayOpen(true);
     if (selectedModule) setSelectedModule(null);
@@ -59,9 +54,8 @@ const MemberArea = () => {
      if (offerSection) offerSection.scrollIntoView({ behavior: 'smooth' });
   };
 
-  // --- DATABASE KURIKULUM ---
+  // --- DATABASE KURIKULUM (TETAP SAMA) ---
   const curriculum = [
-    // --- FASE 1: PONDASI (GRATIS) ---
     { 
       id: 1, 
       title: "Mindset: Kenapa 99% Orang Gagal di Digital (Dan Cara Masuk 1%)", 
@@ -74,8 +68,6 @@ const MemberArea = () => {
       desc: "Tools gratisan yang dipakai startup unicorn, tapi jarang diketahui pemula.",
       type: "video", duration: "15:20", isFree: true 
     },
-    
-    // --- FASE 2: TEKNIS RAHASIA (CODING JALAN PINTAS) ---
     { 
       id: 3, 
       title: "Blue Ocean Coding: Membuat Web Tanpa Menghafal Rumus Rumit", 
@@ -103,8 +95,6 @@ const MemberArea = () => {
       desc: "Cara membuat website Anda bisa diakses dari Amerika sampai Eropa tanpa biaya hosting.",
       type: "video", duration: "14:15", isFree: false 
     },
-
-    // --- FASE 3: STRATEGI BISNIS & MARKETING ---
     { 
       id: 7, 
       title: "STRATEGI 'GHOST MARKET': Menjual Produk Digital Tanpa Perang Harga", 
@@ -124,8 +114,6 @@ const MemberArea = () => {
       desc: "Copywriting hipnotis yang memaksa otak reptil manusia untuk segera transfer.",
       type: "strategy", duration: "35:00", isFree: false 
     },
-
-    // --- FASE 4: EXPANSION & AI ---
     { 
       id: 10, 
       title: "AI SURVIVAL KIT: Coding & Nulis Konten 10x Lebih Cepat", 
@@ -138,8 +126,6 @@ const MemberArea = () => {
       desc: "Jual jasa pembuatan aplikasi Android dengan modal website yang sudah Anda buat.",
       type: "video", duration: "20:00", isFree: false 
     },
-
-    // --- FASE 5: ASET DIGITAL & SOURCE CODE (THE TREASURE) ---
     { 
       id: 12, 
       title: "SOURCE CODE: 'Marketplace Engine' Seharga Rp 50 Juta", 
@@ -165,8 +151,6 @@ const MemberArea = () => {
       desc: "Koleksi tombol, form, dan layout siap tempel. Desain web jadi secepat kilat.",
       type: "asset", duration: "ZIP FILE", isFree: false 
     },
-
-    // --- FASE 6: BONUS EKSKLUSIF ---
     { 
       id: 16, 
       title: "E-BOOK: 'Kitab Hitam Digital Marketing' (PDF)", 
@@ -212,10 +196,10 @@ const MemberArea = () => {
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-[#0a0a0a] text-slate-900 dark:text-white font-sans relative">
       
-      {/* --- MODAL POPUP PREVIEW (TEASER) --- */}
+      {/* --- MODAL POPUP PREVIEW (OPTIMIZED MOBILE) --- */}
       {selectedModule && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
-          <div className="bg-white dark:bg-slate-900 w-full max-w-lg rounded-3xl overflow-hidden shadow-2xl border border-slate-200 dark:border-slate-700 relative animate-scale-up">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/90 md:bg-black/80 md:backdrop-blur-sm md:animate-fade-in">
+          <div className="bg-white dark:bg-slate-900 w-full max-w-lg rounded-3xl overflow-hidden shadow-2xl border border-slate-200 dark:border-slate-700 relative md:animate-scale-up">
             
             <button 
               onClick={() => setSelectedModule(null)}
@@ -246,15 +230,14 @@ const MemberArea = () => {
                   </h4>
                   <ul className="text-xs text-slate-600 dark:text-slate-400 space-y-1 ml-1 font-medium">
                     <li>• Akses Materi Seumur Hidup</li>
-                    <li>• Source Code Boleh Dijual Ulang (Syarat Berlaku)</li>
+                    <li>• Source Code Boleh Dijual Ulang</li>
                     <li>• Grup Support VIP</li>
                   </ul>
                </div>
 
-               {/* TOMBOL BAYAR DINAMIS (MODAL) */}
                <button 
                  onClick={() => handleBuy("PAKET BUSINESS OWNER (VIP)", "pro")}
-                 className="w-full py-4 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-black rounded-xl shadow-lg hover:shadow-cyan-500/50 hover:scale-[1.02] transition-all flex items-center justify-center gap-2"
+                 className="w-full py-4 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-black rounded-xl shadow-lg md:hover:shadow-cyan-500/50 md:hover:scale-[1.02] transition-all flex items-center justify-center gap-2"
                >
                  🔥 AMBIL AKSES SEKARANG
                </button>
@@ -263,15 +246,14 @@ const MemberArea = () => {
         </div>
       )}
 
-      {/* HEADER MEMBER AREA */}
-      <div className="bg-white dark:bg-[#111] border-b border-slate-200 dark:border-slate-800 p-4 sticky top-0 z-30 shadow-sm backdrop-blur-md bg-opacity-95">
+      {/* HEADER MEMBER AREA (NO BLUR ON MOBILE) */}
+      <div className="bg-white/95 dark:bg-[#111]/95 md:backdrop-blur-md border-b border-slate-200 dark:border-slate-800 p-4 sticky top-0 z-30 shadow-sm">
         <div className="container mx-auto flex justify-between items-center">
           <div className="flex items-center gap-4">
-             {/* ✅ TOMBOL KEMBALI KE HOME */}
+             {/* ✅ TOMBOL KEMBALI */}
              <button 
                 onClick={() => window.location.href = '/'}
                 className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition text-slate-500 hover:text-slate-900 dark:hover:text-white"
-                title="Kembali ke Halaman Utama"
              >
                 <ArrowLeft size={24} />
              </button>
@@ -287,7 +269,7 @@ const MemberArea = () => {
           
           <button 
             onClick={scrollToOffer}
-            className="bg-gradient-to-r from-orange-500 to-red-600 text-white text-xs md:text-sm font-bold px-4 md:px-6 py-3 rounded-full animate-pulse shadow-[0_0_15px_rgba(249,115,22,0.5)] hover:scale-105 transition border border-white/20 whitespace-nowrap"
+            className="bg-gradient-to-r from-orange-500 to-red-600 text-white text-xs md:text-sm font-bold px-4 md:px-6 py-3 rounded-full md:animate-pulse shadow-sm md:shadow-[0_0_15px_rgba(249,115,22,0.5)] md:hover:scale-105 transition border border-white/20 whitespace-nowrap"
           >
              🔓 BUKA SEMUA
           </button>
@@ -297,9 +279,10 @@ const MemberArea = () => {
       <div className="container mx-auto p-4 md:p-8 max-w-4xl">
         
         {/* SECTION 1: WELCOME BANNER */}
-        <div className="bg-gradient-to-r from-slate-900 to-slate-800 rounded-3xl p-[2px] shadow-2xl mb-12 transform hover:scale-[1.01] transition duration-500">
+        <div className="bg-gradient-to-r from-slate-900 to-slate-800 rounded-3xl p-[2px] shadow-lg md:shadow-2xl mb-12 transform md:hover:scale-[1.01] transition duration-500">
            <div className="bg-[url('https://grainy-gradients.vercel.app/noise.svg')] bg-cover rounded-[22px] p-6 md:p-10 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/20 rounded-full blur-[80px] pointer-events-none"></div>
+              {/* Blur dikurangi untuk mobile */}
+              <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 md:bg-blue-500/20 rounded-full md:blur-[80px] pointer-events-none"></div>
               
               <div className="relative z-10 text-white">
                   <div className="inline-flex items-center gap-2 bg-yellow-500 text-slate-900 px-4 py-1.5 rounded-full text-xs md:text-sm font-black mb-5 shadow-lg">
@@ -309,11 +292,11 @@ const MemberArea = () => {
                      Intip "Gudang Senjata"<br/>Yang Akan Anda Miliki.
                   </h2>
                   <p className="text-slate-200 mb-8 max-w-2xl text-base md:text-lg font-medium leading-relaxed">
-                    Di bawah ini adalah daftar lengkap Modul, Source Code, dan Aset Digital yang akan menjadi milik Anda sepenuhnya. Tanpa basa-basi akademis.
+                    Di bawah ini adalah daftar lengkap Modul, Source Code, dan Aset Digital yang akan menjadi milik Anda sepenuhnya.
                   </p>
                   
                   <div className="flex flex-col sm:flex-row gap-4">
-                    <button onClick={scrollToOffer} className="flex items-center justify-center gap-2 bg-white text-slate-900 font-bold px-6 py-4 rounded-xl hover:bg-blue-50 transition shadow-xl text-sm md:text-base">
+                    <button onClick={scrollToOffer} className="flex items-center justify-center gap-2 bg-white text-slate-900 font-bold px-6 py-4 rounded-xl active:bg-blue-50 md:hover:bg-blue-50 transition shadow-xl text-sm md:text-base">
                         <ExternalLink size={20} /> Amankan Akses Sekarang
                     </button>
                   </div>
@@ -338,13 +321,12 @@ const MemberArea = () => {
               key={item.id} 
               className={`relative overflow-hidden group rounded-2xl border-2 transition-all duration-300 ${
                 item.isFree 
-                  ? 'bg-white dark:bg-[#1a1a1a] border-green-500/50 hover:border-green-500 shadow-lg' 
-                  : 'bg-slate-50 dark:bg-[#111] border-slate-200 dark:border-slate-800 opacity-95 hover:opacity-100'
+                  ? 'bg-white dark:bg-[#1a1a1a] border-green-500/50 md:hover:border-green-500 shadow-sm md:shadow-lg' 
+                  : 'bg-slate-50 dark:bg-[#111] border-slate-200 dark:border-slate-800 opacity-95 md:hover:opacity-100'
               }`}
             >
               <div className="p-5 flex flex-col md:flex-row gap-5 items-start md:items-center justify-between">
                   
-                  {/* Icon & Content */}
                   <div className="flex items-start gap-4 flex-1">
                     <div className={`w-12 h-12 md:w-14 md:h-14 rounded-2xl flex items-center justify-center shrink-0 shadow-sm ${
                        item.isFree 
@@ -368,10 +350,9 @@ const MemberArea = () => {
                     </div>
                   </div>
 
-                  {/* Action Button */}
                   <div className="w-full md:w-auto mt-2 md:mt-0">
                      {item.isFree ? (
-                        <button className="w-full md:w-auto px-5 py-3 bg-green-600 hover:bg-green-700 text-white text-sm font-bold rounded-xl shadow-lg transition-transform transform active:scale-95 flex items-center justify-center gap-2">
+                        <button className="w-full md:w-auto px-5 py-3 bg-green-600 hover:bg-green-700 text-white text-sm font-bold rounded-xl shadow-md md:shadow-lg transition-transform transform active:scale-95 flex items-center justify-center gap-2">
                            <PlayCircle size={18} /> TONTON
                         </button>
                      ) : (
@@ -393,17 +374,17 @@ const MemberArea = () => {
           ))}
         </div>
         
-        {/* --- SECTION 3: PENAWARAN KHUSUS (HARGA CORET & SOLUSI ALTERNATIF) --- */}
-        <div id="special-offer" className="mt-16 relative overflow-hidden rounded-3xl bg-slate-900 border border-slate-700 shadow-2xl text-center p-8 md:p-12 transform hover:scale-[1.01] transition duration-500">
+        {/* --- SECTION 3: PENAWARAN KHUSUS (OPTIMIZED) --- */}
+        <div id="special-offer" className="mt-16 relative overflow-hidden rounded-3xl bg-slate-900 border border-slate-700 shadow-xl md:shadow-2xl text-center p-8 md:p-12 transform md:hover:scale-[1.01] transition duration-500">
            <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500"></div>
            
-           <ShieldAlert size={56} className="text-red-500 mx-auto mb-4 animate-pulse" />
+           <ShieldAlert size={56} className="text-red-500 mx-auto mb-4 md:animate-pulse" />
            
            <h3 className="text-2xl md:text-3xl font-black text-white mb-2">
               Dapatkan Akses Penuh (Paket PRO)
            </h3>
            <p className="text-slate-400 text-sm mb-8">
-              Total Nilai Asli (Value) Semua Modul: <span className="text-slate-300 font-bold">Rp 50.000.000+</span>
+              Total Nilai Asli (Value): <span className="text-slate-300 font-bold">Rp 50.000.000+</span>
            </p>
 
            <div className="mb-8">
@@ -418,17 +399,16 @@ const MemberArea = () => {
                   </span>
                </div>
                <div className="inline-block bg-green-500/20 border border-green-500/50 rounded-full px-4 py-1 mt-3">
-                  <p className="text-green-400 text-xs md:text-sm font-bold animate-pulse">
+                  <p className="text-green-400 text-xs md:text-sm font-bold md:animate-pulse">
                      ⚡ Hemat Rp 1.000.000 Khusus Hari Ini!
                   </p>
                </div>
            </div>
            
            <div className="flex flex-col gap-4 max-w-md mx-auto mb-10">
-              {/* TOMBOL BAYAR PRO (DINAMIS) */}
               <button 
                 onClick={() => handleBuy("PAKET BUSINESS OWNER (VIP)", "pro")}
-                className="w-full px-8 py-5 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-black rounded-2xl shadow-[0_0_30px_rgba(37,99,235,0.4)] hover:shadow-[0_0_50px_rgba(37,99,235,0.6)] hover:scale-105 transition-all text-xl tracking-wide flex items-center justify-center gap-2"
+                className="w-full px-8 py-5 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-black rounded-2xl shadow-lg md:shadow-[0_0_30px_rgba(37,99,235,0.4)] md:hover:shadow-[0_0_50px_rgba(37,99,235,0.6)] md:hover:scale-105 transition-all text-xl tracking-wide flex items-center justify-center gap-2"
               >
                  AMBIL PAKET PRO SEKARANG <ArrowRight strokeWidth={3} />
               </button>
@@ -437,23 +417,22 @@ const MemberArea = () => {
               </p>
            </div>
 
-           {/* --- SOLUSI ALTERNATIF (DOWNSELL DINAMIS) --- */}
            <div className="border-t border-slate-700 pt-8 mt-8">
               <p className="text-slate-300 font-bold mb-4 text-sm md:text-base">
                  💰 Budget Belum Cukup untuk PRO? <br/>
-                 <span className="font-normal text-slate-400 text-xs">Tenang, Anda tetap bisa mulai belajar dengan opsi hemat:</span>
+                 <span className="font-normal text-slate-400 text-xs">Tenang, opsi hemat tetap tersedia:</span>
               </p>
               
               <div className="flex flex-wrap justify-center gap-4">
                  <button 
                     onClick={() => handleBuy("PAKET STARTER (BASIC)", "basic")}
-                    className="px-6 py-3 rounded-xl border border-slate-600 hover:border-white hover:bg-slate-800 text-slate-300 hover:text-white transition-all text-xs font-bold flex items-center gap-2"
+                    className="px-6 py-3 rounded-xl border border-slate-600 active:border-white active:bg-slate-800 md:hover:border-white md:hover:bg-slate-800 text-slate-300 md:hover:text-white transition-all text-xs font-bold flex items-center gap-2"
                  >
                     📦 Ambil Paket BASIC (Rp 149rb)
                  </button>
                  <button 
                     onClick={() => handleBuy("PAKET BUILDER (PREMIUM)", "premium")}
-                    className="px-6 py-3 rounded-xl border border-blue-500/50 bg-blue-500/10 hover:bg-blue-500 hover:text-white text-blue-400 transition-all text-xs font-bold flex items-center gap-2"
+                    className="px-6 py-3 rounded-xl border border-blue-500/50 bg-blue-500/10 active:bg-blue-500 active:text-white md:hover:bg-blue-500 md:hover:text-white text-blue-400 transition-all text-xs font-bold flex items-center gap-2"
                  >
                     🚀 Ambil Paket PREMIUM (Rp 560rb)
                  </button>
@@ -464,7 +443,6 @@ const MemberArea = () => {
 
       </div>
 
-      {/* --- PAYMENT HANDLER (MODAL LOADING KE MIDTRANS) --- */}
       <PaymentHandler 
         isOpen={isPayOpen} 
         onClose={() => setIsPayOpen(false)}
