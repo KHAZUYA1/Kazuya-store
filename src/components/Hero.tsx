@@ -158,9 +158,10 @@ const Hero = () => {
               </div>
             </div>
 
-            {/* KANAN: Video (Youtube) */}
+            {/* KANAN: Video (Youtube) - DIBUAT KOTAK FULL MENTOK */}
             <div className="order-1 md:order-2 flex justify-center">
-              <div className="relative w-full aspect-video rounded-[2rem] shadow-2xl overflow-hidden border border-white/10 bg-black">
+              {/* 🔧 FIX: Hilangkan rounded-[2rem] dan border. Tambahkan margin negatif di mobile (-mx-4) agar mentok layar */}
+              <div className="relative w-[calc(100%+2rem)] -mx-4 md:mx-0 md:w-full aspect-video bg-black z-10 shadow-2xl border-y md:border border-white/10">
                 <iframe
                   className="absolute top-0 left-0 w-full h-full"
                   src={getEmbedUrl(heroData?.youtubeUrl || "")}
@@ -208,7 +209,7 @@ const Hero = () => {
         </div>
       </section>
 
-      {/* LIGHTBOX COMPONENT (SAMA SEPERTI SEBELUMNYA) */}
+      {/* LIGHTBOX COMPONENT */}
       {isLightboxOpen && lightboxImage && (
         <div className="fixed inset-0 z-[150] bg-black/95 backdrop-blur-md flex flex-col items-center justify-center select-none touch-none" onMouseMove={handleMove} onMouseUp={handleEnd} onTouchMove={handleMove} onTouchEnd={handleEnd}>
           <div className="absolute top-5 right-5 z-[160] flex items-center gap-4 bg-black/40 p-2 rounded-2xl border border-white/10 backdrop-blur-xl">
