@@ -93,7 +93,7 @@ const Navbar = () => {
       }`}>
         <div className="whitespace-nowrap flex animate-marquee text-white text-[10px] font-black uppercase tracking-widest">
           <span className="mx-4">🔥 PROMO SPESIAL: Diskon 50% Untuk Semua Produk Digital! • {brandName} Official Store • </span>
-          <span className="mx-4">💎 Top Up Game Murah Proses Kilat • </span>
+          <span className="mx-4">💎 E-book & Course dengan pendampingan intensif  • </span>
         </div>
       </div>
 

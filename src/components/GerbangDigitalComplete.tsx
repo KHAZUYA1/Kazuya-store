@@ -3,7 +3,7 @@ import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../lib/firebase'; 
 import { 
   AlertTriangle, CheckCircle, XCircle, ShieldCheck, Lock, 
-  ArrowRight, PlayCircle 
+  ArrowRight, PlayCircle, Crown 
 } from 'lucide-react'; 
 import PaymentHandler from './PaymentHandler'; 
 
@@ -12,59 +12,78 @@ interface Props {
   lang: string;
 }
 
-// --- DATABASE COPYWRITING (TIDAK BERUBAH) ---
+// --- DATABASE COPYWRITING (UPDATED: PRO-OWNERSHIP & BEGINNER FRIENDLY) ---
 const texts = {
   id: {
-    hookTag: "⚠️ PERINGATAN: GELOMBANG PHK & AI SUDAH DIMULAI",
-    hookTitle: "Revolusi AI & Otomasi Sedang Terjadi.",
-    hookSub: "Anda di Pihak Mana: Pengendali Teknologi atau Korban Perubahan Zaman?",
-    hookDesc: "Dunia berubah cepat. Skill lama Anda mungkin tidak lagi berharga. Kami tidak hanya memberi Anda 'Source Code', tapi PETA JALAN (Roadmap) lengkap: Dari belajar coding nol, strategi bisnis digital miliaran, hingga cara bertahan dan cuan di era gempuran AI.",
-    
-    probTitle: "Mengapa Banyak Orang Gagal Memulai?",
-    prob1: "Biaya Belajar Tak Masuk Akal",
-    prob1Desc: "Kuliah IT butuh 4 tahun. Bootcamp coding Rp 20 Juta. Kursus bisnis Rp 15 Juta. Di sini, Anda dapat semuanya tanpa bikin kantong jebol.",
-    prob2: "Hanya Teori, Minim Strategi",
-    prob2Desc: "Banyak yang jualan tutorial coding, tapi lupa mengajarkan CARA JUALANNYA. Akibatnya? Punya skill tapi dompet tetap kosong.",
-    prob3: "Gaptek & Takut Coding",
-    prob3Desc: "Merasa coding itu bahasa alien? Kami patahkan mitos itu. Dengan bantuan AI dan panduan kami, orang awam pun bisa bikin aplikasi canggih.",
-    probFooter: "Pilihan Anda: Adaptasi sekarang dengan teknologi, atau tertinggal selamanya.",
+    // BAGIAN BARU: MANIFESTO (Ditaruh Paling Atas)
+    manifestoTitle: "KEDAULATAN DI ERA DIGITAL",
+    manifestoBody: `Membangun bisnis di atas 'tanah sewaan' adalah keberanian yang naif.
 
-    solTitle: "Hancurkan Semua Batasan Itu Bersama",
-    solBrand: "GERBANG DIGITAL",
-    solDesc: "Satu-satunya ekosistem 'Survival Kit' Digital. Kami gabungkan Skill Teknis (Coding) + Senjata Perang (Source Code) + Strategi Bisnis (E-Book & Mentoring) dalam satu tempat.",
+Mengapa harus terus membayar biaya langganan bulanan untuk sekadar menumpang, jika hari ini Anda bisa memiliki fondasinya sendiri?
+
+Jangan biarkan kendala teknis menjadi tembok penghalang. Bagi kami, teknologi bukanlah monster yang rumit, melainkan pintu gerbang peluang yang selama ini belum Anda temukan kuncinya.
+
+Masa depan tidak seharusnya ditebus dengan biaya belajar yang mencekik atau janji manis hasil instan.
+
+Inilah jalan tengah yang selama ini disembunyikan: Sebuah akses kepemilikan aset murni. Tanpa biaya langganan yang membebani, tanpa risiko teknis yang menghantui.
+
+Berhentilah menjadi penumpang. Jadilah Tuan Rumah di kerajaan digital Anda sendiri.`,
+
+    // BAGIAN HOOK (Disesuaikan: KEMANDIRIAN & PELUANG)
+    hookTag: "⚠️ PERINGATAN: ZONA NYAMAN ANDA SEDANG RUNTUH",
+    hookTitle: "Jangan Sampai Bisnis Anda Mati Karena Masih 'Numpang'.",
+    hookSub: "Pilih Mana: Jadi Pemilik Aset atau Terus Membayar Sewa Seumur Hidup?",
+    hookDesc: "Era bakar uang untuk sewa platform sudah berakhir. Kami tidak menjual mimpi omset miliaran yang tidak masuk akal. Kami memberikan KUNCI INFRASTRUKTUR. Dari nol putaran, hingga Anda memiliki Aset Digital sendiri yang 100% di bawah kendali Anda.",
+    
+    // BAGIAN PROBLEM (Menyerang Platform Sewaan & Biaya Mahal - TANPA MERK)
+    probTitle: "Realita Pahit Pebisnis Pemula",
+    prob1: "Jebakan Biaya Langganan",
+    prob1Desc: "Banyak platform bagus, tapi membebankan biaya bulanan yang mencekik. Jika telat bayar, bisnis Anda tutup. Di sini, Anda BAYAR SEKALI, MILIK SELAMANYA.",
+    prob2: "Janji Manis Tanpa Aset",
+    prob2Desc: "Banyak mentor pamer angka fantastis, tapi tidak mengajarkan cara membangun 'Rumahnya'. Saat tren berubah, mereka selamat, Anda yang bingung.",
+    prob3: "Merasa Gaptek?",
+    prob3Desc: "Merasa teknologi itu rumit? Itu karena Anda disuruh belajar bahasa mesin. Di sini, kami berikan 'Barang Jadinya'. Tinggal pakai, ganti nama, langsung jalan.",
+    probFooter: "Berhenti membangun istana di tanah orang lain. Mulai bangun fondasi Anda sendiri.",
+
+    // BAGIAN SOLUSI
+    solTitle: "Jalan Pintas Menuju",
+    solBrand: "KEPEMILIKAN TOTAL",
+    solDesc: "Bukan sekadar kursus. Ini adalah Serah Terima Jabatan. Kami berikan Skill + Alat Perang + Strategi dalam satu paket kepemilikan.",
     solList: [
-      "Zero to Hero Coding: Diajarkan bahasa manusia, bukan bahasa robot. Gaptek pun bisa paham dalam 1 Bulan.",
-      "Business Mastery: Bukan cuma bisa bikin web, tapi bisa MENJUALNYA. Kami bongkar strategi bisnis & marketing langit yang sudah terbukti menghasilkan miliaran.",
-      "Senjata Lengkap (Source Code): Jangan mulai dari kertas kosong. Kami berikan ratusan source code siap pakai. Tinggal edit, ganti nama, lalu jual/pakai sendiri.",
-      "Future-Proof Skill: Bekali diri Anda dengan skill yang anti-krisis dan tidak mudah digantikan oleh robot."
+      "Anti-Ribet untuk Pemula: Panduan bahasa manusia. Tanpa istilah teknis yang bikin pusing.",
+      "Full Ownership (Hak Milik): Source code, database, dan sistem 100% milik Anda. Tidak ada biaya sewa bulanan ke kami.",
+      "Gudang Senjata (Arsenal): Ratusan Source Code siap pakai. Hemat waktu coding bertahun-tahun.",
+      "Real Business Skill: Strategi jualan yang membumi, logis, dan terbukti. Bukan angin surga."
     ],
 
-    stackTitle: "Berapa Nilai Investasi Leher ke Atas Ini?",
+    // BAGIAN STACK (Nilai)
+    stackTitle: "Investasi Leher ke Atas (Tanpa Risiko)",
     stackList: [
       { item: "Materi Bootcamp Full Stack (Nol s/d Mahir)", value: "Rp 20.000.000" },
-      { item: "E-Book Strategi Bisnis Digital Miliaran", value: "Rp 10.000.000" },
-      { item: "Modul UI/UX Figma Master", value: "Rp 5.000.000" },
-      { item: "100+ Source Code Premium Siap Jual", value: "Rp 15.000.000" },
-      { item: "Bonus Produk Digital (PLR) Resellable", value: "Rp 2.500.000" },
+      { item: "E-Book Strategi Bisnis Digital Logis", value: "Rp 10.000.000" },
+      { item: "Modul UI/UX Design Professional", value: "Rp 5.000.000" },
+      { item: "100+ Aset Source Code Siap Jual", value: "Rp 15.000.000" },
+      { item: "Lisensi Produk Digital (PLR) Resellable", value: "Rp 2.500.000" },
     ],
-    stackTotalLabel: "TOTAL NILAI ASLI:",
+    stackTotalLabel: "NILAI ASLI ASET:",
     stackTotalValue: "Rp 52.500.000",
-    stackBridge: "Tapi Anda tidak perlu membayar seharga mobil bekas untuk masa depan Anda.",
+    stackBridge: "Tapi kami tidak meminta harga tersebut. Kami ingin mencetak partner, bukan memeras siswa.",
 
-    priceTitle: "Pilih Jalur Sukses Anda",
+    // BAGIAN HARGA
+    priceTitle: "Ambil Kunci Akses Anda",
     
-    freeTitle: "RAGU BELI KUCING DALAM KARUNG?",
-    freeSub: "Coba akses Member Area GRATIS. Lihat materinya, coba demo aplikasinya. Tidak ada risiko.",
+    freeTitle: "RAGU? SILAKAN BUKTIKAN DULU.",
+    freeSub: "Masuk ke Member Area. Cek sendiri kualitas materinya. Kami transparan, tidak ada yang ditutupi.",
     freeBtn: "COBA AKSES GRATIS (LIMITED)",
 
     p1Name: "PAKET STARTER",
-    p1Sub: "Solusi Hemat untuk Pemula (Budget Terbatas)", 
+    p1Sub: "Untuk Pemula yang Ingin Coba-Coba", 
     p1Price: "Rp 149.000", 
     p1Feat: [
-        "Akses Materi Dasar Coding & Mindset", 
-        "Modul Pengenalan Bisnis Digital", 
-        "Akses Grup Komunitas Member", 
-        "Tanpa Bonus Source Code Premium"
+        "Akses Materi Dasar & Mindset Bisnis", 
+        "Modul Pengenalan Aset Digital", 
+        "Akses Grup Komunitas", 
+        "Tanpa Source Code Premium"
     ],
     p1Btn: "AMBIL PAKET HEMAT",
     
@@ -72,101 +91,116 @@ const texts = {
     p2Sub: "Fokus Skill Teknis (Tanpa Strategi Bisnis)", 
     p2Price: "Rp 560.000", 
     p2Feat: [
-        "Materi Lengkap (Coding + UI/UX)", 
+        "Materi Lengkap (Coding + Design)", 
         "Akses Video Pembelajaran Full", 
-        "Support Grup Diskusi Teknis", 
-        "Tanpa Strategi Bisnis & Source Code VIP"
+        "Support Grup Teknis", 
+        "Tanpa Strategi Bisnis & Aset VIP"
     ],
     p2Btn: "AMBIL PAKET BUILDER",
     
     p3Name: "PAKET BUSINESS OWNER (VIP)",
-    p3Badge: "🔥 SOLUSI TERLENGKAP",
-    p3Sub: "Skill + Produk + Strategi Cuan (All-in-One)",
+    p3Badge: "🔥 PILIHAN PARA 'BOSS'",
+    p3Sub: "Skill + Aset Lengkap + Strategi Cuan",
     p3Strike: "Rp 1.890.000", 
     p3Price: "Rp 890.000", 
     p3Feat: [
-      "FULL AKSES: Materi Coding + Desain + Bisnis",
-      "Ratusan Source Code Premium (Tinggal Jual)",
-      "E-Book Strategi Bisnis & Marketing Miliaran",
+      "FULL AKSES: Coding + Desain + Bisnis",
+      "Ratusan Source Code Premium (Hak Milik)",
+      "E-Book Strategi Bisnis Tanpa Basa-Basi",
       "MENTORING & GRUP VIP (Dibimbing Sampai Bisa)",
-      "Update Materi AI Terbaru Seumur Hidup"
+      "Update Aset Terbaru Seumur Hidup"
     ],
-    p3Btn: "GABUNG KELAS VIP SEKARANG 🚀",
+    p3Btn: "AMBIL KEPEMILIKAN SEKARANG 🚀",
 
     guaranteeTitle: "GARANSI 100% UANG KEMBALI",
-    guaranteeDesc: "Kami tidak butuh uang Anda jika materi ini tidak bermanfaat. Jika dalam 30 hari Anda merasa materi ini tidak sesuai janji, tidak lengkap, atau Anda tidak paham sama sekali setelah mengikuti panduan, klaim garansi Anda. Uang kembali 100%.",
-    closingHead: "Pilihan Ada di Tangan Anda",
-    closingText: "Anda bisa menutup halaman ini dan kembali menjalani rutinitas lama yang berisiko tergerus zaman.\n\nATAU...\n\nAnda ambil keputusan berani hari ini. Klik tombol di bawah, pelajari skill mahal ini, manfaatkan source code-nya, dan bangun kerajaan bisnis digital Anda sendiri.",
-    finalBtn: "SAYA SIAP MENGAMANKAN MASA DEPAN 🚀"
+    guaranteeDesc: "Kami fair. Jika materi ini isinya sampah, tidak bermanfaat, atau tidak sesuai janji dalam 30 hari, uang Anda kembali utuh. Tanpa drama.",
+    closingHead: "Jangan Menyesal di Kemudian Hari",
+    closingText: "Peluang untuk memiliki aset digital dengan harga semurah ini tidak akan datang dua kali.\n\nAnda bisa tetap menjadi penonton yang membayar tiket,\natau menjadi PEMILIK PANGGUNG hari ini juga.",
+    finalBtn: "SAYA SIAP JADI PEMILIK ASET 🚀"
   },
   en: {
-    hookTag: "⚠️ WARNING: THE AI ERA IS HERE",
-    hookTitle: "Don't Let Yourself Become Obsolete.",
-    hookSub: "Either You Master Digital & AI, or You Get Replaced by Those Who Do.",
-    hookDesc: "We don't just sell code. We provide a SURVIVAL MAP. From zero coding skills to building a Billion-Rupiah Tech Business. Secure your future now.",
-    
-    probTitle: "The Harsh Truth",
-    prob1: "Adapt or Die",
-    prob1Desc: "Old businesses are collapsing. Bootcamp costs $2000+. Here, you get everything without breaking the bank.",
-    prob2: "Learning Alone is Slow",
-    prob2Desc: "Tutorials teach code, but forget to teach SALES. We give you both: Technical Skills + Business Strategy.",
-    prob3: "Tech-Phobia?",
-    prob3Desc: "Thinking technology is 'hard' is just a mindset block. With our guide & AI, even beginners can build apps.",
-    probFooter: "Your competitors are already using AI to steal your market share.",
+    // NEW SECTION: MANIFESTO
+    manifestoTitle: "DIGITAL SOVEREIGNTY",
+    manifestoBody: `Building a business on 'rented land' is a naive form of bravery.
 
-    solTitle: "The Fast Track to",
-    solBrand: "DIGITAL DOMINATION",
-    solDesc: "A complete ecosystem. Coding Skills + Source Code Weaponry + Billionaire Business Strategy in one place.",
+Why keep paying monthly subscription fees just to be a passenger, when today you can own the foundation yourself?
+
+Don't let technical barriers be a wall. To us, technology is not a complicated monster, but a gateway to opportunity that you haven't found the key to yet.
+
+The future shouldn't be ransomed with suffocating learning costs or sweet promises of instant results.
+
+Here is the middle path that has been hidden: Access to pure asset ownership. No burdensome subscription fees, no haunting technical risks.
+
+Stop being a passenger. Be the Landlord of your own digital kingdom.`,
+
+    // OLD SECTIONS (KEPT BUT REFINED)
+    hookTag: "⚠️ WARNING: YOUR COMFORT ZONE IS COLLAPSING",
+    hookTitle: "Stop Building on Rented Land.",
+    hookSub: "Choose: Be an Asset Owner or a Lifetime Renter?",
+    hookDesc: "The era of burning money on platform fees is over. We don't sell unrealistic dreams. We give you the INFRASTRUCTURE KEY. From zero to owning a Digital Asset that is 100% under your control.",
+    
+    probTitle: "The Harsh Reality",
+    prob1: "The Subscription Trap",
+    prob1Desc: "Many platforms are great but charge monthly fees. If you miss a payment, your business shuts down. Here, you PAY ONCE, OWN FOREVER.",
+    prob2: "Empty Promises",
+    prob2Desc: "Gurus show off big numbers but don't teach how to build the 'House'. When trends shift, they survive, you lose.",
+    prob3: "Tech-Phobia Excuse",
+    prob3Desc: "Think coding is hard? That's because you're told to learn machine language. Here, we give you the 'Finished Product'. Just use it, rename it, run it.",
+    probFooter: "Stop building castles on someone else's land. Start building your foundation.",
+
+    solTitle: "The Shortcut to",
+    solBrand: "TOTAL OWNERSHIP",
+    solDesc: "Not just a course. This is a Handover of Power. We give you Skills + Weapons + Strategy in one ownership package.",
     solList: [
-      "Zero-Tech to Hero: Step-by-step guidance for beginners. No jargon.",
-      "Business Mastery: Not just building apps, but SELLING them. We reveal proven marketing strategies.",
-      "Complete Arsenal: Hundreds of Ready-to-Sell Source Codes. Save 90% of your time.",
-      "Future-Proof Skills: Master skills that AI cannot replace."
+      "Zero-Tech Friendly: Human language guides. No headache-inducing jargon.",
+      "Full Ownership: Source code, database, and system are 100% yours. No monthly rent to us.",
+      "The Arsenal: Hundreds of Ready-to-Use Source Codes. Save years of coding time.",
+      "Real Business Skill: Grounded, logical, and proven sales strategies. No fluff."
     ],
 
-    stackTitle: "What You Actually Get",
+    stackTitle: "Risk-Free Investment",
     stackList: [
       { item: "Full Stack Bootcamp Material", value: "$2,000" },
-      { item: "Billionaire Business Strategy E-Book", value: "$1,500" },
-      { item: "UI/UX Figma Master Module", value: "$500" },
-      { item: "100+ Premium Source Codes", value: "$1,000" },
-      { item: "Resellable Digital Products Bonus", value: "$250" },
+      { item: "Logical Business Strategy E-Book", value: "$1,500" },
+      { item: "UI/UX Professional Module", value: "$500" },
+      { item: "100+ Resellable Source Codes", value: "$1,000" },
+      { item: "PLR Digital Products License", value: "$250" },
     ],
-    stackTotalLabel: "REAL VALUE:",
+    stackTotalLabel: "REAL ASSET VALUE:",
     stackTotalValue: "$5,250",
-    stackBridge: "But you don't need to pay the price of a used car for your future.",
+    stackBridge: "But we don't ask for that price. We want partners, not just students.",
 
-    priceTitle: "Choose Your Path",
+    priceTitle: "Claim Your Access Key",
     
-    freeTitle: "NOT SURE YET?",
-    freeSub: "Try our Member Area for FREE. Watch Module 1 & 2, check the demos. No risk.",
-    freeBtn: "TRY FREE ACCESS",
+    freeTitle: "NOT SURE? PROVE IT YOURSELF.",
+    freeSub: "Enter the Member Area. Check the quality yourself. We are transparent, nothing hidden.",
+    freeBtn: "TRY FREE ACCESS (LIMITED)",
 
     p1Name: "STARTER PACK",
-    p1Sub: "Budget Friendly Option",
+    p1Sub: "For Beginners to Try Out",
     p1Price: "IDR 149K", 
-    p1Feat: ["Basic Mindset & Coding", "Digital Business Intro", "Community Group Access", "No Premium Source Code"],
+    p1Feat: ["Basic Mindset & Material", "Digital Asset Intro", "Community Group Access", "No Premium Source Code"],
     p1Btn: "GET STARTER",
     
     p2Name: "BUILDER PACK",
     p2Sub: "Focus on Technical Skills",
     p2Price: "IDR 560K", 
-    p2Feat: ["Complete Coding Material", "Video Learning Access", "Tech Support Group", "No Business Strategy"],
+    p2Feat: ["Complete Material (Coding + Design)", "Full Video Access", "Tech Support Group", "No Business Strategy"],
     p2Btn: "GET BUILDER",
     
     p3Name: "BUSINESS OWNER (VIP)",
-    p3Badge: "🔥 BEST SELLER",
-    p3Sub: "Skill + Product + Strategy",
+    p3Badge: "🔥 BOSS CHOICE",
+    p3Sub: "Skill + Full Assets + Strategy",
     p3Strike: "IDR 1.890K", 
     p3Price: "IDR 890K", 
-    p3Feat: ["FULL ACCESS Strategy & Codes", "Ready-to-Sell Products", "Billionaire Strategy E-Book", "VIP MENTORING", "Lifetime Updates"],
-    p3Btn: "JOIN VIP CLASS NOW 🚀",
+    p3Feat: ["FULL ACCESS: Coding + Design + Biz", "Hundreds of Source Codes (Owned)", "No-Nonsense Strategy E-Book", "VIP MENTORING", "Lifetime Asset Updates"],
+    p3Btn: "CLAIM OWNERSHIP NOW 🚀",
 
     guaranteeTitle: "100% MONEY BACK GUARANTEE",
-    guaranteeDesc: "If it's not useful within 30 days, get 100% refund.",
-    closingHead: "The Choice is Yours",
-    closingText: "Take action today. Don't let AI take your place. Build your digital empire now.",
-    finalBtn: "I AM READY TO CHANGE 🚀"
+    guaranteeDesc: "We are fair. If this material is trash, useless, or doesn't match the promise within 30 days, your money is fully refunded. No drama.",
+    closingHead: "Don't Regret Later",
+    closingText: "The chance to own digital assets at this price won't come twice.\n\nYou can stay a ticket-paying spectator,\nor become a STAGE OWNER today.",
+    finalBtn: "I'M READY TO OWN ASSETS 🚀"
   }
 };
 
@@ -221,7 +255,34 @@ const GerbangDigitalComplete: React.FC<Props> = ({ isDarkMode, lang }) => {
     // ⚡ SPEED: Hapus backdrop-blur-xl di mobile (berat), ganti jadi md:backdrop-blur-xl
     <div id="pricing-section" className={`w-full max-w-7xl mx-auto font-sans transition-colors duration-300 ${bgBase} md:backdrop-blur-xl rounded-none md:rounded-[2.5rem] border-y md:border border-slate-500/20 p-4 lg:p-16 my-8 md:my-16 shadow-none md:shadow-2xl`}>
 
-      {/* 1. HERO HOOK */}
+      {/* 0. MANIFESTO (SECTION BARU - PREMIUM DARK LOOK) */}
+      <div className="relative overflow-hidden rounded-3xl p-8 md:p-12 mb-16 lg:mb-24 bg-[#0A0A0A] border border-white/10 shadow-2xl">
+         {/* Background Effect */}
+         <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-yellow-600/10 rounded-full blur-[100px] pointer-events-none"></div>
+         <div className="absolute bottom-0 left-0 w-[200px] h-[200px] bg-blue-600/10 rounded-full blur-[80px] pointer-events-none"></div>
+         
+         <div className="relative z-10 text-center max-w-4xl mx-auto">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-yellow-500/10 border border-yellow-500/20 text-yellow-500 text-xs font-bold tracking-widest uppercase mb-6">
+               <Crown size={14} /> {lang === 'ID' ? 'FILOSOFI KAMI' : 'OUR PHILOSOPHY'}
+            </div>
+            
+            <h2 className="text-2xl md:text-5xl font-black text-white mb-8 tracking-tight leading-tight">
+               {t.manifestoTitle}
+            </h2>
+            
+            <div className="space-y-6">
+               <p className="whitespace-pre-line text-slate-300 text-base md:text-xl font-medium leading-relaxed italic">
+                 "{t.manifestoBody}"
+               </p>
+            </div>
+
+            <div className="mt-10">
+               <div className="h-1 w-24 bg-gradient-to-r from-transparent via-yellow-500/50 to-transparent mx-auto rounded-full"></div>
+            </div>
+         </div>
+      </div>
+
+      {/* 1. HERO HOOK (UPDATED) */}
       <div className="text-center mb-10 lg:mb-24 max-w-5xl mx-auto pt-4 md:pt-0">
         {/* ⚡ SPEED: Hapus animate-pulse di mobile */}
         <div className="inline-block bg-red-600/90 text-white text-[10px] lg:text-sm font-bold px-4 py-1.5 rounded-full mb-6 md:animate-pulse border border-red-500 shadow-lg tracking-wider">
@@ -421,13 +482,13 @@ const GerbangDigitalComplete: React.FC<Props> = ({ isDarkMode, lang }) => {
         <div className="max-w-4xl mx-auto">
           <h3 className="text-xl lg:text-5xl font-black mb-6">{t.closingHead}</h3>
           <p className={`whitespace-pre-line text-lg lg:text-2xl mb-8 leading-relaxed font-medium italic ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>
-             "{t.closingText}"
+              "{t.closingText}"
           </p>
           <button 
             onClick={scrollToPricing}
             className="w-full md:w-auto px-8 py-4 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold rounded-full shadow-lg md:hover:scale-105 transition-all duration-300 text-lg md:text-2xl md:animate-pulse flex items-center justify-center gap-3 mx-auto cursor-pointer relative z-10"
           >
-             {t.finalBtn} <ArrowRight size={24} />
+              {t.finalBtn} <ArrowRight size={24} />
           </button>
         </div>
       </div>
