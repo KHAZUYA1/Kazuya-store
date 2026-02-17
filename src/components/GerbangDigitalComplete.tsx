@@ -12,7 +12,7 @@ interface Props {
   lang: string;
 }
 
-// --- DATABASE COPYWRITING ---
+// --- DATABASE COPYWRITING LENGKAP ---
 const texts = {
   id: {
     manifestoTitle: "KEDAULATAN DI ERA DIGITAL",
@@ -114,60 +114,101 @@ Berhentilah menjadi penumpang. Jadilah Tuan Rumah di kerajaan digital Anda sendi
   },
   en: {
     manifestoTitle: "DIGITAL SOVEREIGNTY",
-    manifestoBody: `Building a business on 'rented land' is a naive form of bravery...`,
+    manifestoBody: `Building a business on 'rented land' is a naive form of bravery.
+
+Why keep paying monthly subscription fees just to be a tenant, when today you can own the foundation yourself?
+
+Don't let technical hurdles become a wall. To us, technology isn't a complex monster, but a gateway to opportunities you haven't found the key to yet.
+
+The future shouldn't be paid for with suffocating learning costs or sweet promises of instant results.
+
+This is the middle ground that has been hidden: Direct access to pure asset ownership. No burdensome subscription fees, no haunting technical risks.
+
+Stop being a passenger. Become the Host of your own digital kingdom.`,
+
     hookTag: "⚠️ WARNING: YOUR COMFORT ZONE IS COLLAPSING",
-    hookTitle: "Stop Building on Rented Land.",
+    hookTitle: "Don't Let Your Business Die Because You're Still 'Renting'.",
     hookSub: "Choose: Be an Asset Owner or a Lifetime Renter?",
-    hookDesc: "The era of burning money on platform fees is over...",
-    probTitle: "The Harsh Reality",
+    hookDesc: "The era of burning money on platform fees is over. We don't sell unrealistic billion-dollar dreams. We provide the INFRASTRUCTURE KEYS. From zero to having your own Digital Assets that are 100% under your control.",
+
+    probTitle: "The Harsh Reality of Beginners",
     prob1: "The Subscription Trap",
-    prob1Desc: "Many platforms are great but charge monthly fees...",
-    prob2: "Empty Promises",
-    prob2Desc: "Gurus show off big numbers but don't teach how to build the 'House'...",
-    prob3: "Tech-Phobia Excuse",
-    prob3Desc: "Think coding is hard? That's because you're told to learn machine language...",
-    probFooter: "Stop building castles on someone else's land. Start building your foundation.",
+    prob1Desc: "Many great platforms charge suffocating monthly fees. If you're late to pay, your business shuts down. Here, you PAY ONCE, OWN FOREVER.",
+    prob2: "Sweet Promises, No Assets",
+    prob2Desc: "Many mentors show off fantastic numbers but don't teach you how to build the 'House'. When trends change, they survive while you're left confused.",
+    prob3: "Feeling Tech-Phobic?",
+    prob3Desc: "Think technology is complicated? That's because you're told to learn machine language. Here, we give you the 'Finished Product'. Just use it, rename it, and run.",
+    probFooter: "Stop building castles on someone else's land. Start building your own foundation.",
+
     solTitle: "The Shortcut to",
     solBrand: "TOTAL OWNERSHIP",
-    solDesc: "Not just a course. This is a Handover of Power...",
-    solList: ["Zero-Tech Friendly", "Full Ownership", "The Arsenal", "Real Business Skill"],
+    solDesc: "Not just a course. This is a Handover of Power. We provide Skills + Tools + Strategy in one ownership package.",
+    solList: [
+      "Beginner-Friendly: Human-language guides. No confusing technical jargon.",
+      "Full Ownership: Source code, database, and system are 100% yours. No monthly fees to us.",
+      "The Arsenal: Hundreds of ready-to-use Source Codes. Save years of coding time.",
+      "Real Business Skill: Down-to-earth, logical, and proven sales strategies. No fluff."
+    ],
+
     stackTitle: "Risk-Free Investment",
     stackList: [
-      { item: "Full Stack Bootcamp Material", value: "$2,000" },
-      { item: "Logical Business Strategy E-Book", value: "$1,500" },
-      { item: "UI/UX Professional Module", value: "$500" },
-      { item: "100+ Resellable Source Codes", value: "$1,000" },
-      { item: "PLR Digital Products License", value: "$250" },
+      { item: "Full Stack Bootcamp Material (Zero to Hero)", value: "$1,500" },
+      { item: "Logical Digital Business Strategy E-Book", value: "$750" },
+      { item: "Professional UI/UX Design Module", value: "$350" },
+      { item: "100+ Ready-to-Sell Source Code Assets", value: "$1,000" },
+      { item: "Resellable Digital Product License (PLR)", value: "$200" },
     ],
     stackTotalLabel: "REAL ASSET VALUE:",
-    stackTotalValue: "$5,250",
-    stackBridge: "But we don't ask for that price. We want partners, not just students.",
+    stackTotalValue: "$3,800",
+    stackBridge: "But we aren't asking for that price. We want to create partners, not exploit students.",
+
     priceTitle: "Claim Your Access Key",
+    
     freeTitle: "NOT SURE? PROVE IT YOURSELF.",
-    freeSub: "Enter the Member Area. Check the quality yourself.",
+    freeSub: "Enter the Member Area. Check the quality yourself. We are transparent, nothing is hidden.",
     freeBtn: "TRY FREE ACCESS (LIMITED)",
+
     p1Name: "STARTER PACK",
-    p1Sub: "For Beginners to Try Out",
+    p1Sub: "For Beginners Starting Out", 
     p1Price: "IDR 149K", 
-    p1Feat: ["Basic Mindset & Material", "Digital Asset Intro", "Community Group Access", "No Premium Source Code"],
-    p1Btn: "GET STARTER",
+    p1Feat: [
+        "Basic Mindset & Material Access", 
+        "Digital Asset Intro Module", 
+        "Community Group Access", 
+        "No Premium Source Code"
+    ],
+    p1Btn: "GET STARTER PACK",
+    
     p2Name: "BUILDER PACK",
-    p2Sub: "Focus on Technical Skills",
+    p2Sub: "Technical Skills Focus (No Business Strategy)", 
     p2Price: "IDR 560K", 
-    p2Feat: ["Complete Material (Coding + Design)", "Full Video Access", "Tech Support Group", "No Business Strategy"],
-    p2Btn: "GET BUILDER",
+    p2Feat: [
+        "Complete Material (Coding + Design)", 
+        "Full Video Learning Access", 
+        "Technical Support Group", 
+        "No Business Strategy & VIP Assets"
+    ],
+    p2Btn: "GET BUILDER PACK",
+    
     p3Name: "BUSINESS OWNER (VIP)",
-    p3Badge: "🔥 BOSS CHOICE",
-    p3Sub: "Skill + Full Assets + Strategy",
-    p3Strike: "IDR 1.890K", 
+    p3Badge: "🔥 THE 'BOSS' CHOICE",
+    p3Sub: "Skill + Full Assets + Pro Strategy",
+    p3Strike: "IDR 1,890K", 
     p3Price: "IDR 890K", 
-    p3Feat: ["FULL ACCESS: Coding + Design + Biz", "Hundreds of Source Codes", "No-Nonsense Strategy", "VIP MENTORING", "Lifetime Updates"],
+    p3Feat: [
+      "FULL ACCESS: Coding + Design + Business",
+      "Hundreds of Premium Source Codes",
+      "No-Nonsense Business Strategy E-Book",
+      "VIP MENTORING (Guided until successful)",
+      "Lifetime Updates for New Assets"
+    ],
     p3Btn: "CLAIM OWNERSHIP NOW 🚀",
+
     guaranteeTitle: "100% MONEY BACK GUARANTEE",
-    guaranteeDesc: "We are fair. If this material is trash, your money is refunded.",
+    guaranteeDesc: "We are fair. If this material is trash, useless, or doesn't meet our promise within 30 days, you get a full refund. No drama.",
     closingHead: "Don't Regret Later",
-    closingText: "The chance to own digital assets at this price won't come twice.",
-    finalBtn: "I'M READY TO OWN ASSETS 🚀"
+    closingText: "The chance to own digital assets at this price won't come twice.\n\nYou can remain a spectator paying for a ticket,\nor become the STAGE OWNER today.",
+    finalBtn: "I'M READY TO BE AN ASSET OWNER 🚀"
   }
 };
 
@@ -177,6 +218,11 @@ const GerbangDigitalComplete: React.FC<Props> = ({ isDarkMode, lang }) => {
   const bgBase = isDarkMode ? "bg-slate-900/95 md:bg-slate-900/80" : "bg-white/95 md:bg-white/90";
   const textMain = isDarkMode ? "text-white" : "text-slate-900";
   const cardBg = isDarkMode ? "bg-slate-800 border-slate-700" : "bg-white border-slate-200 shadow-sm md:shadow-md";
+
+  // State untuk Manifesto / Filosofi agar responsif tema
+  const manifestoBg = isDarkMode ? "bg-[#0A0A0A] border-white/10" : "bg-slate-50 border-slate-200 shadow-inner";
+  const manifestoTitleColor = isDarkMode ? "text-white" : "text-slate-900";
+  const manifestoBodyColor = isDarkMode ? "text-slate-300" : "text-slate-700";
 
   const [isPayOpen, setIsPayOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState({ name: "", url: "" });
@@ -220,27 +266,27 @@ const GerbangDigitalComplete: React.FC<Props> = ({ isDarkMode, lang }) => {
   return (
     <div id="pricing-section" className={`w-full max-w-7xl mx-auto font-sans transition-colors duration-300 ${bgBase} md:backdrop-blur-xl rounded-none md:rounded-[2.5rem] border-y md:border border-slate-500/20 p-4 lg:p-16 my-8 md:my-16 shadow-none md:shadow-2xl`}>
 
-      {/* 0. MANIFESTO */}
-      <div className="relative overflow-hidden rounded-3xl p-8 md:p-12 mb-16 lg:mb-24 bg-[#0A0A0A] border border-white/10 shadow-2xl">
-         <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-yellow-600/10 rounded-full blur-[100px] pointer-events-none"></div>
-         <div className="absolute bottom-0 left-0 w-[200px] h-[200px] bg-blue-600/10 rounded-full blur-[80px] pointer-events-none"></div>
-         
-         <div className="relative z-10 text-center max-w-4xl mx-auto">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-yellow-500/10 border border-yellow-500/20 text-yellow-500 text-xs font-bold tracking-widest uppercase mb-6">
-               <Crown size={14} /> {lang === 'ID' ? 'FILOSOFI KAMI' : 'OUR PHILOSOPHY'}
-            </div>
-            <h2 className="text-2xl md:text-5xl font-black text-white mb-8 tracking-tight leading-tight">
-               {t.manifestoTitle}
-            </h2>
-            <div className="space-y-6">
-               <p className="whitespace-pre-line text-slate-300 text-base md:text-xl font-medium leading-relaxed italic">
-                 "{t.manifestoBody}"
-               </p>
-            </div>
-            <div className="mt-10">
-               <div className="h-1 w-24 bg-gradient-to-r from-transparent via-yellow-500/50 to-transparent mx-auto rounded-full"></div>
-            </div>
-         </div>
+      {/* 0. MANIFESTO - SEKARANG DYNAMIC THEME */}
+      <div className={`relative overflow-hidden rounded-3xl p-8 md:p-12 mb-16 lg:mb-24 border transition-colors duration-500 ${manifestoBg}`}>
+          <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-yellow-600/10 rounded-full blur-[100px] pointer-events-none"></div>
+          <div className="absolute bottom-0 left-0 w-[200px] h-[200px] bg-blue-600/10 rounded-full blur-[80px] pointer-events-none"></div>
+          
+          <div className="relative z-10 text-center max-w-4xl mx-auto">
+             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-yellow-500/10 border border-yellow-500/20 text-yellow-600 dark:text-yellow-500 text-xs font-bold tracking-widest uppercase mb-6">
+                <Crown size={14} /> {lang === 'ID' ? 'FILOSOFI KAMI' : 'OUR PHILOSOPHY'}
+             </div>
+             <h2 className={`text-2xl md:text-5xl font-black mb-8 tracking-tight leading-tight ${manifestoTitleColor}`}>
+                {t.manifestoTitle}
+             </h2>
+             <div className="space-y-6">
+                <p className={`whitespace-pre-line text-base md:text-xl font-medium leading-relaxed italic ${manifestoBodyColor}`}>
+                   "{t.manifestoBody}"
+                </p>
+             </div>
+             <div className="mt-10">
+                <div className="h-1 w-24 bg-gradient-to-r from-transparent via-yellow-500/50 to-transparent mx-auto rounded-full"></div>
+             </div>
+          </div>
       </div>
 
       {/* 1. HERO HOOK */}
@@ -248,7 +294,7 @@ const GerbangDigitalComplete: React.FC<Props> = ({ isDarkMode, lang }) => {
         <div className="inline-block bg-red-600/90 text-white text-[10px] lg:text-sm font-bold px-4 py-1.5 rounded-full mb-6 md:animate-pulse border border-red-500 shadow-lg tracking-wider">
           {t.hookTag}
         </div>
-        <h2 className="text-2xl lg:text-6xl font-black mb-6 leading-tight">
+        <h2 className={`text-2xl lg:text-6xl font-black mb-6 leading-tight ${textMain}`}>
           {t.hookTitle} <br/>
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500 block mt-2">
             {t.hookSub}
@@ -260,18 +306,18 @@ const GerbangDigitalComplete: React.FC<Props> = ({ isDarkMode, lang }) => {
       </div>
 
       {/* 2. PROBLEM */}
-      <div className="text-center mb-8">
+      <div className={`text-center mb-8 ${textMain}`}>
         <h3 className="text-xl lg:text-3xl font-bold">{t.probTitle}</h3>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-10 mb-16">
         {[
           { icon: <XCircle size={40}/>, title: t.prob1, desc: t.prob1Desc, color: "text-red-500" },
           { icon: <AlertTriangle size={40}/>, title: t.prob2, desc: t.prob2Desc, color: "text-yellow-500" },
-          { icon: <Lock size={40}/>, title: t.prob3, desc: t.prob3Desc, color: "text-gray-500" }
+          { icon: <Lock size={40}/>, title: t.prob3, desc: t.prob3Desc, color: isDarkMode ? "text-slate-400" : "text-gray-500" }
         ].map((item, i) => (
           <div key={i} className={`p-6 lg:p-10 rounded-3xl border ${cardBg} flex flex-col items-center text-center md:hover:border-red-500/30 transition-all duration-300 md:hover:-translate-y-2 md:hover:shadow-2xl`}>
             <div className={`mb-4 ${item.color} p-4 bg-white/5 rounded-full`}>{item.icon}</div>
-            <h4 className="font-bold text-lg mb-3">{item.title}</h4>
+            <h4 className={`font-bold text-lg mb-3 ${textMain}`}>{item.title}</h4>
             <p className={`text-sm leading-relaxed ${isDarkMode ? 'text-slate-300' : 'text-slate-800'}`}>
                 {item.desc}
             </p>
@@ -288,7 +334,7 @@ const GerbangDigitalComplete: React.FC<Props> = ({ isDarkMode, lang }) => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 mb-16">
         <div className={`p-8 lg:p-12 rounded-3xl md:rounded-[2.5rem] border border-blue-500/30 bg-gradient-to-br from-blue-900/10 to-transparent flex flex-col justify-center relative overflow-hidden`}>
           <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-[80px] pointer-events-none"></div>
-          <h3 className="text-xl lg:text-4xl font-black mb-4 relative z-10">
+          <h3 className={`text-xl lg:text-4xl font-black mb-4 relative z-10 ${textMain}`}>
             {t.solTitle} <br/><span className="text-blue-500 text-2xl lg:text-5xl mt-2 block">{t.solBrand}</span>
           </h3>
           <p className={`text-sm lg:text-lg mb-6 italic relative z-10 ${isDarkMode ? 'text-slate-300' : 'text-slate-800'}`}>"{t.solDesc}"</p>
@@ -303,12 +349,12 @@ const GerbangDigitalComplete: React.FC<Props> = ({ isDarkMode, lang }) => {
         </div>
 
         <div className={`p-8 lg:p-12 rounded-3xl md:rounded-[2.5rem] border-2 border-dashed ${isDarkMode ? 'border-slate-700 bg-slate-800/30' : 'border-slate-300 bg-slate-50'} flex flex-col justify-center`}>
-           <h3 className="text-lg lg:text-3xl font-bold text-center mb-8">{t.stackTitle}</h3>
+           <h3 className={`text-lg lg:text-3xl font-bold text-center mb-8 ${textMain}`}>{t.stackTitle}</h3>
            <div className="space-y-4 mb-8">
               {t.stackList.map((item, i) => (
                  <div key={i} className="flex justify-between items-center text-xs lg:text-lg border-b border-gray-500/20 pb-3">
                     <span className={`text-left font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>{item.item}</span>
-                    <span className="font-black whitespace-nowrap ml-2 text-right">{item.value}</span>
+                    <span className={`font-black whitespace-nowrap ml-2 text-right ${textMain}`}>{item.value}</span>
                  </div>
               ))}
            </div>
@@ -320,7 +366,7 @@ const GerbangDigitalComplete: React.FC<Props> = ({ isDarkMode, lang }) => {
       </div>
 
       {/* 4. PRICING */}
-      <div className="text-center mb-10">
+      <div className={`text-center mb-10 ${textMain}`}>
         <h3 className="text-2xl lg:text-5xl font-black uppercase tracking-tight">{t.priceTitle}</h3>
       </div>
 
@@ -330,7 +376,7 @@ const GerbangDigitalComplete: React.FC<Props> = ({ isDarkMode, lang }) => {
             <div className={`rounded-[22px] p-6 md:p-8 ${isDarkMode ? 'bg-slate-900' : 'bg-white'} flex flex-col md:flex-row items-center justify-between gap-6`}>
                <div className="text-center md:text-left flex-1">
                   <div className="inline-flex items-center gap-2 bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold mb-3 border border-green-200">
-                     <CheckCircle size={14} /> FREE ACCESS
+                      <CheckCircle size={14} /> FREE ACCESS
                   </div>
                   <h4 className="text-xl md:text-2xl font-black text-slate-800 dark:text-white mb-2">{t.freeTitle}</h4>
                   <p className="text-slate-600 dark:text-slate-300 text-xs md:text-base">{t.freeSub}</p>
@@ -348,7 +394,7 @@ const GerbangDigitalComplete: React.FC<Props> = ({ isDarkMode, lang }) => {
       {/* PRICING GRID */}
       <div id="pricing-grid" className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-end mb-24 relative px-2">
         
-        {/* BASIC (STARTER) */}
+        {/* BASIC */}
         <div className={`rounded-3xl md:rounded-[2rem] p-6 lg:p-10 border ${cardBg} h-full flex flex-col justify-between`}>
           <div>
             <h4 className="font-bold text-slate-700 dark:text-slate-200 text-lg lg:text-2xl mb-1">{t.p1Name}</h4>
@@ -362,21 +408,15 @@ const GerbangDigitalComplete: React.FC<Props> = ({ isDarkMode, lang }) => {
                ))}
             </ul>
           </div>
-          {/* 🔥 UPDATE TOMBOL BASIC: Menarik tapi Ringan */}
           <button 
             onClick={() => handleBuy(t.p1Name, 'basic')}
-            className={`w-full py-4 rounded-xl font-bold text-white relative z-10 
-              /* Mobile: Solid Emerald (Cepat & Kontras) */
-              bg-emerald-600 active:bg-emerald-700 transition-transform duration-100 active:scale-95
-              /* Desktop: Gradient & Shadow (Mewah) */
-              md:bg-gradient-to-r md:from-emerald-500 md:to-teal-500 md:shadow-lg md:hover:shadow-emerald-500/40 md:hover:scale-105 md:transition-all md:duration-300
-            `}
+            className="w-full py-4 rounded-xl font-bold text-white bg-emerald-600 hover:bg-emerald-700 transition-all active:scale-95"
           >
             {t.p1Btn}
           </button>
         </div>
 
-        {/* PREMIUM (BUILDER) */}
+        {/* PREMIUM */}
         <div className={`rounded-3xl md:rounded-[2rem] p-6 lg:p-10 border ${cardBg} h-full flex flex-col justify-between`}>
           <div>
             <h4 className="font-bold text-slate-700 dark:text-slate-200 text-lg lg:text-2xl mb-1">{t.p2Name}</h4>
@@ -390,21 +430,15 @@ const GerbangDigitalComplete: React.FC<Props> = ({ isDarkMode, lang }) => {
                ))}
             </ul>
           </div>
-          {/* 🔥 UPDATE TOMBOL BUILDER: Biru Profesional */}
           <button 
             onClick={() => handleBuy(t.p2Name, 'premium')}
-            className={`w-full py-4 rounded-xl font-bold text-white relative z-10
-              /* Mobile: Solid Blue (Cepat) */
-              bg-blue-600 active:bg-blue-700 transition-transform duration-100 active:scale-95
-              /* Desktop: Gradient & Shadow */
-              md:bg-gradient-to-r md:from-blue-600 md:to-indigo-600 md:shadow-lg md:hover:shadow-blue-500/40 md:hover:scale-105 md:transition-all md:duration-300
-            `}
+            className="w-full py-4 rounded-xl font-bold text-white bg-blue-600 hover:bg-blue-700 transition-all active:scale-95"
           >
             {t.p2Btn}
           </button>
         </div>
 
-        {/* PRO (VIP - BUSINESS OWNER) */}
+        {/* PRO (VIP) */}
         <div className={`relative rounded-3xl md:rounded-[2.5rem] p-8 lg:p-12 border-2 border-yellow-500 shadow-none md:shadow-[0_0_60px_rgba(234,179,8,0.2)] ${isDarkMode ? 'bg-slate-800' : 'bg-white'} transform lg:-translate-y-8 z-10 flex flex-col justify-between h-full`}>
           <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-xs lg:text-base font-bold px-6 lg:px-10 py-2 lg:py-3 rounded-full shadow-lg whitespace-nowrap tracking-wide">
             {t.p3Badge}
@@ -426,10 +460,9 @@ const GerbangDigitalComplete: React.FC<Props> = ({ isDarkMode, lang }) => {
               ))}
             </ul>
           </div>
-          {/* TOMBOL VIP: Tetap Paling Mewah */}
           <button 
             onClick={() => handleBuy(t.p3Name, 'pro')}
-            className="w-full py-5 bg-gradient-to-r from-yellow-500 to-orange-600 text-white font-bold rounded-2xl shadow-lg md:hover:shadow-orange-500/50 md:hover:scale-105 transition md:animate-pulse text-lg lg:text-xl tracking-wide flex items-center justify-center gap-2 cursor-pointer relative z-10"
+            className="w-full py-5 bg-gradient-to-r from-yellow-500 to-orange-600 text-white font-bold rounded-2xl shadow-lg md:hover:scale-105 transition md:animate-pulse text-lg lg:text-xl tracking-wide flex items-center justify-center gap-2"
           >
             {t.p3Btn} <ArrowRight size={24} />
           </button>
@@ -446,13 +479,13 @@ const GerbangDigitalComplete: React.FC<Props> = ({ isDarkMode, lang }) => {
            <p className={`text-sm lg:text-xl leading-relaxed font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>{t.guaranteeDesc}</p>
         </div>
         <div className="max-w-4xl mx-auto">
-          <h3 className="text-xl lg:text-5xl font-black mb-6">{t.closingHead}</h3>
+          <h3 className={`text-xl lg:text-5xl font-black mb-6 ${textMain}`}>{t.closingHead}</h3>
           <p className={`whitespace-pre-line text-lg lg:text-2xl mb-8 leading-relaxed font-medium italic ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>
               "{t.closingText}"
           </p>
           <button 
             onClick={scrollToPricing}
-            className="w-full md:w-auto px-8 py-4 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold rounded-full shadow-lg md:hover:scale-105 transition-all duration-300 text-lg md:text-2xl md:animate-pulse flex items-center justify-center gap-3 mx-auto cursor-pointer relative z-10"
+            className="w-full md:w-auto px-8 py-4 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold rounded-full shadow-lg md:hover:scale-105 transition-all duration-300 text-lg md:text-2xl flex items-center justify-center gap-3 mx-auto"
           >
               {t.finalBtn} <ArrowRight size={24} />
           </button>
