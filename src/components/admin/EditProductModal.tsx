@@ -53,7 +53,8 @@ const EditProductModal = ({ product, onClose, onSuccess }: EditModalProps) => {
     videoUrl: product.videoUrl || '',
     paymentLink: product.paymentLink || '',
     isVisible: product.isVisible ?? true, 
-    isBestSeller: product.isBestSeller || false
+    isBestSeller: product.isBestSeller || false,
+    fakePrice: product.fakePrice || 0 // NEW: Load fakePrice lama atau 0
   });
   
   // CONFIG TOOLBAR
@@ -72,7 +73,7 @@ const EditProductModal = ({ product, onClose, onSuccess }: EditModalProps) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: name === 'price' ? Number(value) : value
+      [name]: (name === 'price' || name === 'fakePrice') ? Number(value) : value
     }));
   };
 
@@ -108,6 +109,7 @@ const EditProductModal = ({ product, onClose, onSuccess }: EditModalProps) => {
       await updateDoc(productRef, {
         name: formData.name,
         price: formData.price,
+        fakePrice: formData.fakePrice || 0, // NEW: Update fakePrice
         category: formData.category,
         image: formData.image, // URL Text
         images: formData.images || [], 
@@ -216,15 +218,25 @@ const EditProductModal = ({ product, onClose, onSuccess }: EditModalProps) => {
             </div>
           </div>
 
-          {/* INPUT FIELDS (TIDAK BERUBAH) */}
+          {/* INPUT FIELDS (HARGA DIUPDATE) */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="text-xs text-gray-400">Nama Produk</label>
               <input name="name" value={formData.name} onChange={handleChange} className="w-full bg-black/30 border border-gray-600 rounded p-2 text-white focus:border-cyan-500 outline-none" required />
             </div>
-            <div>
-              <label className="text-xs text-gray-400">Harga (Rp)</label>
-              <input name="price" type="number" value={formData.price} onChange={handleChange} className="w-full bg-black/30 border border-gray-600 rounded p-2 text-white focus:border-cyan-500 outline-none" required />
+            
+            {/* HARGA */}
+            <div className="space-y-2">
+                <div>
+                   <label className="text-xs text-gray-400">Harga Jual (Rp)</label>
+                   <input name="price" type="number" value={formData.price} onChange={handleChange} className="w-full bg-black/30 border border-gray-600 rounded p-2 text-white focus:border-cyan-500 outline-none" required />
+                </div>
+                
+                {/* NEW: Input Harga Coret */}
+                <div>
+                   <label className="text-xs text-red-400">Harga Coret / Asli (Opsional)</label>
+                   <input name="fakePrice" type="number" value={formData.fakePrice} onChange={handleChange} className="w-full bg-black/30 border border-red-500/50 rounded p-2 text-gray-400 line-through focus:border-red-500 outline-none" placeholder="0" />
+                </div>
             </div>
           </div>
 
@@ -271,30 +283,30 @@ const EditProductModal = ({ product, onClose, onSuccess }: EditModalProps) => {
               {/* Checkbox Best Seller */}
               <div className="flex items-center gap-2">
                  <input 
-                    type="checkbox" 
-                    name="isBestSeller" 
-                    checked={formData.isBestSeller} 
-                    onChange={(e) => setFormData(prev => ({ ...prev, isBestSeller: e.target.checked }))} 
-                    id="bestSeller" 
-                    className="w-5 h-5 rounded border-gray-500 bg-black/30 text-cyan-600 focus:ring-cyan-500 cursor-pointer" 
+                   type="checkbox" 
+                   name="isBestSeller" 
+                   checked={formData.isBestSeller} 
+                   onChange={(e) => setFormData(prev => ({ ...prev, isBestSeller: e.target.checked }))} 
+                   id="bestSeller" 
+                   className="w-5 h-5 rounded border-gray-500 bg-black/30 text-cyan-600 focus:ring-cyan-500 cursor-pointer" 
                  />
                  <label htmlFor="bestSeller" className="text-white text-sm cursor-pointer font-medium select-none">
-                    Jadikan Best Seller ⭐
+                   Jadikan Best Seller ⭐
                  </label>
               </div>
 
               {/* Checkbox Tampilkan Produk */}
               <div className="flex items-center gap-2">
                  <input 
-                    type="checkbox" 
-                    name="isVisible" 
-                    checked={formData.isVisible} 
-                    onChange={(e) => setFormData(prev => ({ ...prev, isVisible: e.target.checked }))} 
-                    id="isVisible" 
-                    className="w-5 h-5 rounded border-gray-500 bg-black/30 text-green-600 focus:ring-green-500 cursor-pointer" 
+                   type="checkbox" 
+                   name="isVisible" 
+                   checked={formData.isVisible} 
+                   onChange={(e) => setFormData(prev => ({ ...prev, isVisible: e.target.checked }))} 
+                   id="isVisible" 
+                   className="w-5 h-5 rounded border-gray-500 bg-black/30 text-green-600 focus:ring-green-500 cursor-pointer" 
                  />
                  <label htmlFor="isVisible" className="text-white text-sm cursor-pointer font-medium select-none">
-                    Tampilkan Produk 👁️
+                   Tampilkan Produk 👁️
                  </label>
               </div>
               

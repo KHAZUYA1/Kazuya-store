@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ShieldCheck, Lock, Loader2, CheckCircle } from 'lucide-react';
+import { ShieldCheck, Lock, CheckCircle, ArrowLeft } from 'lucide-react';
 
 interface PaymentProps {
   isOpen: boolean;
@@ -16,16 +16,16 @@ const PaymentHandler: React.FC<PaymentProps> = ({ isOpen, onClose, planName, pay
       // Cegah user scroll saat modal terbuka
       document.body.style.overflow = 'hidden';
 
-      // Step 1: Percepat animasi enkripsi (Cuma 0.7 detik)
+      // Step 1: Animasi enkripsi (0.7 detik)
       const timer1 = setTimeout(() => setStep(2), 700);
       
-      // Step 2: Redirect Cepat (Total cuma 1.5 detik langsung lempar)
+      // Step 2: Redirect otomatis (Total 1.5 detik)
       const timer2 = setTimeout(() => {
-        // Kembalikan scroll sebelum pindah halaman (opsional)
         document.body.style.overflow = 'unset';
         window.location.href = paymentUrl;
       }, 1500);
 
+      // Cleanup: Jika user menekan tombol "Kembali", timer otomatis dibatalkan
       return () => {
         clearTimeout(timer1);
         clearTimeout(timer2);
@@ -40,10 +40,6 @@ const PaymentHandler: React.FC<PaymentProps> = ({ isOpen, onClose, planName, pay
   if (!isOpen) return null;
 
   return (
-    // 🔥 PERBAIKAN CSS UTAMA:
-    // 1. z-[9999]: Agar muncul paling depan di atas elemen apapun.
-    // 2. h-screen w-screen: Memastikan menutupi seluruh layar device.
-    // 3. fixed top-0 left-0: Mengunci posisi di layar kaca (bukan di halaman web).
     <div className="fixed top-0 left-0 h-screen w-screen z-[9999] flex items-center justify-center bg-slate-900/95 backdrop-blur-md p-4">
       
       <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl max-w-md w-full p-8 border border-slate-200 dark:border-slate-700 relative overflow-hidden animate-scale-up">
@@ -66,7 +62,7 @@ const PaymentHandler: React.FC<PaymentProps> = ({ isOpen, onClose, planName, pay
             </div>
           </div>
 
-          {/* TEKS MEYAKINKAN */}
+          {/* TEKS PROSES */}
           <div>
             <h3 className="text-xl font-black text-slate-800 dark:text-white mb-2">
               {step === 1 ? "Menghubungkan..." : "Mengarahkan ke Pembayaran"}
@@ -87,12 +83,21 @@ const PaymentHandler: React.FC<PaymentProps> = ({ isOpen, onClose, planName, pay
              </div>
              <div className="flex items-center gap-3">
                 <CheckCircle size={16} className="text-green-500 shrink-0" />
-                <span className="text-xs text-slate-600 dark:text-slate-400 font-bold">Otomatis Terkirim ke WA & Email</span>
+                <span className="text-xs text-slate-600 dark:text-slate-400 font-bold">Keamanan Transaksi Terjamin</span>
              </div>
           </div>
 
+          {/* TOMBOL KEMBALI / BATAL */}
+          <button 
+            onClick={onClose}
+            className="group flex items-center justify-center gap-2 w-full py-3 px-4 rounded-xl border-2 border-slate-100 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-bold hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-all active:scale-95 shadow-sm"
+          >
+            <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
+            Kembali & Pilih Produk Lain
+          </button>
+
           <p className="text-[10px] text-slate-400 animate-pulse">
-            Mohon tunggu sebentar...
+            Otomatis dialihkan dalam beberapa detik...
           </p>
         </div>
       </div>

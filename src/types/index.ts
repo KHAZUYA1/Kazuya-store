@@ -2,14 +2,14 @@ export interface Product {
   id: string;
   name: string;
   price: number;
+  fakePrice?: number; // <--- Tambahkan baris ini agar error hilang
   category: string;
-  image: string;       // Foto Utama (Cover)
-  images?: string[];   // <--- WAJIB ADA (Untuk Galeri Foto Banyak)
-  subtitle?: string;
+  image: string;
+  images?: string[];
   description?: string;
-  timestamp: number;   // Bisa number atau object Firestore Timestamp
-  isVisible: boolean;
-  isBestSeller: boolean;
-  paymentLink?: string; 
   videoUrl?: string;
+  paymentLink?: string;
+  isVisible?: boolean;
+  isBestSeller?: boolean;
+  timestamp?: any;
 }
