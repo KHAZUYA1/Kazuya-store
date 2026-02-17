@@ -3,7 +3,7 @@ import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../lib/firebase'; 
 import { 
   AlertTriangle, CheckCircle, XCircle, ShieldCheck, Lock, 
-  ArrowRight, PlayCircle, Crown 
+  ArrowRight, PlayCircle, Crown, Star, Zap 
 } from 'lucide-react'; 
 import PaymentHandler from './PaymentHandler'; 
 
@@ -12,10 +12,9 @@ interface Props {
   lang: string;
 }
 
-// --- DATABASE COPYWRITING (UPDATED: PRO-OWNERSHIP & BEGINNER FRIENDLY) ---
+// --- DATABASE COPYWRITING ---
 const texts = {
   id: {
-    // BAGIAN BARU: MANIFESTO (Ditaruh Paling Atas)
     manifestoTitle: "KEDAULATAN DI ERA DIGITAL",
     manifestoBody: `Membangun bisnis di atas 'tanah sewaan' adalah keberanian yang naif.
 
@@ -29,13 +28,11 @@ Inilah jalan tengah yang selama ini disembunyikan: Sebuah akses kepemilikan aset
 
 Berhentilah menjadi penumpang. Jadilah Tuan Rumah di kerajaan digital Anda sendiri.`,
 
-    // BAGIAN HOOK (Disesuaikan: KEMANDIRIAN & PELUANG)
     hookTag: "⚠️ PERINGATAN: ZONA NYAMAN ANDA SEDANG RUNTUH",
     hookTitle: "Jangan Sampai Bisnis Anda Mati Karena Masih 'Numpang'.",
     hookSub: "Pilih Mana: Jadi Pemilik Aset atau Terus Membayar Sewa Seumur Hidup?",
     hookDesc: "Era bakar uang untuk sewa platform sudah berakhir. Kami tidak menjual mimpi omset miliaran yang tidak masuk akal. Kami memberikan KUNCI INFRASTRUKTUR. Dari nol putaran, hingga Anda memiliki Aset Digital sendiri yang 100% di bawah kendali Anda.",
     
-    // BAGIAN PROBLEM (Menyerang Platform Sewaan & Biaya Mahal - TANPA MERK)
     probTitle: "Realita Pahit Pebisnis Pemula",
     prob1: "Jebakan Biaya Langganan",
     prob1Desc: "Banyak platform bagus, tapi membebankan biaya bulanan yang mencekik. Jika telat bayar, bisnis Anda tutup. Di sini, Anda BAYAR SEKALI, MILIK SELAMANYA.",
@@ -45,7 +42,6 @@ Berhentilah menjadi penumpang. Jadilah Tuan Rumah di kerajaan digital Anda sendi
     prob3Desc: "Merasa teknologi itu rumit? Itu karena Anda disuruh belajar bahasa mesin. Di sini, kami berikan 'Barang Jadinya'. Tinggal pakai, ganti nama, langsung jalan.",
     probFooter: "Berhenti membangun istana di tanah orang lain. Mulai bangun fondasi Anda sendiri.",
 
-    // BAGIAN SOLUSI
     solTitle: "Jalan Pintas Menuju",
     solBrand: "KEPEMILIKAN TOTAL",
     solDesc: "Bukan sekadar kursus. Ini adalah Serah Terima Jabatan. Kami berikan Skill + Alat Perang + Strategi dalam satu paket kepemilikan.",
@@ -56,7 +52,6 @@ Berhentilah menjadi penumpang. Jadilah Tuan Rumah di kerajaan digital Anda sendi
       "Real Business Skill: Strategi jualan yang membumi, logis, dan terbukti. Bukan angin surga."
     ],
 
-    // BAGIAN STACK (Nilai)
     stackTitle: "Investasi Leher ke Atas (Tanpa Risiko)",
     stackList: [
       { item: "Materi Bootcamp Full Stack (Nol s/d Mahir)", value: "Rp 20.000.000" },
@@ -69,7 +64,6 @@ Berhentilah menjadi penumpang. Jadilah Tuan Rumah di kerajaan digital Anda sendi
     stackTotalValue: "Rp 52.500.000",
     stackBridge: "Tapi kami tidak meminta harga tersebut. Kami ingin mencetak partner, bukan memeras siswa.",
 
-    // BAGIAN HARGA
     priceTitle: "Ambil Kunci Akses Anda",
     
     freeTitle: "RAGU? SILAKAN BUKTIKAN DULU.",
@@ -119,45 +113,24 @@ Berhentilah menjadi penumpang. Jadilah Tuan Rumah di kerajaan digital Anda sendi
     finalBtn: "SAYA SIAP JADI PEMILIK ASET 🚀"
   },
   en: {
-    // NEW SECTION: MANIFESTO
     manifestoTitle: "DIGITAL SOVEREIGNTY",
-    manifestoBody: `Building a business on 'rented land' is a naive form of bravery.
-
-Why keep paying monthly subscription fees just to be a passenger, when today you can own the foundation yourself?
-
-Don't let technical barriers be a wall. To us, technology is not a complicated monster, but a gateway to opportunity that you haven't found the key to yet.
-
-The future shouldn't be ransomed with suffocating learning costs or sweet promises of instant results.
-
-Here is the middle path that has been hidden: Access to pure asset ownership. No burdensome subscription fees, no haunting technical risks.
-
-Stop being a passenger. Be the Landlord of your own digital kingdom.`,
-
-    // OLD SECTIONS (KEPT BUT REFINED)
+    manifestoBody: `Building a business on 'rented land' is a naive form of bravery...`,
     hookTag: "⚠️ WARNING: YOUR COMFORT ZONE IS COLLAPSING",
     hookTitle: "Stop Building on Rented Land.",
     hookSub: "Choose: Be an Asset Owner or a Lifetime Renter?",
-    hookDesc: "The era of burning money on platform fees is over. We don't sell unrealistic dreams. We give you the INFRASTRUCTURE KEY. From zero to owning a Digital Asset that is 100% under your control.",
-    
+    hookDesc: "The era of burning money on platform fees is over...",
     probTitle: "The Harsh Reality",
     prob1: "The Subscription Trap",
-    prob1Desc: "Many platforms are great but charge monthly fees. If you miss a payment, your business shuts down. Here, you PAY ONCE, OWN FOREVER.",
+    prob1Desc: "Many platforms are great but charge monthly fees...",
     prob2: "Empty Promises",
-    prob2Desc: "Gurus show off big numbers but don't teach how to build the 'House'. When trends shift, they survive, you lose.",
+    prob2Desc: "Gurus show off big numbers but don't teach how to build the 'House'...",
     prob3: "Tech-Phobia Excuse",
-    prob3Desc: "Think coding is hard? That's because you're told to learn machine language. Here, we give you the 'Finished Product'. Just use it, rename it, run it.",
+    prob3Desc: "Think coding is hard? That's because you're told to learn machine language...",
     probFooter: "Stop building castles on someone else's land. Start building your foundation.",
-
     solTitle: "The Shortcut to",
     solBrand: "TOTAL OWNERSHIP",
-    solDesc: "Not just a course. This is a Handover of Power. We give you Skills + Weapons + Strategy in one ownership package.",
-    solList: [
-      "Zero-Tech Friendly: Human language guides. No headache-inducing jargon.",
-      "Full Ownership: Source code, database, and system are 100% yours. No monthly rent to us.",
-      "The Arsenal: Hundreds of Ready-to-Use Source Codes. Save years of coding time.",
-      "Real Business Skill: Grounded, logical, and proven sales strategies. No fluff."
-    ],
-
+    solDesc: "Not just a course. This is a Handover of Power...",
+    solList: ["Zero-Tech Friendly", "Full Ownership", "The Arsenal", "Real Business Skill"],
     stackTitle: "Risk-Free Investment",
     stackList: [
       { item: "Full Stack Bootcamp Material", value: "$2,000" },
@@ -169,37 +142,31 @@ Stop being a passenger. Be the Landlord of your own digital kingdom.`,
     stackTotalLabel: "REAL ASSET VALUE:",
     stackTotalValue: "$5,250",
     stackBridge: "But we don't ask for that price. We want partners, not just students.",
-
     priceTitle: "Claim Your Access Key",
-    
     freeTitle: "NOT SURE? PROVE IT YOURSELF.",
-    freeSub: "Enter the Member Area. Check the quality yourself. We are transparent, nothing hidden.",
+    freeSub: "Enter the Member Area. Check the quality yourself.",
     freeBtn: "TRY FREE ACCESS (LIMITED)",
-
     p1Name: "STARTER PACK",
     p1Sub: "For Beginners to Try Out",
     p1Price: "IDR 149K", 
     p1Feat: ["Basic Mindset & Material", "Digital Asset Intro", "Community Group Access", "No Premium Source Code"],
     p1Btn: "GET STARTER",
-    
     p2Name: "BUILDER PACK",
     p2Sub: "Focus on Technical Skills",
     p2Price: "IDR 560K", 
     p2Feat: ["Complete Material (Coding + Design)", "Full Video Access", "Tech Support Group", "No Business Strategy"],
     p2Btn: "GET BUILDER",
-    
     p3Name: "BUSINESS OWNER (VIP)",
     p3Badge: "🔥 BOSS CHOICE",
     p3Sub: "Skill + Full Assets + Strategy",
     p3Strike: "IDR 1.890K", 
     p3Price: "IDR 890K", 
-    p3Feat: ["FULL ACCESS: Coding + Design + Biz", "Hundreds of Source Codes (Owned)", "No-Nonsense Strategy E-Book", "VIP MENTORING", "Lifetime Asset Updates"],
+    p3Feat: ["FULL ACCESS: Coding + Design + Biz", "Hundreds of Source Codes", "No-Nonsense Strategy", "VIP MENTORING", "Lifetime Updates"],
     p3Btn: "CLAIM OWNERSHIP NOW 🚀",
-
     guaranteeTitle: "100% MONEY BACK GUARANTEE",
-    guaranteeDesc: "We are fair. If this material is trash, useless, or doesn't match the promise within 30 days, your money is fully refunded. No drama.",
+    guaranteeDesc: "We are fair. If this material is trash, your money is refunded.",
     closingHead: "Don't Regret Later",
-    closingText: "The chance to own digital assets at this price won't come twice.\n\nYou can stay a ticket-paying spectator,\nor become a STAGE OWNER today.",
+    closingText: "The chance to own digital assets at this price won't come twice.",
     finalBtn: "I'M READY TO OWN ASSETS 🚀"
   }
 };
@@ -207,7 +174,6 @@ Stop being a passenger. Be the Landlord of your own digital kingdom.`,
 const GerbangDigitalComplete: React.FC<Props> = ({ isDarkMode, lang }) => {
   const t = (lang === 'EN') ? texts.en : texts.id;
 
-  // ⚡ SPEED OPTIMIZATION: Hapus backdrop-blur di mobile
   const bgBase = isDarkMode ? "bg-slate-900/95 md:bg-slate-900/80" : "bg-white/95 md:bg-white/90";
   const textMain = isDarkMode ? "text-white" : "text-slate-900";
   const cardBg = isDarkMode ? "bg-slate-800 border-slate-700" : "bg-white border-slate-200 shadow-sm md:shadow-md";
@@ -252,12 +218,10 @@ const GerbangDigitalComplete: React.FC<Props> = ({ isDarkMode, lang }) => {
   };
 
   return (
-    // ⚡ SPEED: Hapus backdrop-blur-xl di mobile (berat), ganti jadi md:backdrop-blur-xl
     <div id="pricing-section" className={`w-full max-w-7xl mx-auto font-sans transition-colors duration-300 ${bgBase} md:backdrop-blur-xl rounded-none md:rounded-[2.5rem] border-y md:border border-slate-500/20 p-4 lg:p-16 my-8 md:my-16 shadow-none md:shadow-2xl`}>
 
-      {/* 0. MANIFESTO (SECTION BARU - PREMIUM DARK LOOK) */}
+      {/* 0. MANIFESTO */}
       <div className="relative overflow-hidden rounded-3xl p-8 md:p-12 mb-16 lg:mb-24 bg-[#0A0A0A] border border-white/10 shadow-2xl">
-         {/* Background Effect */}
          <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-yellow-600/10 rounded-full blur-[100px] pointer-events-none"></div>
          <div className="absolute bottom-0 left-0 w-[200px] h-[200px] bg-blue-600/10 rounded-full blur-[80px] pointer-events-none"></div>
          
@@ -265,26 +229,22 @@ const GerbangDigitalComplete: React.FC<Props> = ({ isDarkMode, lang }) => {
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-yellow-500/10 border border-yellow-500/20 text-yellow-500 text-xs font-bold tracking-widest uppercase mb-6">
                <Crown size={14} /> {lang === 'ID' ? 'FILOSOFI KAMI' : 'OUR PHILOSOPHY'}
             </div>
-            
             <h2 className="text-2xl md:text-5xl font-black text-white mb-8 tracking-tight leading-tight">
                {t.manifestoTitle}
             </h2>
-            
             <div className="space-y-6">
                <p className="whitespace-pre-line text-slate-300 text-base md:text-xl font-medium leading-relaxed italic">
                  "{t.manifestoBody}"
                </p>
             </div>
-
             <div className="mt-10">
                <div className="h-1 w-24 bg-gradient-to-r from-transparent via-yellow-500/50 to-transparent mx-auto rounded-full"></div>
             </div>
          </div>
       </div>
 
-      {/* 1. HERO HOOK (UPDATED) */}
+      {/* 1. HERO HOOK */}
       <div className="text-center mb-10 lg:mb-24 max-w-5xl mx-auto pt-4 md:pt-0">
-        {/* ⚡ SPEED: Hapus animate-pulse di mobile */}
         <div className="inline-block bg-red-600/90 text-white text-[10px] lg:text-sm font-bold px-4 py-1.5 rounded-full mb-6 md:animate-pulse border border-red-500 shadow-lg tracking-wider">
           {t.hookTag}
         </div>
@@ -309,7 +269,6 @@ const GerbangDigitalComplete: React.FC<Props> = ({ isDarkMode, lang }) => {
           { icon: <AlertTriangle size={40}/>, title: t.prob2, desc: t.prob2Desc, color: "text-yellow-500" },
           { icon: <Lock size={40}/>, title: t.prob3, desc: t.prob3Desc, color: "text-gray-500" }
         ].map((item, i) => (
-          // ⚡ SPEED: Hapus hover effect berat di mobile
           <div key={i} className={`p-6 lg:p-10 rounded-3xl border ${cardBg} flex flex-col items-center text-center md:hover:border-red-500/30 transition-all duration-300 md:hover:-translate-y-2 md:hover:shadow-2xl`}>
             <div className={`mb-4 ${item.color} p-4 bg-white/5 rounded-full`}>{item.icon}</div>
             <h4 className="font-bold text-lg mb-3">{item.title}</h4>
@@ -327,7 +286,6 @@ const GerbangDigitalComplete: React.FC<Props> = ({ isDarkMode, lang }) => {
 
       {/* 3. SOLUSI & STACK */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 mb-16">
-        {/* KIRI: SOLUSI */}
         <div className={`p-8 lg:p-12 rounded-3xl md:rounded-[2.5rem] border border-blue-500/30 bg-gradient-to-br from-blue-900/10 to-transparent flex flex-col justify-center relative overflow-hidden`}>
           <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-[80px] pointer-events-none"></div>
           <h3 className="text-xl lg:text-4xl font-black mb-4 relative z-10">
@@ -344,7 +302,6 @@ const GerbangDigitalComplete: React.FC<Props> = ({ isDarkMode, lang }) => {
           </div>
         </div>
 
-        {/* KANAN: STACK */}
         <div className={`p-8 lg:p-12 rounded-3xl md:rounded-[2.5rem] border-2 border-dashed ${isDarkMode ? 'border-slate-700 bg-slate-800/30' : 'border-slate-300 bg-slate-50'} flex flex-col justify-center`}>
            <h3 className="text-lg lg:text-3xl font-bold text-center mb-8">{t.stackTitle}</h3>
            <div className="space-y-4 mb-8">
@@ -367,7 +324,7 @@ const GerbangDigitalComplete: React.FC<Props> = ({ isDarkMode, lang }) => {
         <h3 className="text-2xl lg:text-5xl font-black uppercase tracking-tight">{t.priceTitle}</h3>
       </div>
 
-      {/* 🔥 FREE TIER BANNER (FIX OVERFLOW MOBILE) */}
+      {/* FREE TIER BANNER */}
       <div className="max-w-4xl mx-auto mb-10 md:hover:scale-[1.02] transition-transform duration-300">
          <div className="bg-gradient-to-r from-green-600 to-emerald-600 rounded-3xl p-[2px]">
             <div className={`rounded-[22px] p-6 md:p-8 ${isDarkMode ? 'bg-slate-900' : 'bg-white'} flex flex-col md:flex-row items-center justify-between gap-6`}>
@@ -378,7 +335,6 @@ const GerbangDigitalComplete: React.FC<Props> = ({ isDarkMode, lang }) => {
                   <h4 className="text-xl md:text-2xl font-black text-slate-800 dark:text-white mb-2">{t.freeTitle}</h4>
                   <p className="text-slate-600 dark:text-slate-300 text-xs md:text-base">{t.freeSub}</p>
                </div>
-               {/* 🔧 FIX: Button w-full di mobile, whitespace-normal agar teks turun ke bawah */}
                <button 
                   onClick={() => window.location.href='/member'}
                   className="w-full md:w-auto px-6 py-4 bg-green-600 hover:bg-green-700 text-white font-bold rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer relative z-10 md:animate-pulse whitespace-normal md:whitespace-nowrap text-center"
@@ -392,7 +348,7 @@ const GerbangDigitalComplete: React.FC<Props> = ({ isDarkMode, lang }) => {
       {/* PRICING GRID */}
       <div id="pricing-grid" className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-end mb-24 relative px-2">
         
-        {/* BASIC */}
+        {/* BASIC (STARTER) */}
         <div className={`rounded-3xl md:rounded-[2rem] p-6 lg:p-10 border ${cardBg} h-full flex flex-col justify-between`}>
           <div>
             <h4 className="font-bold text-slate-700 dark:text-slate-200 text-lg lg:text-2xl mb-1">{t.p1Name}</h4>
@@ -406,16 +362,21 @@ const GerbangDigitalComplete: React.FC<Props> = ({ isDarkMode, lang }) => {
                ))}
             </ul>
           </div>
-          {/* 🔧 FIX: cursor-pointer, relative, z-10 */}
+          {/* 🔥 UPDATE TOMBOL BASIC: Menarik tapi Ringan */}
           <button 
             onClick={() => handleBuy(t.p1Name, 'basic')}
-            className={`w-full py-4 rounded-xl border font-bold text-slate-800 dark:text-white ${isDarkMode ? 'border-slate-600 active:bg-slate-800' : 'border-slate-300 active:bg-slate-100'} cursor-pointer relative z-10`}
+            className={`w-full py-4 rounded-xl font-bold text-white relative z-10 
+              /* Mobile: Solid Emerald (Cepat & Kontras) */
+              bg-emerald-600 active:bg-emerald-700 transition-transform duration-100 active:scale-95
+              /* Desktop: Gradient & Shadow (Mewah) */
+              md:bg-gradient-to-r md:from-emerald-500 md:to-teal-500 md:shadow-lg md:hover:shadow-emerald-500/40 md:hover:scale-105 md:transition-all md:duration-300
+            `}
           >
             {t.p1Btn}
           </button>
         </div>
 
-        {/* PREMIUM */}
+        {/* PREMIUM (BUILDER) */}
         <div className={`rounded-3xl md:rounded-[2rem] p-6 lg:p-10 border ${cardBg} h-full flex flex-col justify-between`}>
           <div>
             <h4 className="font-bold text-slate-700 dark:text-slate-200 text-lg lg:text-2xl mb-1">{t.p2Name}</h4>
@@ -429,16 +390,21 @@ const GerbangDigitalComplete: React.FC<Props> = ({ isDarkMode, lang }) => {
                ))}
             </ul>
           </div>
-          {/* 🔧 FIX: cursor-pointer, relative, z-10 */}
+          {/* 🔥 UPDATE TOMBOL BUILDER: Biru Profesional */}
           <button 
             onClick={() => handleBuy(t.p2Name, 'premium')}
-            className="w-full py-4 rounded-xl bg-slate-800 text-white font-bold active:bg-slate-700 cursor-pointer relative z-10"
+            className={`w-full py-4 rounded-xl font-bold text-white relative z-10
+              /* Mobile: Solid Blue (Cepat) */
+              bg-blue-600 active:bg-blue-700 transition-transform duration-100 active:scale-95
+              /* Desktop: Gradient & Shadow */
+              md:bg-gradient-to-r md:from-blue-600 md:to-indigo-600 md:shadow-lg md:hover:shadow-blue-500/40 md:hover:scale-105 md:transition-all md:duration-300
+            `}
           >
             {t.p2Btn}
           </button>
         </div>
 
-        {/* PRO (VIP) */}
+        {/* PRO (VIP - BUSINESS OWNER) */}
         <div className={`relative rounded-3xl md:rounded-[2.5rem] p-8 lg:p-12 border-2 border-yellow-500 shadow-none md:shadow-[0_0_60px_rgba(234,179,8,0.2)] ${isDarkMode ? 'bg-slate-800' : 'bg-white'} transform lg:-translate-y-8 z-10 flex flex-col justify-between h-full`}>
           <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-xs lg:text-base font-bold px-6 lg:px-10 py-2 lg:py-3 rounded-full shadow-lg whitespace-nowrap tracking-wide">
             {t.p3Badge}
@@ -460,10 +426,10 @@ const GerbangDigitalComplete: React.FC<Props> = ({ isDarkMode, lang }) => {
               ))}
             </ul>
           </div>
-          {/* 🔧 FIX: cursor-pointer, relative, z-10. Animasi pulse HANYA di desktop (md:animate-pulse) */}
+          {/* TOMBOL VIP: Tetap Paling Mewah */}
           <button 
             onClick={() => handleBuy(t.p3Name, 'pro')}
-            className="w-full py-5 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold rounded-2xl shadow-lg md:hover:shadow-cyan-500/50 md:hover:scale-105 transition md:animate-pulse text-lg lg:text-xl tracking-wide flex items-center justify-center gap-2 cursor-pointer relative z-10"
+            className="w-full py-5 bg-gradient-to-r from-yellow-500 to-orange-600 text-white font-bold rounded-2xl shadow-lg md:hover:shadow-orange-500/50 md:hover:scale-105 transition md:animate-pulse text-lg lg:text-xl tracking-wide flex items-center justify-center gap-2 cursor-pointer relative z-10"
           >
             {t.p3Btn} <ArrowRight size={24} />
           </button>
