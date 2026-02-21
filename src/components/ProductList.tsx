@@ -9,91 +9,49 @@ import EditProductModal from './admin/EditProductModal';
 import TiltCard from './TiltCard'; 
 import RevealOnScroll from './RevealOnScroll';
 
-// ==========================================
-// 1. KAMUS MINI (INTERNAL DICTIONARY)
-// ==========================================
-const localDict: Record<string, any> = {
-  id: {
-    curatedBadge: "Premium On-Demand",
-    curatedTitle: "Curated Selection: Miliki Aset Digital Premium Secara Spesifik",
-    curatedDesc: "Kami memahami bahwa setiap visi membutuhkan alat yang berbeda. Jika belum memerlukan paket bundling, Anda dapat memilih koleksi aset digital kami secara mandiri. Tetap dengan standar kualitas profesional dan akses penuh selamanya.",
-    curatedExplore: "JELAJAHI KATALOG",
-    searchPlaceholder: "Cari produk impianmu...",
-    buyNow: "Beli Sekarang",
-    chatAdmin: "Chat",
-    details: "Rincian Produk",
-    starSeller: "STAR SELLER",
-    bestLabel: "⭐ Terbaik",
-    loadMore: "Lihat Lainnya",
-    noProduct: "Produk tidak ditemukan",
-    loading: "Memuat Katalog...",
-    priceLabel: "Harga",
-    waAsk: "Halo Admin, saya ingin tanya-tanya mengenai produk:",
-    waBuy: "Halo, saya mau beli:",
-    catStreaming: "Streaming", catGaming: "Gaming", catCode: "Coding", catAuto: "Otomotif",
-    catLifestyle: "Gaya Hidup", catBusiness: "Bisnis", catHealth: "Kesehatan", catIT: "Software",
-    catTeaching: "Edukasi", catMarketing: "Marketing", catDesign: "Desain", catFinance: "Keuangan",
-    catPhoto: "Foto & Video", catDev: "Development", catMusic: "Musik", catOther: "Lainnya"
-  },
-  en: {
-    curatedBadge: "Premium On-Demand",
-    curatedTitle: "Curated Selection: Acquire Premium Digital Assets Specifically",
-    curatedDesc: "We understand that every vision requires different tools. If you don't need a bundling package yet, you can choose our digital asset collection independently. Still with professional quality standards and full access forever.",
-    curatedExplore: "EXPLORE CATALOG",
-    searchPlaceholder: "Search your dream products...",
-    buyNow: "Buy Now",
-    chatAdmin: "Chat",
-    details: "Product Details",
-    starSeller: "STAR SELLER",
-    bestLabel: "⭐ Best",
-    loadMore: "Load More",
-    noProduct: "No products found",
-    loading: "Loading Catalog...",
-    priceLabel: "Price",
-    waAsk: "Hello Admin, I would like to ask about this product:",
-    waBuy: "Hello, I want to buy:",
-    catStreaming: "Streaming", catGaming: "Gaming", catCode: "Coding", catAuto: "Automotive",
-    catLifestyle: "Lifestyle", catBusiness: "Business", catHealth: "Health", catIT: "IT Software",
-    catTeaching: "Teaching", catMarketing: "Marketing", catDesign: "Design", catFinance: "Finance",
-    catPhoto: "Photo & Video", catDev: "Development", catMusic: "Music", catOther: "Other"
-  }
-};
-
 // --- HELPER: Ubah Link Youtube ---
 const getEmbedUrl = (url: string) => {
   if (!url) return null;
   let videoId = "";
-  if (url.includes('v=')) {
-    videoId = url.split('v=')[1].split('&')[0];
-  } else if (url.includes('youtu.be/')) {
-    videoId = url.split('youtu.be/')[1].split('?')[0];
-  } else if (url.includes('shorts/')) {
-    videoId = url.split('shorts/')[1].split('?')[0];
-  } else if (url.includes('embed/')) {
-    videoId = url.split('embed/')[1].split('?')[0];
-  }
+  if (url.includes('v=')) videoId = url.split('v=')[1].split('&')[0];
+  else if (url.includes('youtu.be/')) videoId = url.split('youtu.be/')[1].split('?')[0];
+  else if (url.includes('shorts/')) videoId = url.split('shorts/')[1].split('?')[0];
+  else if (url.includes('embed/')) videoId = url.split('embed/')[1].split('?')[0];
   return videoId ? `https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1&playsinline=1&fs=1` : null;
 };
 
-// --- HELPER: Label Kategori Dinamis ---
-const getCategoryLabel = (cat: string, langText: any) => {
+// --- HELPER: Label Kategori Menggunakan Dictionary ---
+const getCategoryLabel = (cat: string, t: any) => {
     const map: Record<string, string> = {
-        'streaming': 'catStreaming', 'gaming': 'catGaming', 'code': 'catCode',
-        'automotive': 'catAuto', 'lifestyle': 'catLifestyle', 'business': 'catBusiness',
-        'health': 'catHealth', 'it-software': 'catIT', 'teaching': 'catTeaching',
-        'marketing': 'catMarketing', 'design': 'catDesign', 'finance': 'catFinance',
-        'photo-video': 'catPhoto', 'development': 'catDev', 'music': 'catMusic', 'other': 'catOther'
+        'streaming': 'catStreaming', 
+        'gaming': 'catGaming', 
+        'code': 'catCode',
+        'automotive': 'catAuto', 
+        'lifestyle': 'catLifestyle', 
+        'business': 'catBusiness',
+        'health': 'catHealth', 
+        'it-software': 'catIT', 
+        'teaching': 'catTeaching',
+        'marketing': 'catMarketing', 
+        'design': 'catDesign', 
+        'finance': 'catFinance',
+        'photo-video': 'catPhoto', 
+        'development': 'catDev', 
+        'music': 'catMusic', 
+        'other': 'catOther'
     };
-    const key = map[cat] || 'catOther'; 
-    return langText[key] || cat; 
+    // Mengambil kunci dari map, jika tidak ada pakai 'catOther'
+    const key = map[cat] || 'catOther';
+    // Menerjemahkan kunci tersebut menggunakan fungsi t()
+    return t(key); 
 };
 
-// --- KOMPONEN CARD CONTENT ---
-const ProductCardContent = ({ p, isAdmin, langText, onEdit, onDelete, isDesktop }: any) => {
+// --- PRODUCT CARD COMPONENT ---
+const ProductCardContent = ({ p, isAdmin, t, onEdit, onDelete, isDesktop }: any) => {
     const cardStyle = isDesktop 
         ? "glass-panel hover:-translate-y-2 hover:shadow-cyan-500/20" 
         : "bg-white dark:bg-[#1e293b] border-gray-200 dark:border-gray-800 shadow-sm dark:shadow-none"; 
-
+    
     const hasDiscount = p && p.fakePrice && p.fakePrice > p.price;
 
     return (
@@ -114,14 +72,14 @@ const ProductCardContent = ({ p, isAdmin, langText, onEdit, onDelete, isDesktop 
                 
                 {p.isBestSeller && (
                     <div className="absolute top-2 right-2 z-10 px-2 py-1 bg-yellow-400 text-black text-[10px] font-bold rounded shadow-lg">
-                        {langText.bestLabel}
+                        {t('bestLabel')}
                     </div>
                 )}
                 
                 {isDesktop && <div className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-black/90 to-transparent opacity-0 dark:opacity-100 transition-opacity"></div>}
                 
                 <span className="absolute bottom-2 left-3 text-[10px] font-bold text-white uppercase tracking-widest bg-cyan-600 px-2 py-0.5 rounded-md shadow-md">
-                    {getCategoryLabel(p.category, langText)}
+                    {getCategoryLabel(p.category, t)}
                 </span>
             </div>
 
@@ -146,8 +104,8 @@ const ProductCardContent = ({ p, isAdmin, langText, onEdit, onDelete, isDesktop 
     );
 };
 
-// --- KOMPONEN MODAL DETAIL ---
-const ProductModal = ({ p, onClose, langText }: { p: Product; onClose: () => void; langText: any }) => {
+// --- PRODUCT MODAL COMPONENT ---
+const ProductModal = ({ p, onClose, t }: { p: Product; onClose: () => void; t: any }) => {
     const [lightboxImage, setLightboxImage] = useState<string | null>(null);
 
     const safeVideoUrl = p.videoUrl ? getEmbedUrl(p.videoUrl) : null;
@@ -159,14 +117,16 @@ const ProductModal = ({ p, onClose, langText }: { p: Product; onClose: () => voi
     }
 
     const handleChatWA = () => {
-        const message = `${langText.waAsk} ${p.name}`;
+        // Menggunakan t('waAsk') dari dictionary
+        const message = `${t('waAsk')} ${p.name}`;
         window.open(`https://wa.me/6282270189045?text=${encodeURIComponent(message)}`, '_blank');
     };
 
     const handleDirectBuy = () => {
         if (p.paymentLink) window.open(p.paymentLink, '_blank');
         else {
-            const message = `${langText.waBuy} ${p.name}`;
+            // Menggunakan t('waBuy') dari dictionary
+            const message = `${t('waBuy')} ${p.name}`;
             window.open(`https://wa.me/6282270189045?text=${encodeURIComponent(message)}`, '_blank');
         }
     };
@@ -199,7 +159,8 @@ const ProductModal = ({ p, onClose, langText }: { p: Product; onClose: () => voi
                                     </div>
                                 ))}
                              </div>
-                             {p.isBestSeller && <div className="absolute top-4 left-4 bg-yellow-500 text-black text-xs font-bold px-2 py-1 rounded shadow-lg z-10"> {langText.bestLabel}</div>}
+                             {/* Menggunakan t('bestLabel') */}
+                             {p.isBestSeller && <div className="absolute top-4 left-4 bg-yellow-500 text-black text-xs font-bold px-2 py-1 rounded shadow-lg z-10"> {t('bestLabel')}</div>}
                         </div>
 
                         <div className="p-4 bg-white dark:bg-[#1e293b] border-b border-gray-100 dark:border-gray-700">
@@ -210,10 +171,21 @@ const ProductModal = ({ p, onClose, langText }: { p: Product; onClose: () => voi
                                 )}
                             </div>
                             <h1 className="text-slate-900 dark:text-white text-lg font-medium leading-snug break-words">{p.name}</h1>
+                            
+                            <div className="flex gap-2 mt-3">
+                                <span className="bg-slate-200 dark:bg-gray-700 text-slate-700 dark:text-gray-300 text-[10px] px-2 py-1 rounded border border-slate-300 dark:border-gray-600">
+                                    {getCategoryLabel(p.category, t)}
+                                </span>
+                                <span className="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-[10px] px-2 py-1 rounded border border-green-300 dark:border-green-900/50">
+                                    {/* Menggunakan t('guarantee') */}
+                                    {t('guarantee')}
+                                </span>
+                            </div>
                         </div>
 
                         <div className="p-4 bg-gray-50 dark:bg-[#0f172a] min-h-[300px]">
-                            <h3 className="text-sm font-bold text-gray-400 mb-3 uppercase tracking-wider">{langText.details}</h3>
+                            {/* Menggunakan t('details') */}
+                            <h3 className="text-sm font-bold text-gray-400 mb-3 uppercase tracking-wider">{t('details')}</h3>
                             <div className="prose prose-sm dark:prose-invert text-slate-700 dark:text-gray-300 max-w-none break-words [&_img]:max-w-full [&_img]:rounded-lg">
                                 <div dangerouslySetInnerHTML={{ __html: p.description || '<p>...</p>' }} />
                             </div>
@@ -223,9 +195,11 @@ const ProductModal = ({ p, onClose, langText }: { p: Product; onClose: () => voi
                     <div className="absolute bottom-0 left-0 right-0 bg-white dark:bg-[#1e293b] border-t border-gray-100 dark:border-gray-700 p-3 flex gap-3 z-40">
                         <button onClick={handleChatWA} className="flex flex-col items-center justify-center px-4 text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 rounded-lg py-1">
                             <span className="text-xl">💬</span>
-                            <span className="text-[10px]">{langText.chatAdmin}</span>
+                            {/* Menggunakan t('chatAdmin') */}
+                            <span className="text-[10px]">{t('chatAdmin')}</span>
                         </button>
-                        <button onClick={handleDirectBuy} className="flex-1 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-lg py-3 shadow-lg flex items-center justify-center gap-2 active:scale-95 transition">{langText.buyNow}</button>
+                        {/* Menggunakan t('buyNow') */}
+                        <button onClick={handleDirectBuy} className="flex-1 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-lg py-3 shadow-lg flex items-center justify-center gap-2 active:scale-95 transition">{t('buyNow')}</button>
                     </div>
                 </div>
             </div>
@@ -233,7 +207,7 @@ const ProductModal = ({ p, onClose, langText }: { p: Product; onClose: () => voi
     );
 };
 
-// --- PRODUCT LIST UTAMA ---
+// --- PRODUCT LIST MAIN COMPONENT ---
 const ProductList = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
@@ -245,10 +219,10 @@ const ProductList = () => {
 
     const [isDesktop, setIsDesktop] = useState(typeof window !== 'undefined' ? window.innerWidth > 768 : true);
     const { isAdmin } = useAuth(); 
-    const { language, category } = useLanguage() as any; 
-
-    // MENDAPATKAN DATA BAHASA
-    const langText = localDict[language] || localDict['id'];
+    
+    // 🔥 MENGGUNAKAN HOOK USELANGUAGE DENGAN BENAR
+    // Kita panggil fungsi 't' yang sudah pintar mendeteksi bahasa dari Dictionary
+    const { t, category } = useLanguage() as any; 
 
     useEffect(() => {
         const checkScreen = () => setIsDesktop(window.innerWidth > 768);
@@ -271,16 +245,19 @@ const ProductList = () => {
 
     useEffect(() => { fetchData(); }, []);
 
+    // Filter Logic
+    const currentCategory = category || 'all';
+
     useEffect(() => {
         let result = products;
-        if (category !== 'all') result = result.filter(p => p.category === category);
+        if (currentCategory !== 'all') result = result.filter(p => p.category === currentCategory);
         if (search) {
             const keyword = search.toLowerCase();
             result = result.filter(p => p.name.toLowerCase().includes(keyword) || (p.category && p.category.toLowerCase().includes(keyword)));
         }
         if (!isAdmin) result = result.filter(p => p.isVisible !== false);
         setFilteredProducts(result);
-    }, [search, products, isAdmin, category]); 
+    }, [search, products, isAdmin, currentCategory]); 
 
     const onEdit = (p: Product) => setEditingProduct(p);
     const onDelete = (id: string) => handleDeleteProduct(id, () => setProducts(prev => prev.filter(p => p.id !== id)));
@@ -289,7 +266,7 @@ const ProductList = () => {
         <section className="py-6 md:py-10" id="catalog">
             <div className="container mx-auto px-4 md:px-6">
                 
-                {/* HEADER KATALOG (FULL MULTI-LANGUAGE) */}
+                {/* HEADER KATALOG */}
                 <div className="mb-12 text-center px-4 max-w-3xl mx-auto animate-fade-in">
                     <div className="inline-flex items-center gap-2 px-4 py-1.5 mb-4 rounded-full bg-cyan-500/10 border border-cyan-500/30">
                         <span className="relative flex h-2 w-2">
@@ -297,33 +274,37 @@ const ProductList = () => {
                             <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
                         </span>
                         <span className="text-cyan-600 dark:text-cyan-400 text-[11px] font-bold uppercase tracking-[0.2em]">
-                            {langText.curatedBadge}
+                            {/* Memanggil Dictionary: curatedBadge */}
+                            {t('curatedBadge')}
                         </span>
                     </div>
                     
                     <h2 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white mb-4 tracking-tight leading-tight">
-                        {langText.curatedTitle}
+                        {/* Memanggil Dictionary: curatedTitle */}
+                        {t('curatedTitle')}
                     </h2>
                     
                     <p className="text-base text-slate-600 dark:text-slate-400 leading-relaxed font-medium">
-                        {langText.curatedDesc}
+                        {/* Memanggil Dictionary: curatedDesc */}
+                        {t('curatedDesc')}
                     </p>
 
                     <div className="mt-8 flex justify-center items-center gap-4">
                         <div className="h-[1px] w-20 bg-gradient-to-r from-transparent to-gray-300 dark:to-gray-700"></div>
                         <div className="text-gray-400 dark:text-gray-500 text-[10px] font-mono uppercase tracking-[0.3em]">
-                            {langText.curatedExplore}
+                            {/* Memanggil Dictionary: curatedExplore */}
+                            {t('curatedExplore')}
                         </div>
                         <div className="h-[1px] w-20 bg-gradient-to-l from-transparent to-gray-300 dark:to-gray-700"></div>
                     </div>
                 </div>
 
-                {/* SEARCH BAR (FULL MULTI-LANGUAGE) */}
+                {/* SEARCH BAR */}
                 <div className="mb-6 md:mb-8 max-w-xl mx-auto relative group">
                     <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">🔍</div>
                     <input 
                         type="text" 
-                        placeholder={langText.searchPlaceholder} 
+                        placeholder={t('searchPlaceholder')} 
                         className="w-full pl-12 pr-5 py-3 rounded-full bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-500 text-slate-900 dark:text-white shadow-sm" 
                         value={search} 
                         onChange={(e) => setSearch(e.target.value)} 
@@ -331,9 +312,9 @@ const ProductList = () => {
                 </div>
 
                 {loading ? (
-                    <div className="text-center py-20 text-gray-500 animate-pulse">{langText.loading}</div>
+                    <div className="text-center py-20 text-gray-500 animate-pulse">{t('loading')}</div>
                 ) : filteredProducts.length === 0 ? (
-                    <div className="text-center py-20 text-gray-500">{langText.noProduct}</div>
+                    <div className="text-center py-20 text-gray-500">{t('noProduct')}</div>
                 ) : (
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-8">
                         {filteredProducts.slice(0, visibleCount).map((p, index) => {
@@ -341,10 +322,11 @@ const ProductList = () => {
                                 <div key={p.id} onClick={() => setSelectedProduct(p)} className="h-full cursor-pointer">
                                     {isDesktop ? (
                                         <TiltCard className="h-full">
-                                            <ProductCardContent p={p} isAdmin={isAdmin} langText={langText} onEdit={onEdit} onDelete={onDelete} isDesktop={isDesktop} />
+                                            {/* Kirim fungsi t ke komponen anak */}
+                                            <ProductCardContent p={p} isAdmin={isAdmin} t={t} onEdit={onEdit} onDelete={onDelete} isDesktop={isDesktop} />
                                         </TiltCard>
                                     ) : (
-                                        <ProductCardContent p={p} isAdmin={isAdmin} langText={langText} onEdit={onEdit} onDelete={onDelete} isDesktop={isDesktop} />
+                                        <ProductCardContent p={p} isAdmin={isAdmin} t={t} onEdit={onEdit} onDelete={onDelete} isDesktop={isDesktop} />
                                     )}
                                 </div>
                             );
@@ -358,17 +340,19 @@ const ProductList = () => {
                     </div>
                 )}
 
-                {/* LOAD MORE (FULL MULTI-LANGUAGE) */}
+                {/* LOAD MORE */}
                 {!loading && visibleCount < filteredProducts.length && (
                     <div className="flex justify-center mt-8 md:mt-12">
                         <button onClick={() => setVisibleCount(prev => prev + 12)} className="px-8 py-3 rounded-full bg-slate-800 text-white font-bold hover:bg-slate-700 transition-all text-xs md:text-base">
-                            ⬇️ {langText.loadMore} ({filteredProducts.length - visibleCount})
+                            {/* Memanggil Dictionary: loadMore */}
+                            ⬇️ {t('loadMore')} ({filteredProducts.length - visibleCount})
                         </button>
                     </div>
                 )}
             </div>
             
-            {selectedProduct && <ProductModal p={selectedProduct} onClose={() => setSelectedProduct(null)} langText={langText} />}
+            {/* Kirim fungsi t ke Modal */}
+            {selectedProduct && <ProductModal p={selectedProduct} onClose={() => setSelectedProduct(null)} t={t} />}
             {editingProduct && <EditProductModal product={editingProduct} onClose={() => setEditingProduct(null)} onSuccess={fetchData} />}
         </section>
     );

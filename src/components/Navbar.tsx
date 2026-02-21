@@ -110,7 +110,9 @@ const Navbar = () => {
                 {brandName.charAt(0).toUpperCase()}
               </div>
             </div>
-            <span className={`font-bold text-lg uppercase tracking-tighter transition-colors ${scrolled ? 'text-slate-900 dark:text-white' : 'text-white'}`}>
+            
+            {/* 🔥 PERBAIKAN WARNA TEKS DI SINI */}
+            <span className="font-bold text-lg uppercase tracking-tighter transition-colors text-slate-900 dark:text-white">
               {brandName}
             </span>
           </a>
@@ -206,12 +208,11 @@ const Navbar = () => {
             <div className="flex flex-col gap-4 items-start">
               
               {/* 🔥 TOMBOL MEMBER AREA (MOBILE VERSION) */}
-              {/* Saya taruh paling atas agar langsung terlihat saat menu dibuka */}
               <button 
-                 onClick={() => { navigate('/member'); setIsMenuOpen(false); }}
-                 className="w-full py-3 bg-gradient-to-r from-orange-500 to-yellow-500 text-white rounded-xl font-bold shadow-lg flex items-center justify-center gap-2 mb-2 active:scale-95 transition-transform"
+                  onClick={() => { navigate('/member'); setIsMenuOpen(false); }}
+                  className="w-full py-3 bg-gradient-to-r from-orange-500 to-yellow-500 text-white rounded-xl font-bold shadow-lg flex items-center justify-center gap-2 mb-2 active:scale-95 transition-transform"
               >
-                 <span>🚀</span> Akses Member Area
+                  <span>🚀</span> Akses Member Area
               </button>
 
               {navLinks.map((link) => (

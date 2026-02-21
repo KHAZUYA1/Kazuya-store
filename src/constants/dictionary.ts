@@ -10,11 +10,13 @@ export const translations = {
         heroTitle1: "Bebaskan", 
         heroTitle2: "Potensi Digital.", 
         heroDesc: "Akses produk digital premium.", 
+        
         // --- TYPEWRITER ---
         heroTypewriter1: "Bisnis Online",
         heroTypewriter2: "Kreativitas",
         heroTypewriter3: "Impianmu",
-        // --- CTA SECTION (BARU) ---
+        
+        // --- CTA SECTION ---
         ctaTitlePart1: "Siap Meledakkan",
         ctaTitlePart2: "Omset Digital Anda?",
         ctaSubtitle: "Kami menyediakan solusi eksklusif untuk percepatan bisnis Anda:",
@@ -25,7 +27,13 @@ export const translations = {
         ctaCourseTitle: "E-Course Premium",
         ctaCourseDesc: "Strategi goal bisnis digital tembus omset ratusan juta/bulan.",
         ctaButton: "SEGERA AMBIL PELUANG SEKARANG",
-        // ---------------------------
+        
+        // --- PRODUCT LIST (Baru Ditambahkan) ---
+        curatedBadge: "PREMIUM ON-DEMAND",
+        curatedTitle: "Curated Selection: Miliki Aset Digital Premium Secara Spesifik",
+        curatedDesc: "Kami memahami bahwa setiap visi membutuhkan alat yang berbeda. Jika belum memerlukan paket bundling, Anda dapat memilih koleksi aset digital kami secara mandiri. Tetap dengan standar kualitas profesional dan akses penuh selamanya.",
+        curatedExplore: "JELAJAHI KATALOG",
+        
         btnShop: "Belanja Sekarang",
         catTitle: "Katalog Produk", 
         txtTotal: "Total", 
@@ -34,18 +42,34 @@ export const translations = {
         cardNew: "TERBARU", 
         cardBest: "🔥 TERLARIS", 
         cardStart: "Harga Mulai", 
+        
         btnBuy: "Beli Sekarang", 
+        buyNow: "Beli Sekarang", // Alias untuk ProductList
+        
         searchPlaceholder: "Cari produk impianmu...",
         noProduct: "Belum ada produk",
         loading: "Sedang memuat produk...",
         hidden: "TERSEMBUNYI",
+        loadMore: "Lihat Lainnya",
+        
+        // --- PRODUCT DETAILS ---
+        details: "Rincian Produk",
+        chatAdmin: "Chat Admin",
+        guarantee: "Garansi 100%",
+        starSeller: "STAR SELLER",
+        bestLabel: "⭐ Terbaik",
+        waAsk: "Halo Admin, saya ingin tanya-tanya mengenai produk:",
+        waBuy: "Halo, saya mau beli:",
+
+        // --- KATEGORI ---
         catAllText: "Semua Produk",
         catStreaming: "Streaming", catGaming: "Gaming", catCode: "Source Code",
         catAuto: "Otomotif", catLifestyle: "Gaya Hidup", catBusiness: "Bisnis",
         catHealth: "Kesehatan", catIT: "IT & Software", catTeaching: "Pendidikan",
         catMarketing: "Marketing", catDesign: "Desain", catFinance: "Keuangan",
         catPhoto: "Foto & Video", catDev: "Development", catMusic: "Musik", catOther: "Lainnya",
-        // REVISI: MENGHAPUS KATA 'FISIK'
+        
+        // --- FOOTER & SYSTEM ---
         footerDesc: "Pusat produk digital terpercaya. Kualitas premium, proses instan, dan keamanan terjamin.",
         footerService: "Layanan Kami", footerHelp: "Bantuan", footerContact: "Hubungi Kami",
         footerHours: "Jam Operasional", footerRights: "Hak Cipta Dilindungi.",
@@ -73,11 +97,9 @@ export const translations = {
         heroTitle1: "Unleash", 
         heroTitle2: "Digital Potential.", 
         heroDesc: "Access premium digital products.", 
-        // --- TYPEWRITER ---
         heroTypewriter1: "Online Business",
         heroTypewriter2: "Creativity",
         heroTypewriter3: "Your Dreams",
-        // --- CTA SECTION ---
         ctaTitlePart1: "Ready to Explode",
         ctaTitlePart2: "Your Digital Revenue?",
         ctaSubtitle: "We provide exclusive solutions to accelerate your business:",
@@ -88,7 +110,13 @@ export const translations = {
         ctaCourseTitle: "Premium E-Course",
         ctaCourseDesc: "Digital business goal strategies to break hundreds of millions/month.",
         ctaButton: "GRAB THE OPPORTUNITY NOW",
-        // ------------------
+        
+        // --- PRODUCT LIST ---
+        curatedBadge: "PREMIUM ON-DEMAND",
+        curatedTitle: "Curated Selection: Acquire Premium Digital Assets Specifically",
+        curatedDesc: "We understand that every vision requires different tools. If you don't need a bundle package yet, you can choose our digital assets independently. Still with professional quality standards and full lifetime access.",
+        curatedExplore: "EXPLORE CATALOG",
+        
         btnShop: "Shop Now",
         catTitle: "Product Catalog", 
         txtTotal: "Total", 
@@ -97,18 +125,32 @@ export const translations = {
         cardNew: "NEW ARRIVAL", 
         cardBest: "🔥 BEST SELLER", 
         cardStart: "Starts from", 
+        
         btnBuy: "Buy Now", 
+        buyNow: "Buy Now", 
+        
         searchPlaceholder: "Search your dream product...",
         noProduct: "No products found",
         loading: "Loading products...",
         hidden: "HIDDEN",
+        loadMore: "Load More",
+
+        // --- PRODUCT DETAILS ---
+        details: "Product Details",
+        chatAdmin: "Chat Admin",
+        guarantee: "100% Guarantee",
+        starSeller: "STAR SELLER",
+        bestLabel: "⭐ Best",
+        waAsk: "Hello Admin, I would like to ask about this product:",
+        waBuy: "Hello, I want to buy:",
+
         catAllText: "All Products",
         catStreaming: "Streaming", catGaming: "Gaming", catCode: "Source Code",
         catAuto: "Automotive", catLifestyle: "Lifestyle", catBusiness: "Business",
         catHealth: "Health", catIT: "IT & Software", catTeaching: "Education",
         catMarketing: "Marketing", catDesign: "Design", catFinance: "Finance",
         catPhoto: "Photo & Video", catDev: "Development", catMusic: "Music", catOther: "Others",
-        // REVISI: REMOVED PHYSICAL
+        
         footerDesc: "Trusted digital product center. Premium quality, instant process, and guaranteed security.",
         footerService: "Our Services", footerHelp: "Help Center", footerContact: "Contact Us",
         footerHours: "Operating Hours", footerRights: "All Rights Reserved.",
@@ -136,11 +178,9 @@ export const translations = {
         heroTitle1: "解き放つ",
         heroTitle2: "デジタルの可能性。",
         heroDesc: "プレミアムなデジタル製品にアクセスしましょう。",
-        // --- TYPEWRITER ---
         heroTypewriter1: "オンラインビジネス",
         heroTypewriter2: "創造性",
         heroTypewriter3: "あなたの夢",
-        // --- CTA SECTION ---
         ctaTitlePart1: "爆発させる準備は",
         ctaTitlePart2: "できていますか？",
         ctaSubtitle: "ビジネスを加速させるための特別なソリューションを提供します：",
@@ -151,7 +191,13 @@ export const translations = {
         ctaCourseTitle: "プレミアムEコース",
         ctaCourseDesc: "月間数億ルピアの売上を突破するためのデジタルビジネス戦略。",
         ctaButton: "今すぐチャンスを掴む",
-        // ------------------
+        
+        // --- PRODUCT LIST ---
+        curatedBadge: "プレミアム・オンデマンド",
+        curatedTitle: "Curated Selection: 特定のプレミアムデジタル資産を所有",
+        curatedDesc: "すべてのビジョンには異なるツールが必要であることを理解しています。バンドルパッケージがまだ必要ない場合は、デジタル資産コレクションを個別に選択できます。",
+        curatedExplore: "カタログを見る",
+        
         btnShop: "今すぐ購入",
         catTitle: "製品カタログ",
         txtTotal: "合計",
@@ -160,18 +206,32 @@ export const translations = {
         cardNew: "新着",
         cardBest: "🔥 ベストセラー",
         cardStart: "最低価格",
+        
         btnBuy: "今すぐ購入",
+        buyNow: "今すぐ購入",
+        
         searchPlaceholder: "夢の商品を検索...",
         noProduct: "商品が見つかりません",
         loading: "読み込み中...",
         hidden: "非表示",
+        loadMore: "もっと見る",
+
+        // --- PRODUCT DETAILS ---
+        details: "商品詳細",
+        chatAdmin: "管理者チャット",
+        guarantee: "100% 保証",
+        starSeller: "スターセラー",
+        bestLabel: "⭐ おすすめ",
+        waAsk: "こんにちは、この商品について質問があります:",
+        waBuy: "こんにちは、購入したいです:",
+
         catAllText: "すべての製品",
         catStreaming: "ストリーミング", catGaming: "ゲーム", catCode: "ソースコード",
         catAuto: "自動車", catLifestyle: "ライフスタイル", catBusiness: "ビジネス",
         catHealth: "健康", catIT: "IT・ソフト", catTeaching: "教育",
         catMarketing: "マーケティング", catDesign: "デザイン", catFinance: "金融",
         catPhoto: "写真・動画", catDev: "開発", catMusic: "音楽", catOther: "その他",
-        // REVISI: REMOVED PHYSICAL
+        
         footerDesc: "信頼できるデジタル製品センター。高品質、即時処理、セキュリティ保証。",
         footerService: "サービス", footerHelp: "ヘルプ", footerContact: "お問い合わせ",
         footerHours: "営業時間", footerRights: "無断転載禁止。",
@@ -199,11 +259,9 @@ export const translations = {
         heroTitle1: "해방하다",
         heroTitle2: "디지털 잠재력.",
         heroDesc: "프리미엄 디지털 제품을 만나보세요.",
-        // --- TYPEWRITER ---
         heroTypewriter1: "온라인 비즈니스",
         heroTypewriter2: "창의성",
         heroTypewriter3: "당신의 꿈",
-        // --- CTA SECTION ---
         ctaTitlePart1: "디지털 수익을",
         ctaTitlePart2: "폭발시킬 준비가 되셨나요?",
         ctaSubtitle: "귀하의 비즈니스를 가속화하기 위한 독점 솔루션을 제공합니다:",
@@ -214,7 +272,13 @@ export const translations = {
         ctaCourseTitle: "프리미엄 E-코스",
         ctaCourseDesc: "월 수억 루피아 매출을 달성하기 위한 디지털 비즈니스 전략.",
         ctaButton: "지금 기회를 잡으세요",
-        // ------------------
+        
+        // --- PRODUCT LIST ---
+        curatedBadge: "프리미엄 온디맨드",
+        curatedTitle: "Curated Selection: 프리미엄 디지털 자산 개별 소유",
+        curatedDesc: "우리는 모든 비전이 서로 다른 도구를 필요로 한다는 것을 이해합니다. 번들 패키지가 아직 필요하지 않은 경우 디지털 자산 컬렉션을 독립적으로 선택할 수 있습니다.",
+        curatedExplore: "카탈로그 탐색",
+        
         btnShop: "쇼핑하기",
         catTitle: "제품 카탈로그",
         txtTotal: "총",
@@ -223,18 +287,32 @@ export const translations = {
         cardNew: "신상품",
         cardBest: "🔥 베스트셀러",
         cardStart: "시자가",
+        
         btnBuy: "지금 구매",
+        buyNow: "지금 구매",
+        
         searchPlaceholder: "원하는 제품 검색...",
         noProduct: "제품이 없습니다",
         loading: "로딩 중...",
         hidden: "숨겨짐",
+        loadMore: "더 보기",
+
+        // --- PRODUCT DETAILS ---
+        details: "상품 상세",
+        chatAdmin: "관리자 채팅",
+        guarantee: "100% 보장",
+        starSeller: "스타 셀러",
+        bestLabel: "⭐ 베스트",
+        waAsk: "안녕하세요 관리자님, 이 제품에 대해 문의하고 싶습니다:",
+        waBuy: "안녕하세요, 구매하고 싶습니다:",
+
         catAllText: "모든 제품",
         catStreaming: "스트리밍", catGaming: "게임", catCode: "소스 코드",
         catAuto: "자동차", catLifestyle: "라이프스타일", catBusiness: "비즈니스",
         catHealth: "건강", catIT: "IT 및 소프트웨어", catTeaching: "교육",
         catMarketing: "마케팅", catDesign: "디자인", catFinance: "금융",
         catPhoto: "사진 및 비디오", catDev: "개발", catMusic: "음악", catOther: "기타",
-        // REVISI: REMOVED PHYSICAL
+        
         footerDesc: "신뢰할 수 있는 디지털 제품 센터. 프리미엄 품질, 즉시 처리, 보안 보장。",
         footerService: "서비스", footerHelp: "고객 센터", footerContact: "문의하기",
         footerHours: "영업 시간", footerRights: "판권 소유.",
@@ -262,11 +340,9 @@ export const translations = {
         heroTitle1: "释放",
         heroTitle2: "数字潜力",
         heroDesc: "获取优质数字产品。",
-        // --- TYPEWRITER ---
         heroTypewriter1: "在线业务",
         heroTypewriter2: "创造力",
         heroTypewriter3: "你的梦想",
-        // --- CTA SECTION ---
         ctaTitlePart1: "准备好引爆",
         ctaTitlePart2: "您的数字收入了吗？",
         ctaSubtitle: "我们要提供独家解决方案以加速您的业务：",
@@ -277,7 +353,13 @@ export const translations = {
         ctaCourseTitle: "高级电子课程",
         ctaCourseDesc: "突破数亿印尼盾月收入的数字业务战略。",
         ctaButton: "立即抓住机会",
-        // ------------------
+        
+        // --- PRODUCT LIST ---
+        curatedBadge: "高级按需",
+        curatedTitle: "Curated Selection: 专门获取优质数字资产",
+        curatedDesc: "我们理解每个愿景都需要不同的工具。如果您还不需要捆绑包，您可以单独选择我们的数字资产系列。",
+        curatedExplore: "浏览目录",
+        
         btnShop: "立即选购",
         catTitle: "产品目录",
         txtTotal: "总计",
@@ -286,18 +368,32 @@ export const translations = {
         cardNew: "新品上市",
         cardBest: "🔥 畅销商品",
         cardStart: "起价",
+        
         btnBuy: "立即购买",
+        buyNow: "立即购买",
+        
         searchPlaceholder: "搜索您想要的产品...",
         noProduct: "未找到产品",
         loading: "正在加载...",
         hidden: "已隐藏",
+        loadMore: "加载更多",
+
+        // --- PRODUCT DETAILS ---
+        details: "产品详情",
+        chatAdmin: "联系客服",
+        guarantee: "100% 保证",
+        starSeller: "明星卖家",
+        bestLabel: "⭐ 最佳",
+        waAsk: "你好，我想咨询这个产品：",
+        waBuy: "你好，我想购买：",
+
         catAllText: "所有产品",
         catStreaming: "流媒体", catGaming: "游戏", catCode: "源代码",
         catAuto: "汽车", catLifestyle: "生活方式", catBusiness: "商业",
         catHealth: "健康", catIT: "IT与软件", catTeaching: "教育",
         catMarketing: "营销", catDesign: "设计", catFinance: "金融",
         catPhoto: "摄影与视频", catDev: "开发", catMusic: "音乐", catOther: "其他",
-        // REVISI: REMOVED PHYSICAL
+        
         footerDesc: "值得信赖的数字产品中心。优质品质，即时处理，安全保证。",
         footerService: "我们的服务", footerHelp: "帮助中心", footerContact: "联系我们",
         footerHours: "营业时间", footerRights: "版权所有。",
@@ -325,11 +421,9 @@ export const translations = {
         heroTitle1: "Serlahkan",
         heroTitle2: "Potensi Digital.",
         heroDesc: "Akses produk digital premium.",
-        // --- TYPEWRITER ---
         heroTypewriter1: "Perniagaan Online",
         heroTypewriter2: "Kreativiti",
         heroTypewriter3: "Impian Anda",
-        // --- CTA SECTION ---
         ctaTitlePart1: "Sedia Meletupkan",
         ctaTitlePart2: "Pendapatan Digital Anda?",
         ctaSubtitle: "Kami menyediakan penyelesaian eksklusif untuk mempercepatkan perniagaan anda:",
@@ -340,7 +434,13 @@ export const translations = {
         ctaCourseTitle: "E-Kursus Premium",
         ctaCourseDesc: "Strategi bisnes digital untuk menembusi pendapatan ratusan juta/bulan.",
         ctaButton: "REBUT PELUANG SEKARANG",
-        // ------------------
+        
+        // --- PRODUCT LIST ---
+        curatedBadge: "PREMIUM ON-DEMAND",
+        curatedTitle: "Curated Selection: Miliki Aset Digital Premium Secara Spesifik",
+        curatedDesc: "Kami memahami bahawa setiap visi memerlukan alat yang berbeza. Jika belum memerlukan pakej gabungan, anda boleh memilih koleksi aset digital kami secara mandiri.",
+        curatedExplore: "JELAJAH KATALOG",
+        
         btnShop: "Beli Sekarang",
         catTitle: "Katalog Produk",
         txtTotal: "Jumlah",
@@ -349,18 +449,32 @@ export const translations = {
         cardNew: "TERBARU",
         cardBest: "🔥 TERLARIS",
         cardStart: "Harga Bermula",
+        
         btnBuy: "Beli Sekarang",
+        buyNow: "Beli Sekarang",
+        
         searchPlaceholder: "Cari produk impian anda...",
         noProduct: "Tiada produk dijumpai",
         loading: "Memuatkan produk...",
         hidden: "TERSEMBUNYI",
+        loadMore: "Muat Lagi",
+
+        // --- PRODUCT DETAILS ---
+        details: "Butiran Produk",
+        chatAdmin: "Sembang Admin",
+        guarantee: "Jaminan 100%",
+        starSeller: "PENJUAL BINTANG",
+        bestLabel: "⭐ Terbaik",
+        waAsk: "Hai Admin, saya ingin bertanya mengenai produk ini:",
+        waBuy: "Hai, saya ingin membeli:",
+
         catAllText: "Semua Produk",
         catStreaming: "Penstriman", catGaming: "Permainan", catCode: "Kod Sumber",
         catAuto: "Automotif", catLifestyle: "Gaya Hidup", catBusiness: "Perniagaan",
         catHealth: "Kesihatan", catIT: "IT & Perisian", catTeaching: "Pendidikan",
         catMarketing: "Pemasaran", catDesign: "Rekaan", catFinance: "Kewangan",
         catPhoto: "Foto & Video", catDev: "Pembangunan", catMusic: "Muzik", catOther: "Lain-lain",
-        // REVISI: REMOVED PHYSICAL
+        
         footerDesc: "Pusat produk digital dipercayai. Kualiti premium, proses segera, dan jaminan keselamatan.",
         footerService: "Perkhidmatan Kami", footerHelp: "Pusat Bantuan", footerContact: "Hubungi Kami",
         footerHours: "Waktu Operasi", footerRights: "Hak Cipta Terpelihara.",
@@ -388,11 +502,9 @@ export const translations = {
         heroTitle1: "Giải phóng",
         heroTitle2: "Tiềm năng số.",
         heroDesc: "Truy cập các sản phẩm kỹ thuật số cao cấp.",
-        // --- TYPEWRITER ---
         heroTypewriter1: "Kinh doanh Online",
         heroTypewriter2: "Sự sáng tạo",
         heroTypewriter3: "Giấc mơ của bạn",
-        // --- CTA SECTION ---
         ctaTitlePart1: "Sẵn sàng bùng nổ",
         ctaTitlePart2: "Doanh thu kỹ thuật số?",
         ctaSubtitle: "Chúng tôi cung cấp các giải pháp độc quyền để tăng tốc doanh nghiệp của bạn:",
@@ -403,7 +515,13 @@ export const translations = {
         ctaCourseTitle: "Khóa học Cao cấp",
         ctaCourseDesc: "Chiến lược kinh doanh kỹ thuật số để đạt doanh thu hàng trăm triệu/tháng.",
         ctaButton: "NẮM BẮT CƠ HỘI NGAY",
-        // ------------------
+        
+        // --- PRODUCT LIST ---
+        curatedBadge: "PREMIUM THEO YÊU CẦU",
+        curatedTitle: "Curated Selection: Sở hữu tài sản kỹ thuật số cao cấp",
+        curatedDesc: "Chúng tôi hiểu rằng mỗi tầm nhìn đều cần những công cụ khác nhau. Nếu chưa cần gói combo, bạn có thể chọn bộ sưu tập tài sản số của chúng tôi một cách riêng biệt.",
+        curatedExplore: "KHÁM PHÁ DANH MỤC",
+        
         btnShop: "Mua ngay",
         catTitle: "Danh mục sản phẩm",
         txtTotal: "Tổng cộng",
@@ -412,18 +530,32 @@ export const translations = {
         cardNew: "MỚI NHẤT",
         cardBest: "🔥 BÁN CHẠY",
         cardStart: "Giá từ",
+        
         btnBuy: "Mua ngay",
+        buyNow: "Mua ngay",
+        
         searchPlaceholder: "Tìm kiếm sản phẩm mơ ước...",
         noProduct: "Không tìm thấy sản phẩm",
         loading: "Đang tải sản phẩm...",
         hidden: "ĐÃ ẨN",
+        loadMore: "Xem thêm",
+
+        // --- PRODUCT DETAILS ---
+        details: "Chi tiết sản phẩm",
+        chatAdmin: "Chat Admin",
+        guarantee: "Đảm bảo 100%",
+        starSeller: "NGƯỜI BÁN SAO",
+        bestLabel: "⭐ Tốt nhất",
+        waAsk: "Xin chào Admin, tôi muốn hỏi về sản phẩm này:",
+        waBuy: "Xin chào, tôi muốn mua:",
+
         catAllText: "Tất cả sản phẩm",
         catStreaming: "Phát trực tuyến", catGaming: "Trò chơi", catCode: "Mã nguồn",
         catAuto: "Ô tô", catLifestyle: "Phong cách sống", catBusiness: "Kinh doanh",
         catHealth: "Sức khỏe", catIT: "CNTT & Phần mềm", catTeaching: "Giáo dục",
         catMarketing: "Tiếp thị", catDesign: "Thiết kế", catFinance: "Tài chính",
         catPhoto: "Ảnh & Video", catDev: "Phát triển", catMusic: "Âm nhạc", catOther: "Khác",
-        // REVISI: REMOVED PHYSICAL
+        
         footerDesc: "Trung tâm sản phẩm kỹ thuật số đáng tin cậy. Chất lượng cao cấp, xử lý tức thì và đảm bảo an toàn.",
         footerService: "Dịch vụ của chúng tôi", footerHelp: "Trung tâm trợ giúp", footerContact: "Liên hệ",
         footerHours: "Giờ làm việc", footerRights: "Đã đăng ký bản quyền.",
@@ -451,11 +583,9 @@ export const translations = {
         heroTitle1: "ปลดปล่อย",
         heroTitle2: "ศักยภาพดิจิทัล",
         heroDesc: "เข้าถึงผลิตภัณฑ์ดิจิทัลระดับพรีเมียม",
-        // --- TYPEWRITER ---
         heroTypewriter1: "ธุรกิจออนไลน์",
         heroTypewriter2: "ความคิดสร้างสรรค์",
         heroTypewriter3: "ความฝันของคุณ",
-        // --- CTA SECTION ---
         ctaTitlePart1: "พร้อมที่จะระเบิด",
         ctaTitlePart2: "รายได้ดิจิทัลของคุณหรือยัง?",
         ctaSubtitle: "เรานำเสนอโซลูชันพิเศษเพื่อเร่งธุรกิจของคุณ:",
@@ -466,7 +596,13 @@ export const translations = {
         ctaCourseTitle: "คอร์สเรียนพรีเมียม",
         ctaCourseDesc: "กลยุทธ์ธุรกิจดิจิทัลเพื่อทำยอดขายทะลุหลักร้อยล้าน/เดือน",
         ctaButton: "คว้าโอกาสทันที",
-        // ------------------
+        
+        // --- PRODUCT LIST ---
+        curatedBadge: "พรีเมียมตามสั่ง",
+        curatedTitle: "Curated Selection: เป็นเจ้าของสินทรัพย์ดิจิทัลพรีเมียม",
+        curatedDesc: "เราเข้าใจดีว่าทุกวิสัยทัศน์ต้องการเครื่องมือที่แตกต่างกัน หากคุณยังไม่ต้องการแพ็คเกจรวม คุณสามารถเลือกคอลเลกชันสินทรัพย์ดิจิทัลของเราได้ด้วยตนเอง",
+        curatedExplore: "สำรวจแคตตาล็อก",
+        
         btnShop: "ช้อปเลย",
         catTitle: "แคตตาล็อกสินค้า",
         txtTotal: "ทั้งหมด",
@@ -475,18 +611,32 @@ export const translations = {
         cardNew: "มาใหม่",
         cardBest: "🔥 ขายดี",
         cardStart: "ราคาเริ่มต้น",
+        
         btnBuy: "ซื้อเลย",
+        buyNow: "ซื้อเลย",
+        
         searchPlaceholder: "ค้นหาสินค้าในฝันของคุณ...",
         noProduct: "ไม่พบสินค้า",
         loading: "กำลังโหลดสินค้า...",
         hidden: "ซ่อนอยู่",
+        loadMore: "โหลดเพิ่มเติม",
+
+        // --- PRODUCT DETAILS ---
+        details: "รายละเอียดสินค้า",
+        chatAdmin: "แชทกับแอดมิน",
+        guarantee: "รับประกัน 100%",
+        starSeller: "ผู้ขายยอดเยี่ยม",
+        bestLabel: "⭐ ดีที่สุด",
+        waAsk: "สวัสดีแอดมิน ฉันต้องการสอบถามเกี่ยวกับสินค้านี้:",
+        waBuy: "สวัสดี ฉันต้องการซื้อ:",
+
         catAllText: "สินค้าทั้งหมด",
         catStreaming: "สตรีมมิ่ง", catGaming: "เกม", catCode: "ซอร์สโค้ด",
         catAuto: "ยานยนต์", catLifestyle: "ไลฟ์สไตล์", catBusiness: "ธุรกิจ",
         catHealth: "สุขภาพ", catIT: "ไอที & ซอฟต์แวร์", catTeaching: "การศึกษา",
         catMarketing: "การตลาด", catDesign: "การออกแบบ", catFinance: "การเงิน",
         catPhoto: "ภาพถ่าย & วิดีโอ", catDev: "การพัฒนา", catMusic: "ดนตรี", catOther: "อื่นๆ",
-        // REVISI: REMOVED PHYSICAL
+        
         footerDesc: "ศูนย์รวมผลิตภัณฑ์ดิจิทัลที่เชื่อถือได้ คุณภาพระดับพรีเมียม ดำเนินการทันที และรับประกันความปลอดภัย",
         footerService: "บริการของเรา", footerHelp: "ช่วยเหลือ", footerContact: "ติดต่อเรา",
         footerHours: "เวลาทำการ", footerRights: "สงวนลิขสิทธิ์",
@@ -514,11 +664,9 @@ export const translations = {
         heroTitle1: "Раскройте",
         heroTitle2: "Цифровой потенциал",
         heroDesc: "Доступ к премиальным цифровым продуктам.",
-        // --- TYPEWRITER ---
         heroTypewriter1: "Онлайн Бизнес",
         heroTypewriter2: "Творчество",
         heroTypewriter3: "Твои Мечты",
-        // --- CTA SECTION ---
         ctaTitlePart1: "Готовы взорвать",
         ctaTitlePart2: "Ваш цифровой доход?",
         ctaSubtitle: "Мы предоставляем эксклюзивные решения для ускорения вашего бизнеса:",
@@ -529,7 +677,13 @@ export const translations = {
         ctaCourseTitle: "Премиум E-курс",
         ctaCourseDesc: "Стратегии цифрового бизнеса для достижения оборота в сотни миллионов.",
         ctaButton: "ИСПОЛЬЗУЙТЕ ШАНС СЕЙЧАС",
-        // ------------------
+        
+        // --- PRODUCT LIST ---
+        curatedBadge: "ПРЕМИУМ ПО ЗАПРОСУ",
+        curatedTitle: "Curated Selection: Приобретайте премиальные цифровые активы",
+        curatedDesc: "Мы понимаем, что для каждого видения нужны свои инструменты. Если вам пока не нужен полный пакет, вы можете выбрать наши цифровые активы по отдельности.",
+        curatedExplore: "ОБЗОР КАТАЛОГА",
+        
         btnShop: "Купить сейчас",
         catTitle: "Каталог товаров",
         txtTotal: "Всего",
@@ -538,18 +692,32 @@ export const translations = {
         cardNew: "НОВИНКА",
         cardBest: "🔥 ХИТ ПРОДАЖ",
         cardStart: "Цена от",
+        
         btnBuy: "Купить",
+        buyNow: "Купить",
+        
         searchPlaceholder: "Поиск товара...",
         noProduct: "Товары не найдены",
         loading: "Загрузка товаров...",
         hidden: "СКРЫТО",
+        loadMore: "Загрузить еще",
+
+        // --- PRODUCT DETAILS ---
+        details: "Детали продукта",
+        chatAdmin: "Чат с админом",
+        guarantee: "Гарантия 100%",
+        starSeller: "ЗВЕЗДНЫЙ ПРОДАВЕЦ",
+        bestLabel: "⭐ Лучшее",
+        waAsk: "Здравствуйте, я хочу спросить об этом товаре:",
+        waBuy: "Здравствуйте, я хочу купить:",
+
         catAllText: "Все товары",
         catStreaming: "Стриминг", catGaming: "Игры", catCode: "Исходный код",
         catAuto: "Авто", catLifestyle: "Стиль жизни", catBusiness: "Бизнес",
         catHealth: "Здоровье", catIT: "IT и ПО", catTeaching: "Образование",
         catMarketing: "Маркетинг", catDesign: "Дизайн", catFinance: "Финансы",
         catPhoto: "Фото и видео", catDev: "Разработка", catMusic: "Музыка", catOther: "Другое",
-        // REVISI: REMOVED PHYSICAL
+        
         footerDesc: "Надежный центр цифровых товаров. Премиум качество, мгновенная обработка и гарантия безопасности.",
         footerService: "Наши услуги", footerHelp: "Помощь", footerContact: "Контакты",
         footerHours: "Часы работы", footerRights: "Все права защищены.",
