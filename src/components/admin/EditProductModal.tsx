@@ -11,26 +11,27 @@ import 'react-quill-new/dist/quill.snow.css';
 // IMPORT SWEETALERT2
 import Swal from 'sweetalert2';
 
-// 1. DEFINISI KATEGORI
-const CATEGORIES = [
-  "🏠 Semua",
-  "🎬 Streaming",
-  "🎮 Gaming",
-  "💻 Source Code",
-  "🚗 Otomotif",
-  "👟 Gaya Hidup",
-  "💼 Bisnis",
-  "🥗 Kesehatan",
-  "🖥️ IT & Software",
-  "📚 Pendidikan",
-  "📈 Marketing",
-  "🎨 Desain",
-  "💰 Keuangan",
-  "📸 Foto & Video",
-  "⚙️ Development",
-  "🎵 Musik",
-  "📦 Lainnya"
-];
+// 1. DEFINISI KATEGORI (DIUBAH MENJADI OBJECT)
+// Key adalah nilai yang disimpan di DB, Value adalah teks tampilan di UI
+const CATEGORIES: Record<string, string> = {
+  "semua": "🏠 Semua",
+  "streaming": "🎬 Streaming",
+  "gaming": "🎮 Gaming",
+  "code": "💻 Source Code",
+  "automotive": "🚗 Otomotif",
+  "lifestyle": "👟 Gaya Hidup",
+  "business": "💼 Bisnis",
+  "health": "🥗 Kesehatan",
+  "it-software": "🖥️ IT & Software",
+  "teaching": "📚 Pendidikan",
+  "marketing": "📈 Marketing",
+  "design": "🎨 Desain",
+  "finance": "💰 Keuangan",
+  "photo-video": "📸 Foto & Video",
+  "development": "⚙️ Development",
+  "music": "🎵 Musik",
+  "other": "📦 Lainnya"
+};
 
 interface EditModalProps {
   product: Product;
@@ -45,6 +46,21 @@ const EditProductModal = ({ product, onClose, onSuccess }: EditModalProps) => {
   const [tempGalleryUrl, setTempGalleryUrl] = useState('');
 
   // 2. STATE INITIALIZATION
+  // Lakukan normalisasi awal jika kategori lama masih memakai format dengan emoji
+  const normalizeCategory = (catStr: string) => {
+      if (!catStr) return '';
+      const safeCat = catStr.toLowerCase();
+      if (safeCat.includes('pendidikan') || safeCat.includes('teaching')) return 'teaching';
+      if (safeCat.includes('desain') || safeCat.includes('design')) return 'design';
+      if (safeCat.includes('foto') || safeCat.includes('video')) return 'photo-video';
+      if (safeCat.includes('web') || safeCat.includes('code')) return 'code';
+      if (safeCat.includes('produk digital') || safeCat.includes('software')) return 'it-software';
+      if (safeCat.includes('ev') || safeCat.includes('auto')) return 'automotive';
+      if (safeCat.includes('bisnis') || safeCat.includes('business')) return 'business';
+      if (safeCat.includes('lainnya') || safeCat.includes('other')) return 'other';
+      return catStr; // Kembalikan string asli jika tidak ada yang cocok
+  };
+
   const [formData, setFormData] = useState({ 
     ...product,
     image: product.image || '', // Pastikan string kosong jika null
@@ -52,6 +68,7 @@ const EditProductModal = ({ product, onClose, onSuccess }: EditModalProps) => {
     images: product.images || [], 
     videoUrl: product.videoUrl || '',
     paymentLink: product.paymentLink || '',
+    category: normalizeCategory(product.category), // Normalisasi nilai kategori awal
     isVisible: product.isVisible ?? true, 
     isBestSeller: product.isBestSeller || false,
     fakePrice: product.fakePrice || 0 // NEW: Load fakePrice lama atau 0
@@ -151,7 +168,7 @@ const EditProductModal = ({ product, onClose, onSuccess }: EditModalProps) => {
 
   return (
     <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
-      <div className="bg-[#1e293b] w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl border border-gray-700 shadow-2xl">
+      <div className="bg-[#1e293b] w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl border border-gray-700 shadow-2xl custom-scrollbar">
         <div className="sticky top-0 bg-[#1e293b] z-10 px-6 py-4 border-b border-gray-700 flex justify-between items-center">
           <h2 className="text-xl font-bold text-white">✏️ Edit Produk (Link URL)</h2>
           <button onClick={onClose} className="text-gray-400 hover:text-white text-2xl">✕</button>
@@ -245,9 +262,10 @@ const EditProductModal = ({ product, onClose, onSuccess }: EditModalProps) => {
                 <label className="text-xs text-gray-400">Kategori</label>
                 <select name="category" value={formData.category} onChange={handleChange} className="w-full bg-black/30 border border-gray-600 rounded p-2 text-white focus:border-cyan-500 outline-none">
                     <option value="" disabled>Pilih Kategori</option>
-                    {CATEGORIES.map((cat) => (
-                      <option key={cat} value={cat}>
-                        {cat}
+                    {/* Render opsi kategori dengan memisahkan value dan label */}
+                    {Object.entries(CATEGORIES).map(([val, label]) => (
+                      <option key={val} value={val}>
+                        {label}
                       </option>
                     ))}
                 </select>

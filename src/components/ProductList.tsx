@@ -27,9 +27,15 @@ const isNativeVideo = (url: string) => {
   return url.toLowerCase().includes('.mp4') || url.toLowerCase().includes('.webm') || url.toLowerCase().includes('.ogg');
 };
 
-// --- HELPER 3: Label Kategori Menggunakan Dictionary ---
+// --- HELPER 3: Label Kategori Menggunakan Dictionary (SUDAH DIPERBAIKI) 🔥 ---
 const getCategoryLabel = (cat: string, t: any) => {
+    if (!cat) return t('catOther');
+
+    // 1. Ubah teks dari database jadi huruf kecil semua agar aman (Case Insensitive)
+    const safeCat = cat.toLowerCase().trim();
+
     const map: Record<string, string> = {
+        // --- Mapping Asli (English) ---
         'streaming': 'catStreaming', 
         'gaming': 'catGaming', 
         'code': 'catCode',
@@ -45,9 +51,21 @@ const getCategoryLabel = (cat: string, t: any) => {
         'photo-video': 'catPhoto', 
         'development': 'catDev', 
         'music': 'catMusic', 
-        'other': 'catOther'
+        'other': 'catOther',
+
+        // --- TAMBAHAN MAPPING BAHASA INDONESIA (Sesuai Form Database) ---
+        'pendidikan': 'catTeaching',   // Pendidikan -> teaching
+        'desain': 'catDesign',         // Desain -> design
+        'foto & video': 'catPhoto',    // Foto & Video -> photo-video
+        'web programming': 'catCode',  // Web Programming -> code
+        'produk digital': 'catIT',     // Produk Digital -> it-software
+        'ev technology': 'catAuto',    // EV Technology -> automotive
+        'e-book': 'catTeaching',       // E-book -> teaching
+        'lainnya': 'catOther'          // Lainnya -> other
     };
-    const key = map[cat] || 'catOther';
+
+    // Cari key di map, kalau masih tidak ketemu juga baru jadikan 'catOther'
+    const key = map[safeCat] || 'catOther';
     return t(key); 
 };
 
@@ -115,30 +133,21 @@ const ProductCardContent = ({ p, isAdmin, t, onEdit, onDelete, isDesktop }: any)
     );
 };
 
-// --- PRODUCT MODAL COMPONENT ---
+// --- PRODUCT MODAL COMPONENT (DIOPTIMASI UNTUK DEKSTOP & SUPER CEPAT DI HP) ---
 const ProductModal = ({ p, onClose, t }: { p: Product; onClose: () => void; t: any }) => {
     const [lightboxImage, setLightboxImage] = useState<string | null>(null);
 
-    // 🔥 LOGIKA MEDIA BARU YANG BISA BACA FIREBASE MP4 🔥
+    // 🔥 LOGIKA MEDIA (Tetap Sama & Cepat) 🔥
     const ytEmbedUrl = p.videoUrl ? getEmbedUrl(p.videoUrl) : null;
     const mediaItems: {type: string, url: string}[] = [];
 
-    // 1. Cek isi kolom VideoUrl
     if (p.videoUrl) {
-        if (ytEmbedUrl) {
-            mediaItems.push({ type: 'youtube', url: ytEmbedUrl });
-        } else {
-            // Jika bukan YouTube, asumsikan itu link MP4 Firebase
-            mediaItems.push({ type: 'native_video', url: p.videoUrl });
-        }
+        if (ytEmbedUrl) mediaItems.push({ type: 'youtube', url: ytEmbedUrl });
+        else mediaItems.push({ type: 'native_video', url: p.videoUrl });
     }
-
-    // 2. Cek Gambar Utama (Thumbnail)
     if (p.image) {
         mediaItems.push({ type: isNativeVideo(p.image) ? 'native_video' : 'image', url: p.image });
     }
-
-    // 3. Cek Gambar Galeri
     if (p.images && Array.isArray(p.images)) {
         p.images.forEach((url) => { 
             if (url && url !== p.image) {
@@ -164,73 +173,112 @@ const ProductModal = ({ p, onClose, t }: { p: Product; onClose: () => void; t: a
 
     return (
         <>
+            {/* LIGHTBOX ZOOM GAMBAR */}
             {lightboxImage && (
                 <div className="fixed inset-0 z-[10000] bg-black/95 flex items-center justify-center p-4" onClick={() => setLightboxImage(null)}>
-                    <button className="absolute top-4 right-4 text-white bg-red-600 rounded-full p-3 font-bold z-50">✕</button>
+                    <button className="absolute top-4 right-4 text-white bg-red-600 rounded-full w-10 h-10 flex items-center justify-center font-bold z-50 hover:bg-red-700 transition">✕</button>
                     <img src={lightboxImage} className="max-w-full max-h-full object-contain" alt="Zoom" />
                 </div>
             )}
 
-            <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 backdrop-blur-sm p-0 sm:p-4 animate-fade-in">
-                <div className="relative bg-white dark:bg-[#1e293b] w-full max-w-md h-full sm:h-[90vh] sm:rounded-2xl shadow-2xl overflow-hidden flex flex-col border border-gray-200 dark:border-gray-700">
-                    <button onClick={onClose} className="absolute top-4 right-4 z-50 bg-black/50 text-white w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-md transition shadow-lg border border-white/20">✕</button>
+            {/* BACKGROUND MODAL */}
+            <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 backdrop-blur-sm p-0 md:p-6 animate-fade-in">
+                
+                {/* CONTAINER MODAL: Mobile (Lebar HP), Desktop (Lebar Penuh Max-5xl, Split 2 Kolom) */}
+                <div className="relative bg-white dark:bg-[#0f172a] w-full md:max-w-5xl lg:max-w-6xl h-full md:h-[90vh] md:rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row border border-gray-200 dark:border-gray-800">
+                    
+                    {/* TOMBOL CLOSE (Di Desktop pindah ke dalam area putih/gelap agar elegan) */}
+                    <button onClick={onClose} className="absolute top-4 right-4 z-[60] bg-black/50 md:bg-gray-100 md:dark:bg-gray-800 md:text-gray-600 md:dark:text-white text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-md transition shadow-lg border border-white/20 md:border-transparent hover:bg-red-500 hover:text-white">
+                        ✕
+                    </button>
 
-                    <div className="flex-1 overflow-y-auto overflow-x-hidden custom-scrollbar pb-24 bg-gray-50 dark:bg-[#0f172a]">
-                        
-                        {/* GALLERY / MEDIA SLIDER */}
-                        <div className="w-full aspect-square bg-black relative">
-                             <div className="w-full h-full flex overflow-x-auto snap-x snap-mandatory hide-scrollbar">
-                                {mediaItems.map((item, index) => (
-                                    <div key={index} className="min-w-full w-full h-full snap-center flex items-center justify-center bg-black">
-                                        
-                                        {/* 🔥 PEMISAHAN RENDER: YOUTUBE VS NATIVE VIDEO VS GAMBAR 🔥 */}
-                                        {item.type === 'youtube' ? (
-                                             <iframe src={item.url} className="w-full h-full" frameBorder="0" allowFullScreen></iframe>
-                                        ) : item.type === 'native_video' ? (
-                                             <video src={item.url} className="w-full h-full object-contain bg-black" controls autoPlay playsInline></video>
-                                        ) : (
-                                            <img src={item.url} className="w-full h-full object-contain cursor-pointer" onClick={() => setLightboxImage(item.url)} alt="" />
-                                        )}
-
-                                    </div>
-                                ))}
-                             </div>
-                             {p.isBestSeller && <div className="absolute top-4 left-4 bg-yellow-500 text-black text-xs font-bold px-2 py-1 rounded shadow-lg z-10"> {t('bestLabel')}</div>}
-                        </div>
-
-                        <div className="p-4 bg-white dark:bg-[#1e293b] border-b border-gray-100 dark:border-gray-700">
-                            <div className="flex items-baseline gap-2 mb-1">
-                                <span className="text-cyan-600 dark:text-cyan-400 font-bold text-2xl font-mono">Rp {p.price.toLocaleString('id-ID')}</span>
-                                {hasDiscount && (
-                                    <span className="text-gray-400 text-sm line-through decoration-red-500">Rp {p.fakePrice?.toLocaleString('id-ID')}</span>
-                                )}
-                            </div>
-                            <h1 className="text-slate-900 dark:text-white text-lg font-medium leading-snug break-words">{p.name}</h1>
-                            
-                            <div className="flex gap-2 mt-3">
-                                <span className="bg-slate-200 dark:bg-gray-700 text-slate-700 dark:text-gray-300 text-[10px] px-2 py-1 rounded border border-slate-300 dark:border-gray-600">
-                                    {getCategoryLabel(p.category, t)}
-                                </span>
-                                <span className="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-[10px] px-2 py-1 rounded border border-green-300 dark:border-green-900/50">
-                                    {t('guarantee')}
+                    {/* KOLOM KIRI: MEDIA (Mobile: Kotak Atas, Desktop: Lebar 50% Tinggi Full) */}
+                    <div className="w-full aspect-square md:aspect-auto md:w-1/2 md:h-full bg-black relative flex-shrink-0 z-10 border-b md:border-b-0 md:border-r border-gray-200 dark:border-gray-800 flex flex-col">
+                         <div className="w-full h-full flex overflow-x-auto snap-x snap-mandatory hide-scrollbar">
+                            {mediaItems.map((item, index) => (
+                                <div key={index} className="min-w-full w-full h-full snap-center flex items-center justify-center bg-[#050505]">
+                                    {item.type === 'youtube' ? (
+                                         <iframe src={item.url} className="w-full h-full" frameBorder="0" allowFullScreen></iframe>
+                                    ) : item.type === 'native_video' ? (
+                                         <video src={item.url} className="w-full h-full object-contain bg-black" controls autoPlay playsInline></video>
+                                    ) : (
+                                        <img src={item.url} className="w-full h-full object-contain cursor-pointer hover:scale-105 transition-transform duration-500" onClick={() => setLightboxImage(item.url)} alt="Media" loading="lazy" />
+                                    )}
+                                </div>
+                            ))}
+                         </div>
+                         
+                         {/* Indikator geser (Desktop Only Feature: Memandu user untuk scroll galeri) */}
+                         {mediaItems.length > 1 && (
+                            <div className="hidden md:flex absolute bottom-4 left-0 right-0 justify-center gap-2 pointer-events-none">
+                                <span className="bg-black/60 text-white text-[10px] px-3 py-1 rounded-full backdrop-blur-sm border border-white/20">
+                                    Geser untuk melihat {mediaItems.length} media ➔
                                 </span>
                             </div>
-                        </div>
+                         )}
 
-                        <div className="p-4 bg-gray-50 dark:bg-[#0f172a] min-h-[300px]">
-                            <h3 className="text-sm font-bold text-gray-400 mb-3 uppercase tracking-wider">{t('details')}</h3>
-                            <div className="prose prose-sm dark:prose-invert text-slate-700 dark:text-gray-300 max-w-none break-words [&_img]:max-w-full [&_img]:rounded-lg">
-                                <div dangerouslySetInnerHTML={{ __html: p.description || '<p>...</p>' }} />
-                            </div>
-                        </div>
+                         {p.isBestSeller && <div className="absolute top-4 left-4 bg-gradient-to-r from-yellow-400 to-yellow-600 text-black text-xs font-black px-3 py-1.5 rounded-md shadow-lg z-10 uppercase tracking-wide">⭐ {t('bestLabel')}</div>}
                     </div>
 
-                    <div className="absolute bottom-0 left-0 right-0 bg-white dark:bg-[#1e293b] border-t border-gray-100 dark:border-gray-700 p-3 flex gap-3 z-40">
-                        <button onClick={handleChatWA} className="flex flex-col items-center justify-center px-4 text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 rounded-lg py-1">
-                            <span className="text-xl">💬</span>
-                            <span className="text-[10px]">{t('chatAdmin')}</span>
-                        </button>
-                        <button onClick={handleDirectBuy} className="flex-1 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-lg py-3 shadow-lg flex items-center justify-center gap-2 active:scale-95 transition">{t('buyNow')}</button>
+                    {/* KOLOM KANAN: KONTEN DETAIL (Mobile: Bawah, Desktop: Lebar 50% Bisa di-Scroll) */}
+                    <div className="w-full md:w-1/2 flex flex-col h-[calc(100%-100vw)] md:h-full relative bg-white dark:bg-[#0f172a]">
+                        
+                        {/* Area Text yang bisa di-scroll terpisah */}
+                        <div className="flex-1 overflow-y-auto custom-scrollbar pb-28 md:pb-32">
+                            
+                            {/* Header: Harga & Judul */}
+                            <div className="p-5 md:p-8 border-b border-gray-100 dark:border-gray-800">
+                                <div className="flex flex-col gap-1 mb-3">
+                                    {hasDiscount && (
+                                        <div className="flex items-center gap-2">
+                                            <span className="bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 text-xs font-bold px-2 py-0.5 rounded">Diskon</span>
+                                            <span className="text-gray-400 text-sm line-through decoration-red-500">Rp {p.fakePrice?.toLocaleString('id-ID')}</span>
+                                        </div>
+                                    )}
+                                    <span className="text-cyan-600 dark:text-cyan-400 font-black text-3xl md:text-4xl font-mono tracking-tight">
+                                        Rp {p.price.toLocaleString('id-ID')}
+                                    </span>
+                                </div>
+                                
+                                <h1 className="text-slate-900 dark:text-white text-xl md:text-3xl font-bold leading-snug break-words mb-4">
+                                    {p.name}
+                                </h1>
+                                
+                                <div className="flex flex-wrap gap-2">
+                                    <span className="bg-slate-100 dark:bg-gray-800 text-slate-700 dark:text-gray-300 text-xs px-3 py-1.5 rounded-md border border-slate-200 dark:border-gray-700 font-medium flex items-center gap-1">
+                                        📁 {getCategoryLabel(p.category, t)}
+                                    </span>
+                                    <span className="bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 text-xs px-3 py-1.5 rounded-md border border-green-200 dark:border-green-900/50 font-medium flex items-center gap-1">
+                                        🛡️ {t('guarantee')}
+                                    </span>
+                                    <span className="bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 text-xs px-3 py-1.5 rounded-md border border-blue-200 dark:border-blue-900/50 font-medium flex items-center gap-1 hidden md:flex">
+                                        ⚡ Akses Instan
+                                    </span>
+                                </div>
+                            </div>
+
+                            {/* Body: Deskripsi Produk */}
+                            <div className="p-5 md:p-8">
+                                <h3 className="text-sm font-bold text-gray-400 mb-4 uppercase tracking-widest flex items-center gap-2">
+                                    <span className="w-4 h-[2px] bg-cyan-500 rounded-full"></span> 
+                                    {t('details')}
+                                </h3>
+                                <div className="prose prose-sm md:prose-base dark:prose-invert text-slate-700 dark:text-gray-300 max-w-none break-words [&_img]:max-w-full [&_img]:rounded-xl [&_img]:my-4 [&_img]:border [&_img]:border-gray-200 dark:[&_img]:border-gray-800">
+                                    <div dangerouslySetInnerHTML={{ __html: p.description || '<p>Tidak ada deskripsi.</p>' }} />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* BOTTOM CTA: Fixed di bagian bawah layar Kanan (Desktop) atau Bawah HP (Mobile) */}
+                        <div className="absolute bottom-0 left-0 right-0 bg-white/95 dark:bg-[#0f172a]/95 backdrop-blur-xl border-t border-gray-200 dark:border-gray-800 p-4 md:p-6 flex gap-3 md:gap-4 z-40 shadow-[0_-10px_40px_rgba(0,0,0,0.05)] dark:shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
+                            <button onClick={handleChatWA} className="flex flex-col md:flex-row md:px-6 items-center justify-center px-4 text-gray-600 dark:text-gray-300 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 transition rounded-xl py-2 md:py-3 border border-gray-200 dark:border-gray-700 gap-1 md:gap-2">
+                                <span className="text-xl md:text-2xl">💬</span>
+                                <span className="text-[10px] md:text-sm font-semibold">{t('chatAdmin')}</span>
+                            </button>
+                            <button onClick={handleDirectBuy} className="flex-1 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-black text-sm md:text-lg rounded-xl py-3 md:py-4 shadow-[0_0_20px_rgba(8,145,178,0.4)] hover:shadow-[0_0_30px_rgba(8,145,178,0.6)] flex items-center justify-center gap-2 active:scale-[0.98] transition-all">
+                                🚀 {t('buyNow')}
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
