@@ -280,7 +280,7 @@ const GerbangDigitalComplete: React.FC<Props> = ({ isDarkMode, lang }) => {
              </h2>
              <div className="space-y-6">
                 <p className={`whitespace-pre-line text-base md:text-xl font-medium leading-relaxed italic ${manifestoBodyColor}`}>
-                   "{t.manifestoBody}"
+                    "{t.manifestoBody}"
                 </p>
              </div>
              <div className="mt-10">
@@ -365,8 +365,10 @@ const GerbangDigitalComplete: React.FC<Props> = ({ isDarkMode, lang }) => {
         </div>
       </div>
 
-      {/* 4. PRICING */}
-      <div className={`text-center mb-10 ${textMain}`}>
+      {/* =========================================
+          🔥 UPDATE: 4. PRICING (DITAMBAHKAN ID)
+          ========================================= */}
+      <div id="kunci-akses" className={`text-center mb-10 scroll-mt-32 ${textMain}`}>
         <h3 className="text-2xl lg:text-5xl font-black uppercase tracking-tight">{t.priceTitle}</h3>
       </div>
 

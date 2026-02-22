@@ -4,38 +4,41 @@ import { useTheme } from '../context/ThemeContext';
 import { useAuth } from '../context/AuthContext';
 import { db } from '../lib/firebase';
 import { doc, getDoc } from 'firebase/firestore';
-// Import useNavigate untuk navigasi halaman
 import { useNavigate } from 'react-router-dom'; 
 
 const Navbar = () => {
   const { t, currentLang, setLang, flags, setCategory } = useLanguage();
   const { isDark, toggleTheme } = useTheme();
   const { isAdmin } = useAuth();
-  
-  // Gunakan navigate dari react-router-dom
   const navigate = useNavigate();
   
+  // --- STATE ---
   const [brandName, setBrandName] = useState("KAZUYA");
+  const [logoUrl, setLogoUrl] = useState(""); // ✅ State baru untuk menyimpan URL Logo
   const [scrolled, setScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLangOpen, setIsLangOpen] = useState(false);
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
 
+  // --- EFFECT: SCROLL & FETCH DATA ---
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener('scroll', handleScroll);
     
-    const fetchBrandName = async () => {
+    const fetchSettings = async () => {
       try {
         const docRef = doc(db, "content", "general_settings");
         const docSnap = await getDoc(docRef);
+        
         if (docSnap.exists()) {
           const data = docSnap.data();
           if (data.siteName) setBrandName(data.siteName);
+          if (data.logoUrl) setLogoUrl(data.logoUrl); // ✅ Ambil Logo URL dari Database
         }
-      } catch (error) { console.error("Gagal memuat:", error); }
+      } catch (error) { console.error("Gagal memuat pengaturan:", error); }
     };
-    fetchBrandName();
+
+    fetchSettings();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -103,15 +106,33 @@ const Navbar = () => {
       }`}>
         <div className="max-w-[1600px] mx-auto px-6 h-full flex items-center justify-between">
           
-          {/* LOGO */}
+          {/* LOGO AREA */}
           <a href="#" className="flex items-center gap-3 group" onClick={(e) => navigateTo(e, '#top')}>
-            <div className="relative w-9 h-9 transform group-hover:rotate-12 transition-transform">
-              <div className="relative w-full h-full bg-gradient-to-br from-blue-400 to-indigo-600 rounded-lg flex items-center justify-center text-white font-black text-lg border border-white/20 shadow-xl">
-                {brandName.charAt(0).toUpperCase()}
-              </div>
-            </div>
             
-            {/* 🔥 PERBAIKAN WARNA TEKS DI SINI */}
+            {/* 🔥 LOGIKA LOGO DINAMIS 🔥 */}
+            {logoUrl ? (
+                // JIKA ADA URL LOGO -> TAMPILKAN GAMBAR
+                <div className="relative w-10 h-10 transform group-hover:scale-110 transition-transform duration-300">
+                  <img 
+                    src={logoUrl} 
+                    alt={`${brandName} Logo`} 
+                    className="w-full h-full object-contain drop-shadow-lg"
+                    onError={(e) => {
+                        // Fallback jika gambar error/rusak, sembunyikan gambar
+                        (e.target as HTMLImageElement).style.display = 'none';
+                    }}
+                  />
+                </div>
+            ) : (
+                // JIKA TIDAK ADA URL LOGO -> TAMPILKAN INISIAL HURUF (Fallback Lama)
+                <div className="relative w-9 h-9 transform group-hover:rotate-12 transition-transform">
+                  <div className="relative w-full h-full bg-gradient-to-br from-blue-400 to-indigo-600 rounded-lg flex items-center justify-center text-white font-black text-lg border border-white/20 shadow-xl">
+                    {brandName.charAt(0).toUpperCase()}
+                  </div>
+                </div>
+            )}
+            
+            {/* NAMA WEBSITE (Teks di sebelah logo) */}
             <span className="font-bold text-lg uppercase tracking-tighter transition-colors text-slate-900 dark:text-white">
               {brandName}
             </span>
@@ -120,7 +141,7 @@ const Navbar = () => {
           {/* CONTROLS (KANAN) */}
           <div className="flex items-center gap-2">
             
-            {/* 🔥 TOMBOL MEMBER AREA (DESKTOP ONLY) */}
+            {/* TOMBOL MEMBER AREA (DESKTOP) */}
             <button 
                onClick={() => navigate('/member')}
                className="hidden md:flex items-center gap-2 px-4 h-10 bg-gradient-to-r from-orange-500 to-yellow-500 text-white text-xs font-bold rounded-xl shadow-lg hover:scale-105 transition-transform mr-2"
@@ -139,7 +160,7 @@ const Navbar = () => {
               {isDark ? '🌞' : '🌙'}
             </button>
 
-            {/* BAHASA TOGGLE */}
+           {/* BAHASA TOGGLE */}
             <div className="relative">
               <button 
                 onClick={() => setIsLangOpen(!isLangOpen)} 
@@ -157,7 +178,10 @@ const Navbar = () => {
                   bg-white dark:bg-[#121212] 
                   border-slate-100 dark:border-white/10"
                 >
-                  {Object.entries(flags).map(([code, flag]) => (
+                  {/* 🔥 FILTER DITERAPKAN DI SINI: HANYA ID & EN */}
+                  {Object.entries(flags)
+                    .filter(([code]) => code === 'ID' || code === 'EN')
+                    .map(([code, flag]) => (
                     <button 
                       key={code} 
                       onClick={() => { setLang(code as any); setIsLangOpen(false); }} 
@@ -171,7 +195,7 @@ const Navbar = () => {
                 </div>
               )}
             </div>
-
+            
             {/* HAMBURGER MENU BUTTON */}
             <button 
               onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -207,7 +231,7 @@ const Navbar = () => {
             <p className="text-slate-400 font-black tracking-[0.4em] text-[8px] uppercase border-l-2 border-blue-500 pl-3">Navigation</p>
             <div className="flex flex-col gap-4 items-start">
               
-              {/* 🔥 TOMBOL MEMBER AREA (MOBILE VERSION) */}
+              {/* TOMBOL MEMBER AREA (MOBILE) */}
               <button 
                   onClick={() => { navigate('/member'); setIsMenuOpen(false); }}
                   className="w-full py-3 bg-gradient-to-r from-orange-500 to-yellow-500 text-white rounded-xl font-bold shadow-lg flex items-center justify-center gap-2 mb-2 active:scale-95 transition-transform"

@@ -129,6 +129,18 @@ const Hero = () => {
   // LOGIKA ORIENTASI VIDEO
   const isPortrait = heroData?.videoOrientation === 'portrait';
 
+  // 🔥 FUNGSI BARU UNTUK SCROLL PRESISI KE PAKET HARGA
+  const scrollToPricing = () => {
+    // Mencari elemen target utama (kunci-akses) atau fallback (pricing-section)
+    const target = document.getElementById('kunci-akses') || document.getElementById('pricing-section');
+    if (target) {
+      // Offset -100px agar judul "Ambil Kunci Akses Anda" tidak tertutup oleh Navbar yang fixed/sticky
+      const yOffset = -100; 
+      const y = target.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  };
+
   if (loading) return (<div className="min-h-screen bg-white dark:bg-[#080808] flex items-center justify-center"><div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div></div>);
 
   return (
@@ -144,36 +156,18 @@ const Hero = () => {
         {/* CONTAINER UTAMA */}
         <div className="max-w-7xl mx-auto px-4 md:px-6 pt-24 md:pt-40 pb-16 flex flex-col gap-12 md:gap-24">
           
-          {/* =========================================
-              BAGIAN 1: SPLIT SCREEN (TEXT & VIDEO)
-             ========================================= */}
+          {/* BAGIAN 1: SPLIT SCREEN (TEXT & VIDEO) */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-8 items-center">
             
-            {/* KANAN (VIDEO) 
-                🔥 UPDATE: KOTAK SAJA & MENTOK KANAN KIRI (MOBILE)
-            */}
+            {/* KANAN (VIDEO) */}
             <div className={`order-1 lg:order-2 w-full flex justify-center relative group ${isPortrait ? 'lg:justify-center' : ''}`}>
-               
-               {/* Efek Glow (Hidden on Mobile to match square look) */}
                <div className={`hidden lg:block absolute bg-gradient-to-r from-blue-600 to-cyan-600 rounded-none blur opacity-25 group-hover:opacity-50 transition duration-1000 ${isPortrait ? 'inset-x-20 inset-y-4' : '-inset-1'}`}></div>
-               
-               {/* CONTAINER VIDEO */}
                <div className={`
                  relative overflow-hidden shadow-2xl z-10
-                 
-                 /* 🔧 MOBILE MAGIC: Negative Margin agar mentok (-mx-4) & Lebar Full (100% + 2rem) */
                  -mx-4 w-[calc(100%+2rem)] md:mx-0 md:w-full
-                 
-                 /* 🔧 KOTAK SAJA: Rounded None */
                  rounded-none md:rounded-xl
-                 
-                 /* 🔧 BORDER: Hanya atas bawah di HP, Full di Desktop */
                  border-y md:border border-slate-200 dark:border-white/10
-                 
-                 ${isPortrait 
-                    ? 'aspect-[9/16] md:w-[350px] mx-auto' // Portrait
-                    : 'aspect-video' // Landscape
-                 }
+                 ${isPortrait ? 'aspect-[9/16] md:w-[350px] mx-auto' : 'aspect-video'}
                `}>
                  <iframe
                    className="absolute top-0 left-0 w-full h-full"
@@ -206,12 +200,15 @@ const Hero = () => {
               </p>
               
               <div className="pt-6 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                
+                {/* 🔥 UPDATE: Tombol Ambil Penawaran menggunakan fungsi scrollToPricing */}
                 <button 
-                  onClick={() => document.getElementById('pricing-section')?.scrollIntoView({ behavior: 'smooth' })}
+                  onClick={scrollToPricing}
                   className="px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold rounded-full shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 hover:scale-105 transition-all duration-300 active:scale-95"
                 >
                   🔥 {t.ctaButton}
                 </button>
+                
                 <button 
                   onClick={() => scrollRef.current?.scrollIntoView({ behavior: 'smooth' })}
                   className="px-8 py-4 bg-white dark:bg-white/5 text-slate-700 dark:text-white font-bold rounded-full border border-slate-200 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-white/10 transition-all active:scale-95"
@@ -223,17 +220,13 @@ const Hero = () => {
 
           </div>
 
-          {/* =========================================
-              BAGIAN 2: PENAWARAN (GERBANG DIGITAL COMPLETE)
-             ========================================= */}
+          {/* BAGIAN 2: PENAWARAN (GERBANG DIGITAL COMPLETE) */}
           <div id="pricing-section" className="w-full scroll-mt-24">
              <div className="w-full h-px bg-gradient-to-r from-transparent via-slate-200 dark:via-slate-800 to-transparent mb-12"></div>
              <GerbangDigitalComplete isDarkMode={isDark} lang={currentLang} />
           </div>
 
-          {/* =========================================
-              BAGIAN 3: GALERI CAROUSEL
-             ========================================= */}
+          {/* BAGIAN 3: GALERI CAROUSEL */}
           <div className="w-full space-y-8 pt-8">
             <div className="flex flex-col md:flex-row justify-between items-end md:items-center px-2 gap-4">
               <div>

@@ -3,19 +3,20 @@ import { db } from '../../lib/firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { 
   Save, Globe, MessageCircle, Type, CreditCard, Link, 
-  CheckCircle, AlertCircle, Mail // ✅ Tambah icon Mail
+  CheckCircle, AlertCircle, Mail, Image as ImageIcon // ✅ Tambah icon Image
 } from 'lucide-react';
 
 const AdminGeneralSettings = () => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  // --- STATE 1: DATA IDENTITAS (Updated: Ada Email) ---
+  // --- STATE 1: DATA IDENTITAS (Updated: Ada Email & Logo) ---
   const [generalData, setGeneralData] = useState({
     siteName: '',
-    email: '', // ✅ Field Baru: Email
+    email: '', 
     whatsapp: '',
-    footerText: ''
+    footerText: '',
+    logoUrl: '' // ✅ Field Baru: Logo URL
   });
 
   // --- STATE 2: LINK PEMBAYARAN ---
@@ -29,14 +30,11 @@ const AdminGeneralSettings = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Ambil General Settings
         const genSnap = await getDoc(doc(db, "content", "general_settings"));
         if (genSnap.exists()) {
-            // Merge data yang ada dengan default value untuk menghindari error jika field email belum ada di db
             setGeneralData({ ...generalData, ...genSnap.data() });
         }
 
-        // Ambil Payment Links
         const paySnap = await getDoc(doc(db, "content", "payment_links"));
         if (paySnap.exists()) setPaymentLinks(paySnap.data() as any);
 
@@ -91,7 +89,28 @@ const AdminGeneralSettings = () => {
              </div>
           </div>
 
-          {/* ✅ FIELD BARU: EMAIL OFFICIAL */}
+          {/* ✅ FIELD BARU: URL LOGO & PREVIEW */}
+          <div>
+             <label className="block text-sm font-bold text-slate-300 mb-2">Link Gambar Logo (URL)</label>
+             <div className="relative">
+                <ImageIcon className="absolute left-4 top-3.5 text-purple-500" size={18} />
+                <input 
+                  value={generalData.logoUrl} 
+                  onChange={(e) => setGeneralData({...generalData, logoUrl: e.target.value})} 
+                  className="w-full bg-slate-900 border border-slate-600 rounded-xl py-3 pl-12 pr-4 text-white focus:outline-none focus:border-purple-500 transition-colors" 
+                  placeholder="Contoh: https://i.ibb.co/xyz123/logo.png" 
+                />
+             </div>
+             {/* Fitur Pratinjau Logo */}
+             {generalData.logoUrl && (
+                <div className="mt-3 p-3 bg-slate-900 border border-slate-700 rounded-xl inline-block shadow-inner">
+                  <p className="text-[10px] text-slate-500 mb-2 uppercase font-bold tracking-wider">Preview Logo:</p>
+                  <img src={generalData.logoUrl} alt="Preview Logo" className="h-10 w-auto object-contain drop-shadow-lg" />
+                </div>
+             )}
+          </div>
+
+          {/* Email Official */}
           <div>
              <label className="block text-sm font-bold text-slate-300 mb-2">Email Official</label>
              <div className="relative">

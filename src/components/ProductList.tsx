@@ -9,7 +9,7 @@ import EditProductModal from './admin/EditProductModal';
 import TiltCard from './TiltCard'; 
 import RevealOnScroll from './RevealOnScroll';
 
-// --- HELPER: Ubah Link Youtube ---
+// --- HELPER 1: Ubah Link Youtube ---
 const getEmbedUrl = (url: string) => {
   if (!url) return null;
   let videoId = "";
@@ -20,7 +20,14 @@ const getEmbedUrl = (url: string) => {
   return videoId ? `https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1&playsinline=1&fs=1` : null;
 };
 
-// --- HELPER: Label Kategori Menggunakan Dictionary ---
+// --- HELPER 2: Deteksi Video MP4/Firebase 🔥 ---
+const isNativeVideo = (url: string) => {
+  if (!url) return false;
+  // Cek apakah URL mengandung ekstensi video (berguna untuk link Firebase)
+  return url.toLowerCase().includes('.mp4') || url.toLowerCase().includes('.webm') || url.toLowerCase().includes('.ogg');
+};
+
+// --- HELPER 3: Label Kategori Menggunakan Dictionary ---
 const getCategoryLabel = (cat: string, t: any) => {
     const map: Record<string, string> = {
         'streaming': 'catStreaming', 
@@ -40,9 +47,7 @@ const getCategoryLabel = (cat: string, t: any) => {
         'music': 'catMusic', 
         'other': 'catOther'
     };
-    // Mengambil kunci dari map, jika tidak ada pakai 'catOther'
     const key = map[cat] || 'catOther';
-    // Menerjemahkan kunci tersebut menggunakan fungsi t()
     return t(key); 
 };
 
@@ -63,9 +68,15 @@ const ProductCardContent = ({ p, isAdmin, t, onEdit, onDelete, isDesktop }: any)
                 </div>
             )}
             
+            {/* THUMBNAIL AREA 🔥 */}
             <div className="relative h-36 md:h-56 bg-gray-200 dark:bg-gray-900 overflow-hidden">
                 {p.image ? (
-                    <img src={p.image} className="w-full h-full object-cover" loading="lazy" alt={p.name} />
+                    // Jika thumbnail-nya ternyata video MP4, putar videonya (muted)
+                    isNativeVideo(p.image) ? (
+                        <video src={p.image} className="w-full h-full object-cover pointer-events-none" autoPlay muted loop playsInline />
+                    ) : (
+                        <img src={p.image} className="w-full h-full object-cover" loading="lazy" alt={p.name} />
+                    )
                 ) : (
                     <div className="w-full h-full flex items-center justify-center text-gray-400 dark:text-gray-700 text-4xl font-bold">?</div>
                 )}
@@ -108,16 +119,35 @@ const ProductCardContent = ({ p, isAdmin, t, onEdit, onDelete, isDesktop }: any)
 const ProductModal = ({ p, onClose, t }: { p: Product; onClose: () => void; t: any }) => {
     const [lightboxImage, setLightboxImage] = useState<string | null>(null);
 
-    const safeVideoUrl = p.videoUrl ? getEmbedUrl(p.videoUrl) : null;
-    const mediaItems = [];
-    if (safeVideoUrl) mediaItems.push({ type: 'video', url: safeVideoUrl });
-    if (p.image) mediaItems.push({ type: 'image', url: p.image });
+    // 🔥 LOGIKA MEDIA BARU YANG BISA BACA FIREBASE MP4 🔥
+    const ytEmbedUrl = p.videoUrl ? getEmbedUrl(p.videoUrl) : null;
+    const mediaItems: {type: string, url: string}[] = [];
+
+    // 1. Cek isi kolom VideoUrl
+    if (p.videoUrl) {
+        if (ytEmbedUrl) {
+            mediaItems.push({ type: 'youtube', url: ytEmbedUrl });
+        } else {
+            // Jika bukan YouTube, asumsikan itu link MP4 Firebase
+            mediaItems.push({ type: 'native_video', url: p.videoUrl });
+        }
+    }
+
+    // 2. Cek Gambar Utama (Thumbnail)
+    if (p.image) {
+        mediaItems.push({ type: isNativeVideo(p.image) ? 'native_video' : 'image', url: p.image });
+    }
+
+    // 3. Cek Gambar Galeri
     if (p.images && Array.isArray(p.images)) {
-        p.images.forEach((img) => { if (img && img !== p.image) mediaItems.push({ type: 'image', url: img }); });
+        p.images.forEach((url) => { 
+            if (url && url !== p.image) {
+                mediaItems.push({ type: isNativeVideo(url) ? 'native_video' : 'image', url: url });
+            } 
+        });
     }
 
     const handleChatWA = () => {
-        // Menggunakan t('waAsk') dari dictionary
         const message = `${t('waAsk')} ${p.name}`;
         window.open(`https://wa.me/6282270189045?text=${encodeURIComponent(message)}`, '_blank');
     };
@@ -125,7 +155,6 @@ const ProductModal = ({ p, onClose, t }: { p: Product; onClose: () => void; t: a
     const handleDirectBuy = () => {
         if (p.paymentLink) window.open(p.paymentLink, '_blank');
         else {
-            // Menggunakan t('waBuy') dari dictionary
             const message = `${t('waBuy')} ${p.name}`;
             window.open(`https://wa.me/6282270189045?text=${encodeURIComponent(message)}`, '_blank');
         }
@@ -147,19 +176,25 @@ const ProductModal = ({ p, onClose, t }: { p: Product; onClose: () => void; t: a
                     <button onClick={onClose} className="absolute top-4 right-4 z-50 bg-black/50 text-white w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-md transition shadow-lg border border-white/20">✕</button>
 
                     <div className="flex-1 overflow-y-auto overflow-x-hidden custom-scrollbar pb-24 bg-gray-50 dark:bg-[#0f172a]">
+                        
+                        {/* GALLERY / MEDIA SLIDER */}
                         <div className="w-full aspect-square bg-black relative">
                              <div className="w-full h-full flex overflow-x-auto snap-x snap-mandatory hide-scrollbar">
                                 {mediaItems.map((item, index) => (
                                     <div key={index} className="min-w-full w-full h-full snap-center flex items-center justify-center bg-black">
-                                        {item.type === 'video' ? (
+                                        
+                                        {/* 🔥 PEMISAHAN RENDER: YOUTUBE VS NATIVE VIDEO VS GAMBAR 🔥 */}
+                                        {item.type === 'youtube' ? (
                                              <iframe src={item.url} className="w-full h-full" frameBorder="0" allowFullScreen></iframe>
+                                        ) : item.type === 'native_video' ? (
+                                             <video src={item.url} className="w-full h-full object-contain bg-black" controls autoPlay playsInline></video>
                                         ) : (
-                                            <img src={item.url} className="w-full h-full object-cover" onClick={() => setLightboxImage(item.url)} alt="" />
+                                            <img src={item.url} className="w-full h-full object-contain cursor-pointer" onClick={() => setLightboxImage(item.url)} alt="" />
                                         )}
+
                                     </div>
                                 ))}
                              </div>
-                             {/* Menggunakan t('bestLabel') */}
                              {p.isBestSeller && <div className="absolute top-4 left-4 bg-yellow-500 text-black text-xs font-bold px-2 py-1 rounded shadow-lg z-10"> {t('bestLabel')}</div>}
                         </div>
 
@@ -177,14 +212,12 @@ const ProductModal = ({ p, onClose, t }: { p: Product; onClose: () => void; t: a
                                     {getCategoryLabel(p.category, t)}
                                 </span>
                                 <span className="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-[10px] px-2 py-1 rounded border border-green-300 dark:border-green-900/50">
-                                    {/* Menggunakan t('guarantee') */}
                                     {t('guarantee')}
                                 </span>
                             </div>
                         </div>
 
                         <div className="p-4 bg-gray-50 dark:bg-[#0f172a] min-h-[300px]">
-                            {/* Menggunakan t('details') */}
                             <h3 className="text-sm font-bold text-gray-400 mb-3 uppercase tracking-wider">{t('details')}</h3>
                             <div className="prose prose-sm dark:prose-invert text-slate-700 dark:text-gray-300 max-w-none break-words [&_img]:max-w-full [&_img]:rounded-lg">
                                 <div dangerouslySetInnerHTML={{ __html: p.description || '<p>...</p>' }} />
@@ -195,10 +228,8 @@ const ProductModal = ({ p, onClose, t }: { p: Product; onClose: () => void; t: a
                     <div className="absolute bottom-0 left-0 right-0 bg-white dark:bg-[#1e293b] border-t border-gray-100 dark:border-gray-700 p-3 flex gap-3 z-40">
                         <button onClick={handleChatWA} className="flex flex-col items-center justify-center px-4 text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 rounded-lg py-1">
                             <span className="text-xl">💬</span>
-                            {/* Menggunakan t('chatAdmin') */}
                             <span className="text-[10px]">{t('chatAdmin')}</span>
                         </button>
-                        {/* Menggunakan t('buyNow') */}
                         <button onClick={handleDirectBuy} className="flex-1 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-lg py-3 shadow-lg flex items-center justify-center gap-2 active:scale-95 transition">{t('buyNow')}</button>
                     </div>
                 </div>
@@ -220,8 +251,6 @@ const ProductList = () => {
     const [isDesktop, setIsDesktop] = useState(typeof window !== 'undefined' ? window.innerWidth > 768 : true);
     const { isAdmin } = useAuth(); 
     
-    // 🔥 MENGGUNAKAN HOOK USELANGUAGE DENGAN BENAR
-    // Kita panggil fungsi 't' yang sudah pintar mendeteksi bahasa dari Dictionary
     const { t, category } = useLanguage() as any; 
 
     useEffect(() => {
@@ -274,25 +303,21 @@ const ProductList = () => {
                             <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
                         </span>
                         <span className="text-cyan-600 dark:text-cyan-400 text-[11px] font-bold uppercase tracking-[0.2em]">
-                            {/* Memanggil Dictionary: curatedBadge */}
                             {t('curatedBadge')}
                         </span>
                     </div>
                     
                     <h2 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white mb-4 tracking-tight leading-tight">
-                        {/* Memanggil Dictionary: curatedTitle */}
                         {t('curatedTitle')}
                     </h2>
                     
                     <p className="text-base text-slate-600 dark:text-slate-400 leading-relaxed font-medium">
-                        {/* Memanggil Dictionary: curatedDesc */}
                         {t('curatedDesc')}
                     </p>
 
                     <div className="mt-8 flex justify-center items-center gap-4">
                         <div className="h-[1px] w-20 bg-gradient-to-r from-transparent to-gray-300 dark:to-gray-700"></div>
                         <div className="text-gray-400 dark:text-gray-500 text-[10px] font-mono uppercase tracking-[0.3em]">
-                            {/* Memanggil Dictionary: curatedExplore */}
                             {t('curatedExplore')}
                         </div>
                         <div className="h-[1px] w-20 bg-gradient-to-l from-transparent to-gray-300 dark:to-gray-700"></div>
@@ -322,7 +347,6 @@ const ProductList = () => {
                                 <div key={p.id} onClick={() => setSelectedProduct(p)} className="h-full cursor-pointer">
                                     {isDesktop ? (
                                         <TiltCard className="h-full">
-                                            {/* Kirim fungsi t ke komponen anak */}
                                             <ProductCardContent p={p} isAdmin={isAdmin} t={t} onEdit={onEdit} onDelete={onDelete} isDesktop={isDesktop} />
                                         </TiltCard>
                                     ) : (
@@ -344,14 +368,12 @@ const ProductList = () => {
                 {!loading && visibleCount < filteredProducts.length && (
                     <div className="flex justify-center mt-8 md:mt-12">
                         <button onClick={() => setVisibleCount(prev => prev + 12)} className="px-8 py-3 rounded-full bg-slate-800 text-white font-bold hover:bg-slate-700 transition-all text-xs md:text-base">
-                            {/* Memanggil Dictionary: loadMore */}
                             ⬇️ {t('loadMore')} ({filteredProducts.length - visibleCount})
                         </button>
                     </div>
                 )}
             </div>
             
-            {/* Kirim fungsi t ke Modal */}
             {selectedProduct && <ProductModal p={selectedProduct} onClose={() => setSelectedProduct(null)} t={t} />}
             {editingProduct && <EditProductModal product={editingProduct} onClose={() => setEditingProduct(null)} onSuccess={fetchData} />}
         </section>
