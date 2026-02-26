@@ -184,15 +184,15 @@ const ProductModal = ({ p, onClose, t }: { p: Product; onClose: () => void; t: a
             {/* BACKGROUND MODAL */}
             <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 backdrop-blur-sm p-0 md:p-6 animate-fade-in">
                 
-                {/* CONTAINER MODAL: Mobile (Lebar HP), Desktop (Lebar Penuh Max-5xl, Split 2 Kolom) */}
-                <div className="relative bg-white dark:bg-[#0f172a] w-full md:max-w-5xl lg:max-w-6xl h-full md:h-[90vh] md:rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row border border-gray-200 dark:border-gray-800">
+                {/* CONTAINER MODAL 🔥 (Diubah menjadi overflow-y-auto di HP agar bisa di-scroll seperti Shopee) */}
+                <div className="relative bg-white dark:bg-[#0f172a] w-full md:max-w-5xl lg:max-w-6xl h-full md:h-[90vh] md:rounded-3xl shadow-2xl overflow-y-auto md:overflow-hidden flex flex-col md:flex-row border border-gray-200 dark:border-gray-800">
                     
-                    {/* TOMBOL CLOSE (Di Desktop pindah ke dalam area putih/gelap agar elegan) */}
-                    <button onClick={onClose} className="absolute top-4 right-4 z-[60] bg-black/50 md:bg-gray-100 md:dark:bg-gray-800 md:text-gray-600 md:dark:text-white text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-md transition shadow-lg border border-white/20 md:border-transparent hover:bg-red-500 hover:text-white">
+                    {/* TOMBOL CLOSE 🔥 (Diubah jadi fixed di HP agar tidak hilang saat di-scroll) */}
+                    <button onClick={onClose} className="fixed md:absolute top-4 right-4 z-[60] bg-black/50 md:bg-gray-100 md:dark:bg-gray-800 md:text-gray-600 md:dark:text-white text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-md transition shadow-lg border border-white/20 md:border-transparent hover:bg-red-500 hover:text-white">
                         ✕
                     </button>
 
-                    {/* KOLOM KIRI: MEDIA (Mobile: Kotak Atas, Desktop: Lebar 50% Tinggi Full) */}
+                    {/* KOLOM KIRI: MEDIA */}
                     <div className="w-full aspect-square md:aspect-auto md:w-1/2 md:h-full bg-black relative flex-shrink-0 z-10 border-b md:border-b-0 md:border-r border-gray-200 dark:border-gray-800 flex flex-col">
                          <div className="w-full h-full flex overflow-x-auto snap-x snap-mandatory hide-scrollbar">
                             {mediaItems.map((item, index) => (
@@ -208,7 +208,7 @@ const ProductModal = ({ p, onClose, t }: { p: Product; onClose: () => void; t: a
                             ))}
                          </div>
                          
-                         {/* Indikator geser (Desktop Only Feature: Memandu user untuk scroll galeri) */}
+                         {/* Indikator geser (Desktop Only Feature) */}
                          {mediaItems.length > 1 && (
                             <div className="hidden md:flex absolute bottom-4 left-0 right-0 justify-center gap-2 pointer-events-none">
                                 <span className="bg-black/60 text-white text-[10px] px-3 py-1 rounded-full backdrop-blur-sm border border-white/20">
@@ -220,13 +220,12 @@ const ProductModal = ({ p, onClose, t }: { p: Product; onClose: () => void; t: a
                          {p.isBestSeller && <div className="absolute top-4 left-4 bg-gradient-to-r from-yellow-400 to-yellow-600 text-black text-xs font-black px-3 py-1.5 rounded-md shadow-lg z-10 uppercase tracking-wide">⭐ {t('bestLabel')}</div>}
                     </div>
 
-                    {/* KOLOM KANAN: KONTEN DETAIL (Mobile: Bawah, Desktop: Lebar 50% Bisa di-Scroll) */}
-                    <div className="w-full md:w-1/2 flex flex-col h-[calc(100%-100vw)] md:h-full relative bg-white dark:bg-[#0f172a]">
+                    {/* KOLOM KANAN: KONTEN DETAIL */}
+                    <div className="w-full md:w-1/2 flex flex-col md:h-full relative bg-white dark:bg-[#0f172a]">
                         
-                        {/* Area Text yang bisa di-scroll terpisah */}
-                        <div className="flex-1 overflow-y-auto custom-scrollbar pb-28 md:pb-32">
+                        {/* Area Text 🔥 (Scroll dihilangkan di HP agar menyatu dengan gambar atas, tetap scrollable di Desktop) */}
+                        <div className="flex-1 md:overflow-y-auto custom-scrollbar pb-28 md:pb-32">
                             
-                            {/* Header: Harga & Judul */}
                             <div className="p-5 md:p-8 border-b border-gray-100 dark:border-gray-800">
                                 <div className="flex flex-col gap-1 mb-3">
                                     {hasDiscount && (
@@ -257,7 +256,6 @@ const ProductModal = ({ p, onClose, t }: { p: Product; onClose: () => void; t: a
                                 </div>
                             </div>
 
-                            {/* Body: Deskripsi Produk */}
                             <div className="p-5 md:p-8">
                                 <h3 className="text-sm font-bold text-gray-400 mb-4 uppercase tracking-widest flex items-center gap-2">
                                     <span className="w-4 h-[2px] bg-cyan-500 rounded-full"></span> 
@@ -269,8 +267,8 @@ const ProductModal = ({ p, onClose, t }: { p: Product; onClose: () => void; t: a
                             </div>
                         </div>
 
-                        {/* BOTTOM CTA: Fixed di bagian bawah layar Kanan (Desktop) atau Bawah HP (Mobile) */}
-                        <div className="absolute bottom-0 left-0 right-0 bg-white/95 dark:bg-[#0f172a]/95 backdrop-blur-xl border-t border-gray-200 dark:border-gray-800 p-4 md:p-6 flex gap-3 md:gap-4 z-40 shadow-[0_-10px_40px_rgba(0,0,0,0.05)] dark:shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
+                        {/* BOTTOM CTA 🔥 (Diubah jadi fixed di HP agar melayang seperti keranjang Shopee) */}
+                        <div className="fixed md:absolute bottom-0 left-0 right-0 bg-white/95 dark:bg-[#0f172a]/95 backdrop-blur-xl border-t border-gray-200 dark:border-gray-800 p-4 md:p-6 flex gap-3 md:gap-4 z-40 shadow-[0_-10px_40px_rgba(0,0,0,0.05)] dark:shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
                             <button onClick={handleChatWA} className="flex flex-col md:flex-row md:px-6 items-center justify-center px-4 text-gray-600 dark:text-gray-300 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 transition rounded-xl py-2 md:py-3 border border-gray-200 dark:border-gray-700 gap-1 md:gap-2">
                                 <span className="text-xl md:text-2xl">💬</span>
                                 <span className="text-[10px] md:text-sm font-semibold">{t('chatAdmin')}</span>

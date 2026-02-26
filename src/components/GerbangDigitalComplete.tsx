@@ -248,7 +248,19 @@ const GerbangDigitalComplete: React.FC<Props> = ({ isDarkMode, lang }) => {
     fetchLinks();
   }, []);
 
-  const handleBuy = (planName: string, type: 'basic' | 'premium' | 'pro') => {
+  // 🔥 UPDATE 1: Fungsi Klik Beli (Trigger Meta Pixel "InitiateCheckout")
+  const handleBuy = (planName: string, type: 'basic' | 'premium' | 'pro', priceValue: number) => {
+    // 1. Cek apakah Meta Pixel terpasang, lalu kirim data pengunjung
+    if (typeof window !== 'undefined' && (window as any).fbq) {
+      (window as any).fbq('track', 'InitiateCheckout', {
+        content_name: planName,
+        content_category: 'Digital Product',
+        value: priceValue,     // Mengirim harga paket ke Meta (PENTING!)
+        currency: 'IDR'        // Mata uang Rupiah
+      });
+    }
+
+    // 2. Lanjut ke proses pembayaran Midtrans
     const url = paymentLinks[type];
     if (!url) {
       alert("⚠️ Link pembayaran belum disetting oleh Admin.");
@@ -256,6 +268,16 @@ const GerbangDigitalComplete: React.FC<Props> = ({ isDarkMode, lang }) => {
     }
     setSelectedPlan({ name: planName, url: url });
     setIsPayOpen(true);
+  };
+
+  // 🔥 UPDATE 2: Fungsi Klik Akses Gratis (Trigger Meta Pixel "Lead" atau Daftar)
+  const handleFreeAccess = () => {
+     if (typeof window !== 'undefined' && (window as any).fbq) {
+        (window as any).fbq('track', 'Lead', {
+           content_name: 'Coba Akses Gratis'
+        });
+     }
+     window.location.href='/member';
   };
 
   const scrollToPricing = () => {
@@ -366,7 +388,7 @@ const GerbangDigitalComplete: React.FC<Props> = ({ isDarkMode, lang }) => {
       </div>
 
       {/* =========================================
-          🔥 UPDATE: 4. PRICING (DITAMBAHKAN ID)
+          🔥 UPDATE: 4. PRICING (DITAMBAHKAN ID DAN SENSOR PIXEL)
           ========================================= */}
       <div id="kunci-akses" className={`text-center mb-10 scroll-mt-32 ${textMain}`}>
         <h3 className="text-2xl lg:text-5xl font-black uppercase tracking-tight">{t.priceTitle}</h3>
@@ -384,7 +406,7 @@ const GerbangDigitalComplete: React.FC<Props> = ({ isDarkMode, lang }) => {
                   <p className="text-slate-600 dark:text-slate-300 text-xs md:text-base">{t.freeSub}</p>
                </div>
                <button 
-                  onClick={() => window.location.href='/member'}
+                  onClick={handleFreeAccess}
                   className="w-full md:w-auto px-6 py-4 bg-green-600 hover:bg-green-700 text-white font-bold rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer relative z-10 md:animate-pulse whitespace-normal md:whitespace-nowrap text-center"
                >
                   <PlayCircle size={20} className="shrink-0" /> {t.freeBtn}
@@ -411,7 +433,7 @@ const GerbangDigitalComplete: React.FC<Props> = ({ isDarkMode, lang }) => {
             </ul>
           </div>
           <button 
-            onClick={() => handleBuy(t.p1Name, 'basic')}
+            onClick={() => handleBuy(t.p1Name, 'basic', 149000)}
             className="w-full py-4 rounded-xl font-bold text-white bg-emerald-600 hover:bg-emerald-700 transition-all active:scale-95"
           >
             {t.p1Btn}
@@ -433,7 +455,7 @@ const GerbangDigitalComplete: React.FC<Props> = ({ isDarkMode, lang }) => {
             </ul>
           </div>
           <button 
-            onClick={() => handleBuy(t.p2Name, 'premium')}
+            onClick={() => handleBuy(t.p2Name, 'premium', 560000)}
             className="w-full py-4 rounded-xl font-bold text-white bg-blue-600 hover:bg-blue-700 transition-all active:scale-95"
           >
             {t.p2Btn}
@@ -463,7 +485,7 @@ const GerbangDigitalComplete: React.FC<Props> = ({ isDarkMode, lang }) => {
             </ul>
           </div>
           <button 
-            onClick={() => handleBuy(t.p3Name, 'pro')}
+            onClick={() => handleBuy(t.p3Name, 'pro', 890000)}
             className="w-full py-5 bg-gradient-to-r from-yellow-500 to-orange-600 text-white font-bold rounded-2xl shadow-lg md:hover:scale-105 transition md:animate-pulse text-lg lg:text-xl tracking-wide flex items-center justify-center gap-2"
           >
             {t.p3Btn} <ArrowRight size={24} />
