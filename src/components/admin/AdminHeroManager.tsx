@@ -10,6 +10,7 @@ interface SlideItem {
 }
 
 const AdminHeroManager = () => {
+  // Biarkan state tetap youtubeUrl agar tidak merusak database lama, tapi fungsinya sekarang untuk semua link video
   const [youtubeUrl, setYoutubeUrl] = useState('');
   const [videoOrientation, setVideoOrientation] = useState<'landscape' | 'portrait'>('landscape');
   const [slides, setSlides] = useState<SlideItem[]>([]);
@@ -91,17 +92,22 @@ const AdminHeroManager = () => {
         </h3>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Input URL */}
+          
+          {/* ======================================================== */}
+          {/* INPUT URL (SUDAH DIPERBAIKI LABEL & PLACEHOLDERNYA) */}
+          {/* ======================================================== */}
           <div className="space-y-4">
-            <label className="block text-sm font-bold text-slate-400">Link YouTube Video</label>
+            <label className="block text-sm font-bold text-slate-400">Link Video (Firebase MP4 / YouTube)</label>
             <input 
               value={youtubeUrl} 
               onChange={(e) => setYoutubeUrl(e.target.value)}
-              placeholder="Paste Link YouTube di sini..."
+              placeholder="Paste Link Download URL dari Firebase di sini..."
               className="w-full p-4 rounded-xl bg-slate-900 border border-slate-600 focus:border-blue-500 outline-none text-white transition-all"
             />
-            <p className="text-xs text-slate-500">Contoh: https://youtube.com/watch?v=dQw4w9WgXcQ</p>
+            <p className="text-xs text-slate-500">Contoh: https://firebasestorage.googleapis.com/.../video.mp4</p>
           </div>
+          {/* ======================================================== */}
+          
 
           {/* Pilihan Orientasi */}
           <div className="space-y-4">
@@ -151,7 +157,7 @@ const AdminHeroManager = () => {
         </div>
       </div>
 
-      {/* SECTION 2: CAROUSEL GAMBAR */}
+      {/* SECTION 2: CAROUSEL GAMBAR (TIDAK ADA YANG DIRUBAH) */}
       <div className="bg-slate-800 p-8 rounded-2xl border border-slate-700 shadow-xl">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
           <div>

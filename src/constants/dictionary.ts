@@ -737,6 +737,7 @@ export const translations = {
         cardHeroTitle: "Создайте свой сайт бесплатно с нуля",
         cardHeroDesc: "Руководство по созданию сайта с нуля до бесплатного хостинга навсегда.",
     }
+    
 };
 
 export type LanguageCode = keyof typeof translations;

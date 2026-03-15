@@ -4,23 +4,21 @@ import { Lock, User } from 'lucide-react';
 
 const AdminLogin = () => {
   const { loginAdmin } = useAuth(); // Ambil fungsi login dari context
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setError('');
     setIsLoading(true);
 
     try {
-      // Panggil fungsi login (akan trigger popup Google atau Email login sesuai setting Anda)
+      // Panggil fungsi login (akan trigger popup Google atau mekanisme login context Anda)
       await loginAdmin(); 
       // Jika berhasil, AuthContext akan otomatis update state 'user'
-      // dan AdminDashboard akan otomatis me-render dashboard.
+      // dan rute website Anda akan me-render dashboard Admin.
     } catch (err) {
-      setError('Gagal login. Pastikan Anda adalah admin.');
+      setError('Gagal login. Pastikan Anda memiliki akses admin.');
       console.error(err);
     } finally {
       setIsLoading(false);
@@ -44,7 +42,7 @@ const AdminLogin = () => {
           </div>
         )}
 
-        {/* Tombol Login Simpel (Pemicu Google Auth) */}
+        {/* Tombol Login Simpel (Pemicu Auth) */}
         <button 
           onClick={handleSubmit}
           disabled={isLoading}

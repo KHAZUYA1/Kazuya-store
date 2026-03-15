@@ -3,20 +3,21 @@ import { db } from '../../lib/firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { 
   Save, Globe, MessageCircle, Type, CreditCard, Link, 
-  CheckCircle, AlertCircle, Mail, Image as ImageIcon // ✅ Tambah icon Image
+  CheckCircle, AlertCircle, Mail, Image as ImageIcon,
+  PlayCircle // ✅ Tambah icon PlayCircle untuk video
 } from 'lucide-react';
 
 const AdminGeneralSettings = () => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  // --- STATE 1: DATA IDENTITAS (Updated: Ada Email & Logo) ---
+  // --- STATE 1: DATA IDENTITAS ---
   const [generalData, setGeneralData] = useState({
     siteName: '',
     email: '', 
     whatsapp: '',
     footerText: '',
-    logoUrl: '' // ✅ Field Baru: Logo URL
+    logoUrl: '' 
   });
 
   // --- STATE 2: LINK PEMBAYARAN ---
@@ -26,17 +27,34 @@ const AdminGeneralSettings = () => {
     pro: ''
   });
 
+  // --- ✅ STATE 3: LINK VIDEO / MODUL GRATIS ---
+  const [freeVideoLinks, setFreeVideoLinks] = useState({
+    link_modul_1: '',
+    link_modul_2: ''
+  });
+
   // 1. Fetch Data saat Load
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // Fetch General Settings
         const genSnap = await getDoc(doc(db, "content", "general_settings"));
         if (genSnap.exists()) {
             setGeneralData({ ...generalData, ...genSnap.data() });
         }
 
+        // Fetch Payment Links
         const paySnap = await getDoc(doc(db, "content", "payment_links"));
         if (paySnap.exists()) setPaymentLinks(paySnap.data() as any);
+
+        // ✅ Fetch Free Video Links
+        const videoSnap = await getDoc(doc(db, "settings", "kurikulum"));
+        if (videoSnap.exists()) {
+            setFreeVideoLinks({
+              link_modul_1: videoSnap.data().link_modul_1 || '',
+              link_modul_2: videoSnap.data().link_modul_2 || ''
+            });
+        }
 
       } catch (error) {
         console.error("Error fetching settings:", error);
@@ -54,6 +72,12 @@ const AdminGeneralSettings = () => {
     try {
       await setDoc(doc(db, "content", "general_settings"), generalData);
       await setDoc(doc(db, "content", "payment_links"), paymentLinks);
+      
+      // ✅ Simpan Free Video Links dengan merge agar tidak menghapus field lain jika ada
+      await setDoc(doc(db, "settings", "kurikulum"), {
+        link_modul_1: freeVideoLinks.link_modul_1,
+        link_modul_2: freeVideoLinks.link_modul_2
+      }, { merge: true });
 
       setSuccess(true);
       setTimeout(() => setSuccess(false), 3000);
@@ -61,7 +85,7 @@ const AdminGeneralSettings = () => {
       alert("Gagal menyimpan pengaturan!");
       console.error(e);
     } finally { 
-      setLoading(false); 
+      loading && setLoading(false); 
     }
   };
 
@@ -89,7 +113,7 @@ const AdminGeneralSettings = () => {
              </div>
           </div>
 
-          {/* ✅ FIELD BARU: URL LOGO & PREVIEW */}
+          {/* URL LOGO & PREVIEW */}
           <div>
              <label className="block text-sm font-bold text-slate-300 mb-2">Link Gambar Logo (URL)</label>
              <div className="relative">
@@ -101,7 +125,6 @@ const AdminGeneralSettings = () => {
                   placeholder="Contoh: https://i.ibb.co/xyz123/logo.png" 
                 />
              </div>
-             {/* Fitur Pratinjau Logo */}
              {generalData.logoUrl && (
                 <div className="mt-3 p-3 bg-slate-900 border border-slate-700 rounded-xl inline-block shadow-inner">
                   <p className="text-[10px] text-slate-500 mb-2 uppercase font-bold tracking-wider">Preview Logo:</p>
@@ -150,6 +173,45 @@ const AdminGeneralSettings = () => {
                   placeholder="Contoh: © 2026 Gerbang Digital Corp" 
                 />
              </div>
+          </div>
+        </div>
+      </div>
+
+      {/* --- ✅ BAGIAN BARU: PENGATURAN VIDEO GRATIS --- */}
+      <div className="bg-slate-800/50 p-6 md:p-8 rounded-2xl border border-slate-700">
+        <h2 className="text-xl font-bold text-white flex items-center gap-2 border-b border-slate-700 pb-4 mb-6">
+          <PlayCircle className="text-green-400" /> Link Akses Modul Gratis (Trial)
+        </h2>
+        
+        <div className="space-y-6">
+          {/* MODUL 1 */}
+          <div>
+            <label className="block text-sm font-bold text-slate-300 mb-2">Link Video Modul 1 (Mindset)</label>
+            <div className="relative">
+              <Link className="absolute left-4 top-3.5 text-slate-500" size={18} />
+              <input 
+                type="text" 
+                placeholder="Masukkan link YouTube / Drive / File..."
+                value={freeVideoLinks.link_modul_1}
+                onChange={(e) => setFreeVideoLinks({...freeVideoLinks, link_modul_1: e.target.value})}
+                className="w-full bg-slate-900 border border-slate-600 rounded-xl py-3 pl-12 pr-4 text-white focus:outline-none focus:border-green-500 transition-colors"
+              />
+            </div>
+          </div>
+
+          {/* MODUL 2 */}
+          <div>
+            <label className="block text-sm font-bold text-slate-300 mb-2">Link Video Modul 2 (Instalasi Tools)</label>
+            <div className="relative">
+              <Link className="absolute left-4 top-3.5 text-slate-500" size={18} />
+              <input 
+                type="text" 
+                placeholder="Masukkan link YouTube / Drive / File..."
+                value={freeVideoLinks.link_modul_2}
+                onChange={(e) => setFreeVideoLinks({...freeVideoLinks, link_modul_2: e.target.value})}
+                className="w-full bg-slate-900 border border-slate-600 rounded-xl py-3 pl-12 pr-4 text-white focus:outline-none focus:border-green-500 transition-colors"
+              />
+            </div>
           </div>
         </div>
       </div>

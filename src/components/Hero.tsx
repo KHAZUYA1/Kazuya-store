@@ -59,6 +59,12 @@ const Hero = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [startPos, setStartPos] = useState({ x: 0, y: 0 });
 
+  // --- FUNGSI DETEKSI JENIS VIDEO ---
+  const isDirectVideo = (url: string) => {
+    if (!url) return false;
+    return url.includes('firebasestorage') || url.toLowerCase().endsWith('.mp4');
+  };
+
   useEffect(() => {
     const fetchHeroData = async () => {
       try {
@@ -72,7 +78,7 @@ const Hero = () => {
   }, []);
 
   const getEmbedUrl = (url: string) => {
-    if (!url) return "https://www.youtube.com/embed/dQw4w9WgXcQ";
+    if (!url) return "";
     let videoId = "";
     if (url.includes('v=')) {
       videoId = url.split('v=')[1].split('&')[0];
@@ -129,12 +135,10 @@ const Hero = () => {
   // LOGIKA ORIENTASI VIDEO
   const isPortrait = heroData?.videoOrientation === 'portrait';
 
-  // 🔥 FUNGSI BARU UNTUK SCROLL PRESISI KE PAKET HARGA
+  // SCROLL PRESISI KE PAKET HARGA
   const scrollToPricing = () => {
-    // Mencari elemen target utama (kunci-akses) atau fallback (pricing-section)
     const target = document.getElementById('kunci-akses') || document.getElementById('pricing-section');
     if (target) {
-      // Offset -100px agar judul "Ambil Kunci Akses Anda" tidak tertutup oleh Navbar yang fixed/sticky
       const yOffset = -100; 
       const y = target.getBoundingClientRect().top + window.pageYOffset + yOffset;
       window.scrollTo({ top: y, behavior: 'smooth' });
@@ -159,7 +163,7 @@ const Hero = () => {
           {/* BAGIAN 1: SPLIT SCREEN (TEXT & VIDEO) */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-8 items-center">
             
-            {/* KANAN (VIDEO) */}
+            {/* KANAN (VIDEO PLAYER) */}
             <div className={`order-1 lg:order-2 w-full flex justify-center relative group ${isPortrait ? 'lg:justify-center' : ''}`}>
                <div className={`hidden lg:block absolute bg-gradient-to-r from-blue-600 to-cyan-600 rounded-none blur opacity-25 group-hover:opacity-50 transition duration-1000 ${isPortrait ? 'inset-x-20 inset-y-4' : '-inset-1'}`}></div>
                <div className={`
@@ -167,15 +171,34 @@ const Hero = () => {
                  -mx-4 w-[calc(100%+2rem)] md:mx-0 md:w-full
                  rounded-none md:rounded-xl
                  border-y md:border border-slate-200 dark:border-white/10
+                 bg-black
                  ${isPortrait ? 'aspect-[9/16] md:w-[350px] mx-auto' : 'aspect-video'}
                `}>
-                 <iframe
-                   className="absolute top-0 left-0 w-full h-full"
-                   src={getEmbedUrl(heroData?.youtubeUrl || "")}
-                   title="Gerbang Digital Video"
-                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                   allowFullScreen
-                 ></iframe>
+                 {/* LOGIKA PERCABANGAN PLAYER */}
+                 {heroData?.youtubeUrl && isDirectVideo(heroData.youtubeUrl) ? (
+                   /* JIKA VIDEO FIREBASE / MP4 */
+                   <video 
+                     key={heroData.youtubeUrl}
+                     className="absolute top-0 left-0 w-full h-full object-cover"
+                     autoPlay 
+                     muted 
+                     loop 
+                     playsInline 
+                     controls
+                   >
+                     <source src={heroData.youtubeUrl} type="video/mp4" />
+                     Your browser does not support the video tag.
+                   </video>
+                 ) : (
+                   /* JIKA VIDEO YOUTUBE */
+                   <iframe
+                     className="absolute top-0 left-0 w-full h-full"
+                     src={getEmbedUrl(heroData?.youtubeUrl || "")}
+                     title="Gerbang Digital Video"
+                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                     allowFullScreen
+                   ></iframe>
+                 )}
                </div>
             </div>
 
@@ -200,8 +223,6 @@ const Hero = () => {
               </p>
               
               <div className="pt-6 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                
-                {/* 🔥 UPDATE: Tombol Ambil Penawaran menggunakan fungsi scrollToPricing */}
                 <button 
                   onClick={scrollToPricing}
                   className="px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold rounded-full shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 hover:scale-105 transition-all duration-300 active:scale-95"

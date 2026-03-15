@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { doc, getDoc } from 'firebase/firestore'; 
-import { db } from '../lib/firebase'; 
+import { auth, db } from '../lib/firebase'; 
+import { onAuthStateChanged } from 'firebase/auth'; 
 import { 
   PlayCircle, Lock, ExternalLink, Star, 
   TrendingUp, ShieldAlert, Zap, X, CheckCircle,
-  FileCode, BookOpen, Gift, Crown, ArrowRight, ArrowLeft 
+  FileCode, BookOpen, Gift, Crown, ArrowRight, ArrowLeft,
+  User, LogIn // ✅ Tambahan Icon
 } from 'lucide-react';
 import PaymentHandler from '../components/PaymentHandler';
 
@@ -14,32 +16,71 @@ const MemberArea = () => {
   const [isPayOpen, setIsPayOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState({ name: "", url: "" });
 
-  // --- 1. STATE UNTUK MENYIMPAN LINK DARI DATABASE ---
-  const [paymentLinks, setPaymentLinks] = useState({
-    basic: '',    
-    premium: '',
-    pro: '' 
-  });
+  const [paymentLinks, setPaymentLinks] = useState({ basic: '', premium: '', pro: '' });
+  const [freeVideoLinks, setFreeVideoLinks] = useState({ modul1: '', modul2: '' });
 
-  // --- 2. AMBIL LINK DARI FIREBASE SAAT LOADING ---
+  const [playingVideoUrl, setPlayingVideoUrl] = useState<string | null>(null);
+  
+  // ✅ STATE BARU UNTUK MENDETEKSI TAMU / MEMBER
+  const [currentUser, setCurrentUser] = useState<any>(null); 
+  const [isPremiumUser, setIsPremiumUser] = useState(false);
+  const [isLoadingAuth, setIsLoadingAuth] = useState(true);
+
+  // --- AMBIL LINK DARI FIREBASE SAAT LOADING ---
   useEffect(() => {
-    const fetchPaymentLinks = async () => {
+    const fetchSettings = async () => {
       try {
-        const docRef = doc(db, "content", "payment_links");
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          setPaymentLinks(docSnap.data() as any);
+        const paySnap = await getDoc(doc(db, "content", "payment_links"));
+        if (paySnap.exists()) setPaymentLinks(paySnap.data() as any);
+
+        const videoSnap = await getDoc(doc(db, "settings", "kurikulum"));
+        if (videoSnap.exists()) {
+          setFreeVideoLinks({
+            modul1: videoSnap.data().link_modul_1 || "",
+            modul2: videoSnap.data().link_modul_2 || ""
+          });
         }
       } catch (error) {
-        console.error("Gagal memuat link pembayaran:", error);
+        console.error("Gagal memuat setting:", error);
       }
     };
-    fetchPaymentLinks();
+    fetchSettings();
   }, []);
 
-  // --- FUNGSI KLIK BAYAR ---
+  // --- CEK APAKAH USER SUDAH LUNAS / ADMIN ATAU MASIH TAMU ---
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        setCurrentUser(user); // Simpan data user yang sedang aktif
+        try {
+          const userDoc = await getDoc(doc(db, "users", user.uid));
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            if (userData.status_bayar === "lunas" || userData.role === "admin") {
+              setIsPremiumUser(true);
+            }
+          }
+        } catch (error) {
+          console.error("Gagal cek status user:", error);
+        }
+      } else {
+        setCurrentUser(null); // Jika tidak ada user, berarti Tamu
+      }
+      setIsLoadingAuth(false);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  // --- FUNGSI KLIK BAYAR (DENGAN PENGAMANAN TAMU) ---
   const handleBuy = (planName: string, type: 'basic' | 'premium' | 'pro') => {
-    const url = paymentLinks[type];
+    // ✅ CEK: Jika belum login, paksa daftar dulu!
+    if (!currentUser) {
+      alert("Halo! Untuk mengamankan akses Aset Digital Anda, silakan Daftar atau Login terlebih dahulu sebelum melakukan pembelian.");
+      window.location.href = "/register";
+      return;
+    }
+
+    const url = paymentLinks[type as keyof typeof paymentLinks];
     if (!url) {
       alert("Mohon maaf, pendaftaran sedang ditutup sementara atau Admin belum mengatur link pembayaran.");
       return;
@@ -54,125 +95,46 @@ const MemberArea = () => {
      if (offerSection) offerSection.scrollIntoView({ behavior: 'smooth' });
   };
 
-  // --- DATABASE KURIKULUM (TETAP SAMA) ---
+  const handleAccessContent = (item: any) => {
+    if (item.id === 1 || item.id === 2) {
+      let url = item.id === 1 ? freeVideoLinks.modul1 : freeVideoLinks.modul2;
+      if (url && url !== "") {
+        setPlayingVideoUrl(url); 
+      } else {
+        alert("Video sedang disiapkan, nantikan segera!");
+      }
+      return;
+    }
+
+    if (isPremiumUser) {
+      alert(`Membuka akses VIP: ${item.title}\n\n(Nantinya akan tersambung ke file/video premium Anda)`);
+    }
+  };
+
+  // --- DATABASE KURIKULUM (100% UTUH) ---
   const curriculum = [
-    { 
-      id: 1, 
-      title: "Mindset: Kenapa 99% Orang Gagal di Digital (Dan Cara Masuk 1%)", 
-      desc: "Membongkar mitos 'harus pinter matematika' untuk sukses di teknologi.",
-      type: "video", duration: "10:05", isFree: true 
-    },
-    { 
-      id: 2, 
-      title: "Instalasi 'Senjata Perang' Rahasia Para Developer Senior", 
-      desc: "Tools gratisan yang dipakai startup unicorn, tapi jarang diketahui pemula.",
-      type: "video", duration: "15:20", isFree: true 
-    },
-    { 
-      id: 3, 
-      title: "Blue Ocean Coding: Membuat Web Tanpa Menghafal Rumus Rumit", 
-      desc: "Teknik 'Copy-Paste-Modif' yang membuat Anda terlihat jenius di mata klien.",
-      longDesc: "Di modul ini, Anda akan belajar cara 'curang' (legal) membuat website sekelas startup tanpa mengetik kode dari nol. Kami berikan template rahasia yang tinggal Anda pakai.",
-      type: "video", duration: "25:00", isFree: false 
-    },
-    { 
-      id: 4, 
-      title: "Rahasia Database Google: Simpan Data Pengguna Gratis Seumur Hidup", 
-      desc: "Jangan bayar server mahal. Pakai fasilitas raksasa teknologi ini secara cuma-cuma.",
-      longDesc: "Tahukah Anda Google punya celah fitur yang bisa kita manfaatkan sebagai database gratisan unlimited? Hemat biaya server Rp 5 Juta/tahun dengan trik ini.",
-      type: "video", duration: "30:10", isFree: false 
-    },
-    { 
-      id: 5, 
-      title: "Mesin Kasir Otomatis: Terima Uang 24 Jam Tanpa Admin Manual", 
-      desc: "Sistem yang bekerja mengumpulkan uang saat Anda tidur (Auto-Verify).",
-      longDesc: "Integrasi Payment Gateway otomatis. Biarkan sistem memverifikasi transfer dan mengirim produk digital ke pembeli jam 3 pagi saat Anda tidur nyenyak.",
-      type: "video", duration: "28:30", isFree: false 
-    },
-    { 
-      id: 6, 
-      title: "Teknik 'Global Launch': Website Online ke Seluruh Dunia dalam 3 Detik", 
-      desc: "Cara membuat website Anda bisa diakses dari Amerika sampai Eropa tanpa biaya hosting.",
-      type: "video", duration: "14:15", isFree: false 
-    },
-    { 
-      id: 7, 
-      title: "STRATEGI 'GHOST MARKET': Menjual Produk Digital Tanpa Perang Harga", 
-      desc: "Cara menemukan pembeli yang rela bayar mahal dan setia pada Anda.",
-      longDesc: "Bongkar strategi marketing 'Hantu'. Bagaimana cara menjual Source Code seharga Rp 500rb tapi terasa murah bagi pembeli.",
-      type: "strategy", duration: "45:00", isFree: false 
-    },
-    { 
-      id: 8, 
-      title: "TRAFFIC HACK: Cara Mendatangkan 10.000 Pengunjung Tanpa Iklan Berbayar", 
-      desc: "Teknik SEO & Organic Marketing yang disembunyikan agensi digital mahal.",
-      type: "strategy", duration: "40:00", isFree: false 
-    },
-    { 
-      id: 9, 
-      title: "FOMO ENGINEERING: Psikologi Membuat Orang 'Takut Kehabisan' Saat Beli", 
-      desc: "Copywriting hipnotis yang memaksa otak reptil manusia untuk segera transfer.",
-      type: "strategy", duration: "35:00", isFree: false 
-    },
-    { 
-      id: 10, 
-      title: "AI SURVIVAL KIT: Coding & Nulis Konten 10x Lebih Cepat", 
-      desc: "Biarkan robot yang bekerja keras, Anda yang terima bayarannya.",
-      type: "ai", duration: "35:00", isFree: false 
-    },
-    { 
-      id: 11, 
-      title: "APP CONVERSION: Mengubah Website Jadi Aplikasi Android (APK) dalam 1 Klik", 
-      desc: "Jual jasa pembuatan aplikasi Android dengan modal website yang sudah Anda buat.",
-      type: "video", duration: "20:00", isFree: false 
-    },
-    { 
-      id: 12, 
-      title: "SOURCE CODE: 'Marketplace Engine' Seharga Rp 50 Juta", 
-      desc: "Full Source Code toko online mirip Tokopedia/Shopee. Siap pakai & siap jual.",
-      longDesc: "Anda mendapatkan File Project Utuh. Tinggal ganti logo, ganti warna, langsung jadi milik Anda. Bisa dijual ke klien seharga puluhan juta.",
-      type: "source_code", duration: "DOWNLOAD", isFree: false 
-    },
-    { 
-      id: 13, 
-      title: "SOURCE CODE: 'SaaS Starter Kit' (Aplikasi Berlangganan)", 
-      desc: "Template bisnis software berlangganan. Passive income bulanan yang nyata.",
-      type: "source_code", duration: "DOWNLOAD", isFree: false 
-    },
-    { 
-      id: 14, 
-      title: "SOURCE CODE: 'Company Profile Premium' (5 Varian)", 
-      desc: "Lima desain website perusahaan mewah. Jual Rp 5 Juta/web sangat mudah.",
-      type: "source_code", duration: "DOWNLOAD", isFree: false 
-    },
-    { 
-      id: 15, 
-      title: "ASSET PACK: 1000+ UI/UX Element Design Premium", 
-      desc: "Koleksi tombol, form, dan layout siap tempel. Desain web jadi secepat kilat.",
-      type: "asset", duration: "ZIP FILE", isFree: false 
-    },
-    { 
-      id: 16, 
-      title: "E-BOOK: 'Kitab Hitam Digital Marketing' (PDF)", 
-      desc: "Rangkuman strategi jualan senilai Rp 10 Juta yang kami pakai sehari-hari.",
-      type: "ebook", duration: "PDF", isFree: false 
-    },
-    { 
-      id: 17, 
-      title: "LIFETIME UPDATE: Akses Materi Baru Selamanya", 
-      desc: "Teknologi berubah, kami update materinya. Anda tidak perlu bayar lagi.",
-      type: "bonus", duration: "VIP", isFree: false 
-    },
-    { 
-      id: 18, 
-      title: "PRIVILEGE CIRCLE: Akses Jalur Pribadi ke Mentor", 
-      desc: "Mentoring tanya jawab sepuasnya jika ada kendala error atau strategi buntu.",
-      type: "bonus", duration: "WHATSAPP", isFree: false 
-    },
+    { id: 1, title: "Mindset: Kenapa 99% Orang Gagal di Digital (Dan Cara Masuk 1%)", desc: "Membongkar mitos 'harus pinter matematika' untuk sukses di teknologi.", type: "video", duration: "10:05", isFree: true },
+    { id: 2, title: "Instalasi 'Senjata Perang' Rahasia Para Developer Senior", desc: "Tools gratisan yang dipakai startup unicorn, tapi jarang diketahui pemula.", type: "video", duration: "15:20", isFree: true },
+    { id: 3, title: "Blue Ocean Coding: Membuat Web Tanpa Menghafal Rumus Rumit", desc: "Teknik 'Copy-Paste-Modif' yang membuat Anda terlihat jenius di mata klien.", longDesc: "Di modul ini, Anda akan belajar cara 'curang' (legal) membuat website sekelas startup tanpa mengetik kode dari nol. Kami berikan template rahasia yang tinggal Anda pakai.", type: "video", duration: "25:00", isFree: false },
+    { id: 4, title: "Rahasia Database Google: Simpan Data Pengguna Gratis Seumur Hidup", desc: "Jangan bayar server mahal. Pakai fasilitas raksasa teknologi ini secara cuma-cuma.", longDesc: "Tahukah Anda Google punya celah fitur yang bisa kita manfaatkan sebagai database gratisan unlimited? Hemat biaya server Rp 5 Juta/tahun dengan trik ini.", type: "video", duration: "30:10", isFree: false },
+    { id: 5, title: "Mesin Kasir Otomatis: Terima Uang 24 Jam Tanpa Admin Manual", desc: "Sistem yang bekerja mengumpulkan uang saat Anda tidur (Auto-Verify).", longDesc: "Integrasi Payment Gateway otomatis. Biarkan sistem memverifikasi transfer dan mengirim produk digital ke pembeli jam 3 pagi saat Anda tidur nyenyak.", type: "video", duration: "28:30", isFree: false },
+    { id: 6, title: "Teknik 'Global Launch': Website Online ke Seluruh Dunia dalam 3 Detik", desc: "Cara membuat website Anda bisa diakses dari Amerika sampai Eropa tanpa biaya hosting.", type: "video", duration: "14:15", isFree: false },
+    { id: 7, title: "STRATEGI 'GHOST MARKET': Menjual Produk Digital Tanpa Perang Harga", desc: "Cara menemukan pembeli yang rela bayar mahal dan setia pada Anda.", longDesc: "Bongkar strategi marketing 'Hantu'. Bagaimana cara menjual Source Code seharga Rp 500rb tapi terasa murah bagi pembeli.", type: "strategy", duration: "45:00", isFree: false },
+    { id: 8, title: "TRAFFIC HACK: Cara Mendatangkan 10.000 Pengunjung Tanpa Iklan Berbayar", desc: "Teknik SEO & Organic Marketing yang disembunyikan agensi digital mahal.", type: "strategy", duration: "40:00", isFree: false },
+    { id: 9, title: "FOMO ENGINEERING: Psikologi Membuat Orang 'Takut Kehabisan' Saat Beli", desc: "Copywriting hipnotis yang memaksa otak reptil manusia untuk segera transfer.", type: "strategy", duration: "35:00", isFree: false },
+    { id: 10, title: "AI SURVIVAL KIT: Coding & Nulis Konten 10x Lebih Cepat", desc: "Biarkan robot yang bekerja keras, Anda yang terima bayarannya.", type: "ai", duration: "35:00", isFree: false },
+    { id: 11, title: "APP CONVERSION: Mengubah Website Jadi Aplikasi Android (APK) dalam 1 Klik", desc: "Jual jasa pembuatan aplikasi Android dengan modal website yang sudah Anda buat.", type: "video", duration: "20:00", isFree: false },
+    { id: 12, title: "SOURCE CODE: 'Marketplace Engine' Seharga Rp 50 Juta", desc: "Full Source Code toko online mirip Tokopedia/Shopee. Siap pakai & siap jual.", longDesc: "Anda mendapatkan File Project Utuh. Tinggal ganti logo, ganti warna, langsung jadi milik Anda. Bisa dijual ke klien seharga puluhan juta.", type: "source_code", duration: "DOWNLOAD", isFree: false },
+    { id: 13, title: "SOURCE CODE: 'SaaS Starter Kit' (Aplikasi Berlangganan)", desc: "Template bisnis software berlangganan. Passive income bulanan yang nyata.", type: "source_code", duration: "DOWNLOAD", isFree: false },
+    { id: 14, title: "SOURCE CODE: 'Company Profile Premium' (5 Varian)", desc: "Lima desain website perusahaan mewah. Jual Rp 5 Juta/web sangat mudah.", type: "source_code", duration: "DOWNLOAD", isFree: false },
+    { id: 15, title: "ASSET PACK: 1000+ UI/UX Element Design Premium", desc: "Koleksi tombol, form, dan layout siap tempel. Desain web jadi secepat kilat.", type: "asset", duration: "ZIP FILE", isFree: false },
+    { id: 16, title: "E-BOOK: 'Kitab Hitam Digital Marketing' (PDF)", desc: "Rangkuman strategi jualan senilai Rp 10 Juta yang kami pakai sehari-hari.", type: "ebook", duration: "PDF", isFree: false },
+    { id: 17, title: "LIFETIME UPDATE: Akses Materi Baru Selamanya", desc: "Teknologi berubah, kami update materinya. Anda tidak perlu bayar lagi.", type: "bonus", duration: "VIP", isFree: false },
+    { id: 18, title: "PRIVILEGE CIRCLE: Akses Jalur Pribadi ke Mentor", desc: "Mentoring tanya jawab sepuasnya jika ada kendala error atau strategi buntu.", type: "bonus", duration: "WHATSAPP", isFree: false },
   ];
 
-  const getIcon = (type: string, isFree: boolean) => {
-     if (isFree) return <PlayCircle size={32} />;
+  const getIcon = (type: string, isUnlocked: boolean) => {
+     if (isUnlocked && type === 'video') return <PlayCircle size={32} />;
      switch(type) {
         case 'source_code': return <FileCode size={28} />;
         case 'ebook': return <BookOpen size={28} />;
@@ -193,18 +155,33 @@ const MemberArea = () => {
      }
   };
 
+  if (isLoadingAuth) {
+    return <div className="min-h-screen flex items-center justify-center bg-slate-900 text-white font-bold animate-pulse">Memuat Data Akun...</div>;
+  }
+
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-[#0a0a0a] text-slate-900 dark:text-white font-sans relative">
       
-      {/* --- MODAL POPUP PREVIEW (OPTIMIZED MOBILE) --- */}
-      {selectedModule && (
+      {/* MODAL POPUP VIDEO PLAYER */}
+      {playingVideoUrl && (
+        <div className="fixed inset-0 z-[120] flex flex-col items-center justify-center bg-black/95 backdrop-blur-sm p-4 animate-fade-in">
+          <div className="w-full max-w-4xl flex justify-end mb-4">
+             <button onClick={() => setPlayingVideoUrl(null)} className="flex items-center gap-2 bg-slate-800 hover:bg-red-600 text-white px-5 py-2.5 rounded-full font-bold transition-all shadow-lg">
+                <X size={20} /> Tutup Video
+              </button>
+          </div>
+          <div className="w-full max-w-4xl bg-black rounded-2xl overflow-hidden shadow-2xl relative flex items-center justify-center border border-slate-800">
+              <video src={playingVideoUrl} controls autoPlay className="w-full h-full max-h-[75vh] object-contain outline-none" />
+          </div>
+        </div>
+      )}
+
+      {/* MODAL POPUP PREVIEW KONTEN TERKUNCI */}
+      {selectedModule && !isPremiumUser && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/90 md:bg-black/80 md:backdrop-blur-sm md:animate-fade-in">
           <div className="bg-white dark:bg-slate-900 w-full max-w-lg rounded-3xl overflow-hidden shadow-2xl border border-slate-200 dark:border-slate-700 relative md:animate-scale-up">
             
-            <button 
-              onClick={() => setSelectedModule(null)}
-              className="absolute top-4 right-4 bg-slate-100 dark:bg-slate-800 p-2 rounded-full hover:bg-red-500 hover:text-white transition z-10"
-            >
+            <button onClick={() => setSelectedModule(null)} className="absolute top-4 right-4 bg-slate-100 dark:bg-slate-800 p-2 rounded-full hover:bg-red-500 hover:text-white transition z-10">
               <X size={20} />
             </button>
 
@@ -217,28 +194,17 @@ const MemberArea = () => {
             </div>
 
             <div className="p-8">
-               <h3 className="text-xl font-black mb-4 leading-tight">
-                 {selectedModule.title}
-               </h3>
-               <p className="text-slate-600 dark:text-slate-300 mb-6 text-sm leading-relaxed font-medium">
-                 {selectedModule.longDesc || selectedModule.desc}
-               </p>
-
+               <h3 className="text-xl font-black mb-4 leading-tight">{selectedModule.title}</h3>
+               <p className="text-slate-600 dark:text-slate-300 mb-6 text-sm leading-relaxed font-medium">{selectedModule.longDesc || selectedModule.desc}</p>
                <div className="bg-green-50 dark:bg-green-900/10 border border-green-200 dark:border-green-900/30 p-4 rounded-xl mb-6">
-                  <h4 className="font-bold text-green-700 dark:text-green-400 text-sm mb-2 flex items-center gap-2">
-                    <CheckCircle size={16} /> Termasuk Dalam Paket PRO:
-                  </h4>
+                  <h4 className="font-bold text-green-700 dark:text-green-400 text-sm mb-2 flex items-center gap-2"><CheckCircle size={16} /> Termasuk Dalam Paket PRO:</h4>
                   <ul className="text-xs text-slate-600 dark:text-slate-400 space-y-1 ml-1 font-medium">
                     <li>• Akses Materi Seumur Hidup</li>
                     <li>• Source Code Boleh Dijual Ulang</li>
                     <li>• Grup Support VIP</li>
                   </ul>
                </div>
-
-               <button 
-                 onClick={() => handleBuy("PAKET BUSINESS OWNER (VIP)", "pro")}
-                 className="w-full py-4 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-black rounded-xl shadow-lg md:hover:shadow-cyan-500/50 md:hover:scale-[1.02] transition-all flex items-center justify-center gap-2"
-               >
+               <button onClick={() => handleBuy("PAKET BUSINESS OWNER (VIP)", "pro")} className="w-full py-4 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-black rounded-xl shadow-lg md:hover:shadow-cyan-500/50 md:hover:scale-[1.02] transition-all flex items-center justify-center gap-2">
                  🔥 AMBIL AKSES SEKARANG
                </button>
             </div>
@@ -246,63 +212,110 @@ const MemberArea = () => {
         </div>
       )}
 
-      {/* HEADER MEMBER AREA (NO BLUR ON MOBILE) */}
+      {/* ✅ HEADER MEMBER AREA (Diperbarui dengan Tombol Login/Daftar) */}
       <div className="bg-white/95 dark:bg-[#111]/95 md:backdrop-blur-md border-b border-slate-200 dark:border-slate-800 p-4 sticky top-0 z-30 shadow-sm">
         <div className="container mx-auto flex justify-between items-center">
+          
+          {/* Bagian Kiri Header */}
           <div className="flex items-center gap-4">
-             {/* ✅ TOMBOL KEMBALI */}
-             <button 
-                onClick={() => window.location.href = '/'}
-                className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition text-slate-500 hover:text-slate-900 dark:hover:text-white"
-             >
+             <button onClick={() => window.location.href = '/'} className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition text-slate-500 hover:text-slate-900 dark:hover:text-white">
                 <ArrowLeft size={24} />
              </button>
-
              <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-xl flex items-center justify-center text-white font-black shadow-lg">G</div>
                 <div className="hidden sm:block">
                     <h1 className="font-black text-xl leading-none tracking-tight">Member Area</h1>
-                    <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Akses Terbatas (Trial)</span>
+                    {/* Status Text Berubah Sesuai Login */}
+                    {currentUser ? (
+                      <span className={`text-xs font-bold uppercase tracking-wider ${isPremiumUser ? 'text-green-500' : 'text-blue-500'}`}>
+                        {isPremiumUser ? 'Akses VIP (Pro)' : 'Member Aktif (Trial)'}
+                      </span>
+                    ) : (
+                      <span className="text-xs font-bold text-red-500 uppercase tracking-wider flex items-center gap-1">
+                        Tamu (Belum Login)
+                      </span>
+                    )}
                 </div>
              </div>
           </div>
           
-          <button 
-            onClick={scrollToOffer}
-            className="bg-gradient-to-r from-orange-500 to-red-600 text-white text-xs md:text-sm font-bold px-4 md:px-6 py-3 rounded-full md:animate-pulse shadow-sm md:shadow-[0_0_15px_rgba(249,115,22,0.5)] md:hover:scale-105 transition border border-white/20 whitespace-nowrap"
-          >
-             🔓 BUKA SEMUA
-          </button>
+          {/* Bagian Kanan Header */}
+          <div className="flex items-center gap-3">
+            {/* Munculkan tombol Daftar/Login jika belum ada akun yang masuk */}
+            {!currentUser && (
+              <div className="hidden md:flex items-center gap-1">
+                <a href="/login" className="px-4 py-2 text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-blue-600 transition">
+                  Login
+                </a>
+                <a href="/register" className="px-5 py-2 text-sm font-bold bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-full hover:scale-105 transition shadow-md">
+                  Daftar Member
+                </a>
+              </div>
+            )}
+
+            {/* Tombol Buka Semua */}
+            {!isPremiumUser && (
+              <button 
+                onClick={scrollToOffer}
+                className="bg-gradient-to-r from-orange-500 to-red-600 text-white text-xs md:text-sm font-bold px-4 md:px-6 py-2.5 rounded-full md:animate-pulse shadow-sm md:shadow-[0_0_15px_rgba(249,115,22,0.5)] md:hover:scale-105 transition border border-white/20 whitespace-nowrap"
+              >
+                 🔓 BUKA SEMUA
+              </button>
+            )}
+          </div>
+
         </div>
       </div>
 
       <div className="container mx-auto p-4 md:p-8 max-w-4xl">
         
-        {/* SECTION 1: WELCOME BANNER */}
-        <div className="bg-gradient-to-r from-slate-900 to-slate-800 rounded-3xl p-[2px] shadow-lg md:shadow-2xl mb-12 transform md:hover:scale-[1.01] transition duration-500">
-           <div className="bg-[url('https://grainy-gradients.vercel.app/noise.svg')] bg-cover rounded-[22px] p-6 md:p-10 relative overflow-hidden">
-              {/* Blur dikurangi untuk mobile */}
-              <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 md:bg-blue-500/20 rounded-full md:blur-[80px] pointer-events-none"></div>
-              
-              <div className="relative z-10 text-white">
-                  <div className="inline-flex items-center gap-2 bg-yellow-500 text-slate-900 px-4 py-1.5 rounded-full text-xs md:text-sm font-black mb-5 shadow-lg">
-                     <Star size={16} fill="currentColor" /> EKSKLUSIF CALON SULTAN
-                  </div>
-                  <h2 className="text-2xl md:text-4xl font-black mb-4 leading-tight tracking-tight">
-                     Intip "Gudang Senjata"<br/>Yang Akan Anda Miliki.
-                  </h2>
-                  <p className="text-slate-200 mb-8 max-w-2xl text-base md:text-lg font-medium leading-relaxed">
-                    Di bawah ini adalah daftar lengkap Modul, Source Code, dan Aset Digital yang akan menjadi milik Anda sepenuhnya.
-                  </p>
-                  
-                  <div className="flex flex-col sm:flex-row gap-4">
-                    <button onClick={scrollToOffer} className="flex items-center justify-center gap-2 bg-white text-slate-900 font-bold px-6 py-4 rounded-xl active:bg-blue-50 md:hover:bg-blue-50 transition shadow-xl text-sm md:text-base">
-                        <ExternalLink size={20} /> Amankan Akses Sekarang
-                    </button>
-                  </div>
+        {/* BANNER VIP */}
+        {isPremiumUser ? (
+           <div className="bg-gradient-to-r from-green-500 to-emerald-600 rounded-3xl p-8 shadow-2xl mb-12 text-white flex flex-col md:flex-row items-center gap-6 animate-fade-in border border-green-400">
+              <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center shrink-0 shadow-inner">
+                <Crown size={40} className="text-yellow-300" />
+              </div>
+              <div className="text-center md:text-left">
+                 <div className="inline-flex items-center gap-2 bg-yellow-400 text-slate-900 px-3 py-1 rounded-full text-xs font-black mb-3 shadow-md">
+                    <CheckCircle size={14}/> STATUS: LUNAS
+                 </div>
+                 <h2 className="text-2xl md:text-3xl font-black mb-2">Selamat Datang di VIP Club!</h2>
+                 <p className="text-green-100 text-sm md:text-base font-medium">Seluruh gembok telah dibuka. Anda sekarang memiliki akses penuh seumur hidup ke semua Modul, Source Code, dan Aset Digital.</p>
               </div>
            </div>
-        </div>
+        ) : (
+          /* SECTION 1: WELCOME BANNER */
+          <div className="bg-gradient-to-r from-slate-900 to-slate-800 rounded-3xl p-[2px] shadow-lg md:shadow-2xl mb-12 transform md:hover:scale-[1.01] transition duration-500">
+             <div className="bg-[url('https://grainy-gradients.vercel.app/noise.svg')] bg-cover rounded-[22px] p-6 md:p-10 relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 md:bg-blue-500/20 rounded-full md:blur-[80px] pointer-events-none"></div>
+                
+                <div className="relative z-10 text-white">
+                    <div className="inline-flex items-center gap-2 bg-yellow-500 text-slate-900 px-4 py-1.5 rounded-full text-xs md:text-sm font-black mb-5 shadow-lg">
+                       <Star size={16} fill="currentColor" /> EKSKLUSIF CALON SULTAN
+                    </div>
+                    <h2 className="text-2xl md:text-4xl font-black mb-4 leading-tight tracking-tight">
+                       Intip "Gudang Senjata"<br/>Yang Akan Anda Miliki.
+                    </h2>
+                    <p className="text-slate-200 mb-8 max-w-2xl text-base md:text-lg font-medium leading-relaxed">
+                      Di bawah ini adalah daftar lengkap Modul, Source Code, dan Aset Digital yang akan menjadi milik Anda sepenuhnya.
+                    </p>
+                    
+                    {/* ✅ Tampilkan Tombol Daftar Besar Jika Tamu, Atau Amankan Akses Jika Sudah Login */}
+                    <div className="flex flex-col sm:flex-row gap-4">
+                      {!currentUser ? (
+                        <a href="/register" className="flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold px-6 py-4 rounded-xl shadow-[0_0_20px_rgba(37,99,235,0.4)] hover:scale-105 transition text-sm md:text-base">
+                            <User size={20} /> DAFTAR MEMBER GRATIS SEKARANG
+                        </a>
+                      ) : (
+                        <button onClick={scrollToOffer} className="flex items-center justify-center gap-2 bg-white text-slate-900 font-bold px-6 py-4 rounded-xl active:bg-blue-50 md:hover:bg-blue-50 transition shadow-xl text-sm md:text-base">
+                            <ExternalLink size={20} /> Amankan Akses PRO Sekarang
+                        </button>
+                      )}
+                    </div>
+                </div>
+             </div>
+          </div>
+        )}
 
         {/* SECTION 2: KURIKULUM LIST */}
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 gap-4">
@@ -310,136 +323,124 @@ const MemberArea = () => {
                 <TrendingUp className="text-blue-600 dark:text-blue-400" size={32} />
                 Kurikulum Lengkap
             </h3>
-            <span className="text-sm font-bold bg-green-100 text-green-700 border border-green-200 px-4 py-2 rounded-lg shadow-sm">
-               ✅ Modul 1-2 Gratis
-            </span>
+            {!isPremiumUser && (
+              <span className="text-sm font-bold bg-green-100 text-green-700 border border-green-200 px-4 py-2 rounded-lg shadow-sm">
+                  ✅ Modul 1-2 Gratis
+              </span>
+            )}
         </div>
         
         <div className="grid gap-4">
-          {curriculum.map((item) => (
-            <div 
-              key={item.id} 
-              className={`relative overflow-hidden group rounded-2xl border-2 transition-all duration-300 ${
-                item.isFree 
-                  ? 'bg-white dark:bg-[#1a1a1a] border-green-500/50 md:hover:border-green-500 shadow-sm md:shadow-lg' 
-                  : 'bg-slate-50 dark:bg-[#111] border-slate-200 dark:border-slate-800 opacity-95 md:hover:opacity-100'
-              }`}
-            >
-              <div className="p-5 flex flex-col md:flex-row gap-5 items-start md:items-center justify-between">
-                  
-                  <div className="flex items-start gap-4 flex-1">
-                    <div className={`w-12 h-12 md:w-14 md:h-14 rounded-2xl flex items-center justify-center shrink-0 shadow-sm ${
-                       item.isFree 
-                        ? 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-400' 
-                        : 'bg-white text-slate-500 dark:bg-slate-800 dark:text-slate-500 border border-slate-100 dark:border-slate-700'
-                    }`}>
-                       {getIcon(item.type, item.isFree)}
-                    </div>
-                    <div>
-                       <h4 className={`font-black text-base md:text-lg mb-1 leading-snug ${item.isFree ? 'text-slate-900 dark:text-white' : 'text-slate-700 dark:text-slate-300'}`}>
-                         {item.title}
-                       </h4>
-                       <p className={`text-sm font-medium leading-relaxed ${item.isFree ? 'text-slate-700 dark:text-slate-200' : 'text-slate-500 dark:text-slate-400'}`}>
-                          {item.desc}
-                       </p>
-                       <div className="flex flex-wrap gap-2 mt-3">
-                          <span className={`text-[10px] font-bold border px-2 py-1 rounded-md flex items-center gap-1 ${getBadgeColor(item.type)}`}>
-                             {item.duration.includes(":") ? `⏱ ${item.duration} Menit` : `📦 ${item.duration}`}
-                          </span>
-                       </div>
-                    </div>
-                  </div>
+          {curriculum.map((item) => {
+            const isUnlocked = item.isFree || isPremiumUser;
 
-                  <div className="w-full md:w-auto mt-2 md:mt-0">
-                     {item.isFree ? (
-                        <button className="w-full md:w-auto px-5 py-3 bg-green-600 hover:bg-green-700 text-white text-sm font-bold rounded-xl shadow-md md:shadow-lg transition-transform transform active:scale-95 flex items-center justify-center gap-2">
-                           <PlayCircle size={18} /> TONTON
-                        </button>
-                     ) : (
-                        <div className="flex flex-row md:flex-col items-center md:items-end justify-between gap-3 w-full p-3 md:p-0 rounded-lg md:bg-transparent">
-                           <div className="flex items-center gap-1.5 text-[10px] font-black text-red-600 bg-red-100 px-2 py-1 rounded-md border border-red-200">
-                              <Lock size={12} /> LOCKED
-                           </div>
-                           <button 
-                              onClick={() => setSelectedModule(item)}
-                              className="text-sm font-bold text-blue-600 dark:text-blue-400 hover:underline cursor-pointer flex items-center gap-1"
-                           >
-                              Intip Isi <ExternalLink size={12}/>
-                           </button>
-                        </div>
-                     )}
-                  </div>
+            return (
+              <div key={item.id} className={`relative overflow-hidden group rounded-2xl border-2 transition-all duration-300 ${isUnlocked ? 'bg-white dark:bg-[#1a1a1a] border-green-500/50 md:hover:border-green-500 shadow-sm md:shadow-lg' : 'bg-slate-50 dark:bg-[#111] border-slate-200 dark:border-slate-800 opacity-95 md:hover:opacity-100'}`}>
+                <div className="p-5 flex flex-col md:flex-row gap-5 items-start md:items-center justify-between">
+                    <div className="flex items-start gap-4 flex-1">
+                      <div className={`w-12 h-12 md:w-14 md:h-14 rounded-2xl flex items-center justify-center shrink-0 shadow-sm ${isUnlocked ? 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-400' : 'bg-white text-slate-500 dark:bg-slate-800 dark:text-slate-500 border border-slate-100 dark:border-slate-700'}`}>
+                         {getIcon(item.type, isUnlocked)}
+                      </div>
+                      <div>
+                         <h4 className={`font-black text-base md:text-lg mb-1 leading-snug ${isUnlocked ? 'text-slate-900 dark:text-white' : 'text-slate-700 dark:text-slate-300'}`}>{item.title}</h4>
+                         <p className={`text-sm font-medium leading-relaxed ${isUnlocked ? 'text-slate-700 dark:text-slate-200' : 'text-slate-500 dark:text-slate-400'}`}>{item.desc}</p>
+                         <div className="flex flex-wrap gap-2 mt-3">
+                            <span className={`text-[10px] font-bold border px-2 py-1 rounded-md flex items-center gap-1 ${getBadgeColor(item.type)}`}>
+                               {item.duration.includes(":") ? `⏱ ${item.duration} Menit` : `📦 ${item.duration}`}
+                            </span>
+                         </div>
+                      </div>
+                    </div>
+
+                    <div className="w-full md:w-auto mt-2 md:mt-0">
+                       {isUnlocked ? (
+                          <button onClick={() => handleAccessContent(item)} className={`w-full md:w-auto px-5 py-3 text-white text-sm font-bold rounded-xl shadow-md md:shadow-lg transition-transform transform active:scale-95 flex items-center justify-center gap-2 ${item.type === 'video' ? 'bg-green-600 hover:bg-green-700' : 'bg-blue-600 hover:bg-blue-700'}`}>
+                             {item.type === 'video' ? <><PlayCircle size={18} /> TONTON</> : <><ExternalLink size={18} /> AKSES MATERI</>}
+                          </button>
+                       ) : (
+                          <div className="flex flex-row md:flex-col items-center md:items-end justify-between gap-3 w-full p-3 md:p-0 rounded-lg md:bg-transparent">
+                             <div className="flex items-center gap-1.5 text-[10px] font-black text-red-600 bg-red-100 px-2 py-1 rounded-md border border-red-200">
+                                <Lock size={12} /> LOCKED
+                             </div>
+                             <button onClick={() => setSelectedModule(item)} className="text-sm font-bold text-blue-600 dark:text-blue-400 hover:underline cursor-pointer flex items-center gap-1">
+                                Intip Isi <ExternalLink size={12}/>
+                             </button>
+                          </div>
+                       )}
+                    </div>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
         
-        {/* --- SECTION 3: PENAWARAN KHUSUS (OPTIMIZED) --- */}
-        <div id="special-offer" className="mt-16 relative overflow-hidden rounded-3xl bg-slate-900 border border-slate-700 shadow-xl md:shadow-2xl text-center p-8 md:p-12 transform md:hover:scale-[1.01] transition duration-500">
-           <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500"></div>
-           
-           <ShieldAlert size={56} className="text-red-500 mx-auto mb-4 md:animate-pulse" />
-           
-           <h3 className="text-2xl md:text-3xl font-black text-white mb-2">
-              Dapatkan Akses Penuh (Paket PRO)
-           </h3>
-           <p className="text-slate-400 text-sm mb-8">
-              Total Nilai Asli (Value): <span className="text-slate-300 font-bold">Rp 50.000.000+</span>
-           </p>
+        {/* --- SECTION 3: PENAWARAN KHUSUS --- */}
+        {!isPremiumUser && (
+          <div id="special-offer" className="mt-16 relative overflow-hidden rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-xl md:shadow-2xl text-center p-8 md:p-12 transform md:hover:scale-[1.01] transition duration-500">
+             <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500"></div>
+             
+             <ShieldAlert size={56} className="text-red-500 mx-auto mb-4 md:animate-pulse" />
+             
+             <h3 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white mb-2">
+                Dapatkan Akses Penuh (Paket PRO)
+             </h3>
+             <p className="text-slate-600 dark:text-slate-400 text-sm mb-8">
+                Total Nilai Asli (Value): <span className="text-slate-800 dark:text-slate-300 font-bold">Rp 50.000.000+</span>
+             </p>
 
-           <div className="mb-8">
-               <p className="text-slate-500 text-xs font-bold mb-1 uppercase tracking-wide">Harga Normal:</p>
-               <div className="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-4">
-                  <span className="text-2xl md:text-3xl text-slate-500 line-through font-bold decoration-red-500 decoration-2">
-                     Rp 1.890.000
-                  </span>
-                  <span className="hidden md:inline text-slate-600">👉</span>
-                  <span className="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-500 filter drop-shadow-lg">
-                     Rp 890.000
-                  </span>
-               </div>
-               <div className="inline-block bg-green-500/20 border border-green-500/50 rounded-full px-4 py-1 mt-3">
-                  <p className="text-green-400 text-xs md:text-sm font-bold md:animate-pulse">
-                     ⚡ Hemat Rp 1.000.000 Khusus Hari Ini!
-                  </p>
-               </div>
-           </div>
-           
-           <div className="flex flex-col gap-4 max-w-md mx-auto mb-10">
-              <button 
-                onClick={() => handleBuy("PAKET BUSINESS OWNER (VIP)", "pro")}
-                className="w-full px-8 py-5 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-black rounded-2xl shadow-lg md:shadow-[0_0_30px_rgba(37,99,235,0.4)] md:hover:shadow-[0_0_50px_rgba(37,99,235,0.6)] md:hover:scale-105 transition-all text-xl tracking-wide flex items-center justify-center gap-2"
-              >
-                 AMBIL PAKET PRO SEKARANG <ArrowRight strokeWidth={3} />
-              </button>
-              <p className="text-xs text-slate-400 font-bold">
-                 *Akses Seumur Hidup. Sekali Bayar. Garansi Uang Kembali.
-              </p>
-           </div>
+             <div className="mb-8">
+                 <p className="text-slate-500 text-xs font-bold mb-1 uppercase tracking-wide">Harga Normal:</p>
+                 <div className="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-4">
+                    <span className="text-2xl md:text-3xl text-slate-400 dark:text-slate-500 line-through font-bold decoration-red-500 decoration-2">
+                       Rp 1.890.000
+                    </span>
+                    <span className="hidden md:inline text-slate-400 dark:text-slate-600">👉</span>
+                    <span className="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 to-orange-500 dark:from-yellow-400 dark:to-orange-500 filter drop-shadow-lg">
+                       Rp 890.000
+                    </span>
+                 </div>
+                 <div className="inline-block bg-green-100 dark:bg-green-500/20 border border-green-300 dark:border-green-500/50 rounded-full px-4 py-1 mt-3">
+                    <p className="text-green-700 dark:text-green-400 text-xs md:text-sm font-bold md:animate-pulse">
+                       ⚡ Hemat Rp 1.000.000 Khusus Hari Ini!
+                    </p>
+                 </div>
+             </div>
+             
+             <div className="flex flex-col gap-4 max-w-md mx-auto mb-10">
+                <button 
+                  onClick={() => handleBuy("PAKET BUSINESS OWNER (VIP)", "pro")}
+                  className="w-full px-8 py-5 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-black rounded-2xl shadow-[0_4px_15px_rgba(37,99,235,0.3)] md:shadow-[0_0_30px_rgba(37,99,235,0.4)] hover:shadow-[0_0_50px_rgba(37,99,235,0.6)] hover:scale-105 transition-all text-xl tracking-wide flex items-center justify-center gap-2"
+                >
+                   AMBIL PAKET PRO SEKARANG <ArrowRight strokeWidth={3} />
+                </button>
+                <p className="text-xs text-slate-500 dark:text-slate-400 font-bold">
+                   *Akses Seumur Hidup. Sekali Bayar. Garansi Uang Kembali.
+                </p>
+             </div>
 
-           <div className="border-t border-slate-700 pt-8 mt-8">
-              <p className="text-slate-300 font-bold mb-4 text-sm md:text-base">
-                 💰 Budget Belum Cukup untuk PRO? <br/>
-                 <span className="font-normal text-slate-400 text-xs">Tenang, opsi hemat tetap tersedia:</span>
-              </p>
-              
-              <div className="flex flex-wrap justify-center gap-4">
-                 <button 
-                    onClick={() => handleBuy("PAKET STARTER (BASIC)", "basic")}
-                    className="px-6 py-3 rounded-xl border border-slate-600 active:border-white active:bg-slate-800 md:hover:border-white md:hover:bg-slate-800 text-slate-300 md:hover:text-white transition-all text-xs font-bold flex items-center gap-2"
-                 >
+             <div className="border-t border-slate-200 dark:border-slate-700 pt-8 mt-8">
+                <p className="text-slate-700 dark:text-slate-300 font-bold mb-4 text-sm md:text-base">
+                   💰 Budget Belum Cukup untuk PRO? <br/>
+                   <span className="font-normal text-slate-500 dark:text-slate-400 text-xs">Tenang, opsi hemat tetap tersedia:</span>
+                </p>
+                
+                <div className="flex flex-wrap justify-center gap-4">
+                   <button 
+                      onClick={() => handleBuy("PAKET STARTER (BASIC)", "basic")}
+                      className="px-6 py-3 rounded-xl border border-slate-300 dark:border-slate-600 active:bg-slate-100 dark:active:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition-all text-xs font-bold flex items-center gap-2"
+                   >
                     📦 Ambil Paket BASIC (Rp 149rb)
-                 </button>
-                 <button 
-                    onClick={() => handleBuy("PAKET BUILDER (PREMIUM)", "premium")}
-                    className="px-6 py-3 rounded-xl border border-blue-500/50 bg-blue-500/10 active:bg-blue-500 active:text-white md:hover:bg-blue-500 md:hover:text-white text-blue-400 transition-all text-xs font-bold flex items-center gap-2"
-                 >
+                   </button>
+                   <button 
+                      onClick={() => handleBuy("PAKET BUILDER (PREMIUM)", "premium")}
+                      className="px-6 py-3 rounded-xl border border-blue-200 dark:border-blue-500/50 bg-blue-50 dark:bg-blue-500/10 active:bg-blue-600 active:text-white hover:bg-blue-500 hover:text-white text-blue-700 dark:text-blue-400 transition-all text-xs font-bold flex items-center gap-2"
+                   >
                     🚀 Ambil Paket PREMIUM (Rp 560rb)
-                 </button>
-              </div>
-           </div>
-
-        </div>
+                   </button>
+                </div>
+             </div>
+          </div>
+        )}
 
       </div>
 

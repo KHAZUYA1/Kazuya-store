@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { useTheme } from '../context/ThemeContext';
 import { useAuth } from '../context/AuthContext';
-import { db } from '../lib/firebase';
+import { auth, db } from '../lib/firebase'; // ✅ Tambah auth
+import { onAuthStateChanged } from 'firebase/auth'; // ✅ Tambah deteksi login
 import { doc, getDoc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom'; 
 
@@ -14,17 +15,28 @@ const Navbar = () => {
   
   // --- STATE ---
   const [brandName, setBrandName] = useState("KAZUYA");
-  const [logoUrl, setLogoUrl] = useState(""); // ✅ State baru untuk menyimpan URL Logo
+  const [logoUrl, setLogoUrl] = useState(""); 
   const [scrolled, setScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLangOpen, setIsLangOpen] = useState(false);
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+  
+  // ✅ STATE BARU: Simpan data user yang sedang login
+  const [currentUser, setCurrentUser] = useState<any>(null);
 
-  // --- EFFECT: SCROLL & FETCH DATA ---
+  // ✅ 1. KAMUS BAHASA LOKAL (Agar tombol login/daftar ikut berubah)
+  const navText = {
+    ID: { login: "Login", register: "Daftar Member", memberArea: "Member Area" },
+    EN: { login: "Login", register: "Sign Up", memberArea: "Member Area" }
+  };
+  const nt = navText[currentLang === 'EN' ? 'EN' : 'ID'];
+
+  // --- EFFECT: SCROLL, FETCH DATA, & CEK LOGIN ---
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener('scroll', handleScroll);
     
+    // Fetch Settings
     const fetchSettings = async () => {
       try {
         const docRef = doc(db, "content", "general_settings");
@@ -33,13 +45,22 @@ const Navbar = () => {
         if (docSnap.exists()) {
           const data = docSnap.data();
           if (data.siteName) setBrandName(data.siteName);
-          if (data.logoUrl) setLogoUrl(data.logoUrl); // ✅ Ambil Logo URL dari Database
+          if (data.logoUrl) setLogoUrl(data.logoUrl); 
         }
       } catch (error) { console.error("Gagal memuat pengaturan:", error); }
     };
 
     fetchSettings();
-    return () => window.removeEventListener('scroll', handleScroll);
+
+    // ✅ Deteksi Otomatis Jika User Sedang Login
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user);
+    });
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      unsubscribe();
+    };
   }, []);
 
   const navLinks = [
@@ -108,23 +129,18 @@ const Navbar = () => {
           
           {/* LOGO AREA */}
           <a href="#" className="flex items-center gap-3 group" onClick={(e) => navigateTo(e, '#top')}>
-            
-            {/* 🔥 LOGIKA LOGO DINAMIS 🔥 */}
             {logoUrl ? (
-                // JIKA ADA URL LOGO -> TAMPILKAN GAMBAR
                 <div className="relative w-10 h-10 transform group-hover:scale-110 transition-transform duration-300">
                   <img 
                     src={logoUrl} 
                     alt={`${brandName} Logo`} 
                     className="w-full h-full object-contain drop-shadow-lg"
                     onError={(e) => {
-                        // Fallback jika gambar error/rusak, sembunyikan gambar
                         (e.target as HTMLImageElement).style.display = 'none';
                     }}
                   />
                 </div>
             ) : (
-                // JIKA TIDAK ADA URL LOGO -> TAMPILKAN INISIAL HURUF (Fallback Lama)
                 <div className="relative w-9 h-9 transform group-hover:rotate-12 transition-transform">
                   <div className="relative w-full h-full bg-gradient-to-br from-blue-400 to-indigo-600 rounded-lg flex items-center justify-center text-white font-black text-lg border border-white/20 shadow-xl">
                     {brandName.charAt(0).toUpperCase()}
@@ -132,7 +148,6 @@ const Navbar = () => {
                 </div>
             )}
             
-            {/* NAMA WEBSITE (Teks di sebelah logo) */}
             <span className="font-bold text-lg uppercase tracking-tighter transition-colors text-slate-900 dark:text-white">
               {brandName}
             </span>
@@ -141,13 +156,32 @@ const Navbar = () => {
           {/* CONTROLS (KANAN) */}
           <div className="flex items-center gap-2">
             
-            {/* TOMBOL MEMBER AREA (DESKTOP) */}
-            <button 
-               onClick={() => navigate('/member')}
-               className="hidden md:flex items-center gap-2 px-4 h-10 bg-gradient-to-r from-orange-500 to-yellow-500 text-white text-xs font-bold rounded-xl shadow-lg hover:scale-105 transition-transform mr-2"
-            >
-               <span>🚀</span> Member Area
-            </button>
+            {/* ✅ LOGIKA TOMBOL MEMBER / LOGIN (DESKTOP) */}
+            <div className="hidden md:flex items-center gap-2 mr-2">
+              {!currentUser ? (
+                <>
+                  <button 
+                    onClick={() => navigate('/login')}
+                    className="text-sm font-bold text-slate-700 dark:text-slate-300 hover:text-blue-600 transition-colors px-3 py-2 rounded-lg"
+                  >
+                    {nt.login}
+                  </button>
+                  <button 
+                    onClick={() => navigate('/register')}
+                    className="flex items-center gap-2 px-5 h-10 bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-xs font-bold rounded-xl shadow-lg hover:scale-105 transition-transform"
+                  >
+                    {nt.register}
+                  </button>
+                </>
+              ) : (
+                <button 
+                   onClick={() => navigate('/member-area')}
+                   className="flex items-center gap-2 px-4 h-10 bg-gradient-to-r from-orange-500 to-yellow-500 text-white text-xs font-bold rounded-xl shadow-lg hover:scale-105 transition-transform"
+                >
+                   <span>🚀</span> {nt.memberArea}
+                </button>
+              )}
+            </div>
 
             {/* TEMA TOGGLE */}
             <button 
@@ -178,7 +212,6 @@ const Navbar = () => {
                   bg-white dark:bg-[#121212] 
                   border-slate-100 dark:border-white/10"
                 >
-                  {/* 🔥 FILTER DITERAPKAN DI SINI: HANYA ID & EN */}
                   {Object.entries(flags)
                     .filter(([code]) => code === 'ID' || code === 'EN')
                     .map(([code, flag]) => (
@@ -199,7 +232,7 @@ const Navbar = () => {
             {/* HAMBURGER MENU BUTTON */}
             <button 
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="relative w-12 h-12 flex flex-col items-center justify-center bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl shadow-xl border border-white/20 z-[110] active:scale-95 transition"
+              className="relative w-12 h-12 flex flex-col items-center justify-center bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl shadow-xl border border-white/20 z-[110] active:scale-95 transition md:hidden"
             >
               <div className="flex flex-col gap-1.5 transition-all">
                 <span className={`w-6 h-0.5 bg-white rounded-full transition-all duration-300 ${isMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
@@ -229,15 +262,34 @@ const Navbar = () => {
 
           <div className="space-y-6 mb-12">
             <p className="text-slate-400 font-black tracking-[0.4em] text-[8px] uppercase border-l-2 border-blue-500 pl-3">Navigation</p>
-            <div className="flex flex-col gap-4 items-start">
+            <div className="flex flex-col gap-4 items-start w-full">
               
-              {/* TOMBOL MEMBER AREA (MOBILE) */}
-              <button 
-                  onClick={() => { navigate('/member'); setIsMenuOpen(false); }}
-                  className="w-full py-3 bg-gradient-to-r from-orange-500 to-yellow-500 text-white rounded-xl font-bold shadow-lg flex items-center justify-center gap-2 mb-2 active:scale-95 transition-transform"
-              >
-                  <span>🚀</span> Akses Member Area
-              </button>
+              {/* ✅ LOGIKA TOMBOL MEMBER / LOGIN (MOBILE) */}
+              <div className="w-full mb-4">
+                {!currentUser ? (
+                  <div className="flex gap-2 w-full">
+                    <button 
+                      onClick={() => { navigate('/login'); setIsMenuOpen(false); }}
+                      className="flex-1 py-3 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl font-bold text-sm shadow-sm active:scale-95 transition-transform"
+                    >
+                      {nt.login}
+                    </button>
+                    <button 
+                      onClick={() => { navigate('/register'); setIsMenuOpen(false); }}
+                      className="flex-1 py-3 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-xl font-bold text-sm shadow-lg active:scale-95 transition-transform"
+                    >
+                      {nt.register.split(" ")[0]} {/* Biar ga kepanjangan di HP */}
+                    </button>
+                  </div>
+                ) : (
+                  <button 
+                      onClick={() => { navigate('/member-area'); setIsMenuOpen(false); }}
+                      className="w-full py-3 bg-gradient-to-r from-orange-500 to-yellow-500 text-white rounded-xl font-bold shadow-lg flex items-center justify-center gap-2 active:scale-95 transition-transform"
+                  >
+                      <span>🚀</span> {nt.memberArea}
+                  </button>
+                )}
+              </div>
 
               {navLinks.map((link) => (
                 <a 
